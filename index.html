@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Ryan词语复习</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:-apple-system,'PingFang SC',Arial,sans-serif;background:#f0f7ff;color:#1e293b;min-height:100vh;padding:12px;-webkit-text-size-adjust:100%;}
+h1{text-align:center;font-size:1.4rem;font-weight:900;color:#2563eb;margin-bottom:2px;}
+.sub{text-align:center;font-size:.76rem;color:#64748b;margin-bottom:14px;}
+.filters{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:12px;}
+.fb{padding:5px 11px;border-radius:20px;border:2px solid #e2e8f0;background:#fff;font-family:inherit;font-size:.74rem;font-weight:700;color:#64748b;cursor:pointer;}
+.fb.on{background:#2563eb;border-color:#2563eb;color:#fff;}
+.tabs{display:flex;gap:8px;margin-bottom:14px;}
+.tab{flex:1;padding:10px 0;border-radius:12px;border:2px solid #e2e8f0;background:#fff;font-family:inherit;font-size:.85rem;font-weight:800;color:#64748b;cursor:pointer;}
+.tab.on{background:#2563eb;border-color:#2563eb;color:#fff;}
+.stats{display:flex;gap:8px;justify-content:center;margin-bottom:14px;flex-wrap:wrap;}
+.chip{background:#fff;border-radius:10px;padding:4px 12px;font-size:.75rem;font-weight:700;border:2px solid #e2e8f0;}
+.chip b{color:#2563eb;}
+
+/* FLASHCARD */
+#fl{display:block;}
+#qz,#pr{display:none;}
+.ctr{text-align:center;font-size:.78rem;color:#64748b;font-weight:700;margin-bottom:6px;}
+.card{border-radius:20px;padding:28px 20px;text-align:center;min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;cursor:pointer;margin-bottom:14px;}
+.card-front{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 20px rgba(37,99,235,.22);}
+.card-back{background:#fff;border:2px solid #e2e8f0;box-shadow:0 2px 12px rgba(0,0,0,.07);}
+.tag{position:absolute;top:10px;right:12px;background:rgba(255,255,255,.22);border-radius:8px;padding:2px 8px;font-size:.65rem;font-weight:700;}
+.hint{position:absolute;bottom:10px;font-size:.68rem;opacity:.5;}
+.spkbtn{position:absolute;top:10px;left:12px;background:rgba(255,255,255,.22);border:none;border-radius:8px;padding:4px 9px;font-size:.9rem;cursor:pointer;color:#fff;line-height:1;}
+.spkbtn:active{background:rgba(255,255,255,.4);}
+.big{font-size:2.5rem;font-weight:900;letter-spacing:4px;margin-bottom:4px;}
+.py{font-size:.88rem;color:#64748b;margin-bottom:8px;}
+.en{font-size:1.2rem;font-weight:800;color:#2563eb;margin-bottom:8px;}
+.pc{font-size:.85rem;font-weight:700;color:#f59e0b;margin-bottom:8px;}
+.ex{font-size:.74rem;color:#64748b;line-height:1.55;border-top:1px solid #e2e8f0;padding-top:8px;max-height:80px;overflow:hidden;}
+.navrow{display:flex;gap:10px;justify-content:center;margin-bottom:10px;}
+.nbtn{padding:9px 22px;border-radius:12px;border:none;font-family:inherit;font-size:.85rem;font-weight:800;cursor:pointer;}
+.nbtn.prev{background:#e2e8f0;color:#1e293b;}
+.nbtn.nxt{background:#2563eb;color:#fff;}
+.nbtn:disabled{opacity:.35;cursor:not-allowed;}
+.marks{display:flex;gap:10px;justify-content:center;margin-bottom:10px;}
+.mbtn{padding:8px 20px;border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:800;cursor:pointer;}
+.mbtn.yes{border:2px solid #10b981;color:#10b981;background:#d1fae5;}
+.mbtn.no{border:2px solid #ef4444;color:#ef4444;background:#fee2e2;}
+.pbar{height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;}
+.pbarfill{height:100%;background:linear-gradient(90deg,#10b981,#059669);border-radius:4px;transition:width .4s;}
+
+/* QUIZ */
+.qhdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.qpb{flex:1;height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;}
+.qpbf{height:100%;background:#f59e0b;border-radius:4px;}
+.qcard{background:#fff;border-radius:20px;padding:22px 16px;box-shadow:0 2px 12px rgba(0,0,0,.07);margin-bottom:14px;}
+.qcn{font-size:2rem;font-weight:900;color:#2563eb;text-align:center;letter-spacing:3px;margin:8px 0 16px;}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.qopt{padding:12px 8px;border-radius:12px;font-family:inherit;font-size:.82rem;font-weight:700;text-align:center;cursor:pointer;line-height:1.3;border:2px solid #e2e8f0;background:#fff;color:#1e293b;}
+.qopt.correct{border-color:#10b981;background:#d1fae5;color:#10b981;}
+.qopt.wrong{border-color:#ef4444;background:#fee2e2;color:#ef4444;}
+.qfb{text-align:center;margin-top:10px;font-weight:800;font-size:.9rem;min-height:22px;}
+.qfb.ok{color:#10b981;}
+.qfb.err{color:#ef4444;}
+.qnxt{display:none;margin:12px auto 0;padding:10px 30px;background:#2563eb;color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:.88rem;font-weight:800;cursor:pointer;}
+.done{background:#fff;border-radius:20px;padding:36px 20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.08);}
+.dscore{font-size:3rem;font-weight:900;color:#f59e0b;margin:10px 0;}
+.dmsg{color:#64748b;margin-bottom:16px;}
+.rbtn{padding:11px 30px;background:#2563eb;color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:.9rem;font-weight:800;cursor:pointer;}
+
+/* PRINT / WORDLIST */
+.wgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.wcard{background:#fff;border-radius:12px;padding:10px 12px;border:2px solid #e2e8f0;}
+.wtag{font-size:.62rem;font-weight:700;color:#2563eb;background:#dbeafe;display:inline-block;padding:1px 6px;border-radius:5px;margin-bottom:3px;}
+.wcn{font-size:1.15rem;font-weight:900;letter-spacing:2px;margin:2px 0;}
+.wen{font-size:.76rem;font-weight:800;color:#2563eb;}
+.wpc{font-size:.7rem;color:#f59e0b;font-weight:700;margin-top:2px;}
+</style>
+</head>
+<body>
+<h1>📚 Ryan的词语复习</h1>
+<div class="sub">小五 5A &amp; 5B · 15课</div>
+
+<div class="filters" id="filters"></div>
+
+<div class="tabs">
+  <button class="tab on" onclick="goMode('fl')">🃏 闪卡</button>
+  <button class="tab" onclick="goMode('qz')">🎯 测验</button>
+  <button class="tab" onclick="goMode('pr')">📋 词表</button>
+</div>
+
+<div class="stats">
+  <div class="chip">共 <b id="tot">0</b> 词</div>
+  <div class="chip">✅ <b id="kn">0</b></div>
+  <div class="chip">📖 <b id="rv">0</b> 待复习</div>
+</div>
+
+<!-- FLASHCARD -->
+<div id="fl">
+  <div class="ctr" id="ctr"></div>
+  <div class="card card-front" id="cfront" onclick="flip()">
+    <button class="spkbtn" id="spkbtn" onclick="event.stopPropagation();speak()">🔊</button>
+    <div class="tag" id="ftag"></div>
+    <div class="big" id="fcn"></div>
+    <div class="hint">🔊 听发音 · 👆 点击翻转</div>
+  </div>
+  <div class="card card-back" id="cback" onclick="flip()" style="display:none;">
+    <div class="py" id="fpy"></div>
+    <div class="en" id="fen"></div>
+    <div class="pc" id="fpc"></div>
+    <div class="ex" id="fex"></div>
+  </div>
+  <div class="navrow">
+    <button class="nbtn prev" id="bprev" onclick="prevCard()">← 上一张</button>
+    <button class="nbtn nxt" id="bnext" onclick="nextCard()">下一张 →</button>
+  </div>
+  <div class="marks">
+    <button class="mbtn yes" onclick="mark(true)">✅ 认识</button>
+    <button class="mbtn no" onclick="mark(false)">❌ 不认识</button>
+  </div>
+  <div class="pbar"><div class="pbarfill" id="pf" style="width:0%"></div></div>
+</div>
+
+<!-- QUIZ -->
+<div id="qz">
+  <div class="qhdr">
+    <span style="font-size:.76rem;font-weight:700;color:#64748b;white-space:nowrap">第 <span id="qnum">1</span>/<span id="qtot">15</span></span>
+    <div class="qpb"><div class="qpbf" id="qpbf" style="width:0%"></div></div>
+    <span style="font-size:.76rem;font-weight:700;color:#10b981">🏆 <span id="qsc">0</span></span>
+  </div>
+  <div class="qcard" id="qcard">
+    <div style="font-size:.72rem;font-weight:700;color:#64748b;">选出正确的英文意思：</div>
+    <div class="qcn" id="qcn"></div>
+    <div class="qgrid" id="qopts"></div>
+    <div class="qfb" id="qfb"></div>
+    <button class="qnxt" id="qnxt" onclick="qNext()">下一题 →</button>
+  </div>
+  <div class="done" id="qdone" style="display:none;">
+    <div style="font-size:1.6rem;font-weight:900;color:#2563eb;">🎉 完成！</div>
+    <div class="dscore" id="dsc"></div>
+    <div class="dmsg" id="dmsg"></div>
+    <button class="rbtn" onclick="startQuiz()">再来一次！</button>
+  </div>
+</div>
+
+<!-- WORDLIST -->
+<div id="pr">
+  <div style="text-align:center;font-size:.76rem;color:#64748b;margin-bottom:10px;">当前课的词语列表（无拼音，考考自己！）</div>
+  <div class="wgrid" id="wgrid"></div>
+</div>
+
+<script>
+var V=[
+  {l:"L1 露营记",c:"露营",p:"lù yíng",e:"camp",pc:"海边露营",x:"我和同学们一起到公园去露营。"},
+  {l:"L1 露营记",c:"探险",p:"tàn xiǎn",e:"adventure",pc:"森林探险",x:"文文经常同我讨论探险计划。"},
+  {l:"L1 露营记",c:"袜子",p:"wà zi",e:"socks",pc:"袜子破旧",x:"连袜子都湿透了。"},
+  {l:"L1 露营记",c:"防止",p:"fáng zhǐ",e:"prevent",pc:"防止发生",x:"为了防止意外再次发生，当局严禁在公园露营。"},
+  {l:"L1 露营记",c:"单独",p:"dān dú",e:"alone",pc:"单独行动",x:"你的年龄还小，不可以单独行动。"},
+  {l:"L1 露营记",c:"禁止",p:"jìn zhǐ",e:"prohibit",pc:"禁止入内",x:"政府禁止国人吃口香糖。"},
+  {l:"L1 露营记",c:"贵重",p:"guì zhòng",e:"valuable",pc:"贵重礼物",x:"把身上的贵重物品托付给妈妈保管。"},
+  {l:"L1 露营记",c:"安排",p:"ān pái",e:"arrange",pc:"安排座位",x:"老师帮我们安排了新的座位和同桌。"},
+  {l:"L1 露营记",c:"营地",p:"yíng dì",e:"camp site",pc:"露营营地",x:"天黑之前，我们终于到达了营地。"},
+  {l:"L1 露营记",c:"物品清单",p:"wù pǐn qīng dān",e:"checklist",pc:"",x:"出国旅行前，最好先写一个物品清单。"},
+  {l:"L1 露营记",c:"注意事项",p:"zhù yì shì xiàng",e:"items to note",pc:"",x:"老师讲解了露营时的注意事项。"},
+  {l:"L1 露营记",c:"保管",p:"bǎo guǎn",e:"safeguard",pc:"保管财物",x:"老师主动为我们保管好贵重物品。"},
+  {l:"L1 露营记",c:"竞赛",p:"jìng sài",e:"competition",pc:"数学竞赛",x:"这次的语文竞赛十分激烈。"},
+  {l:"L1 露营记",c:"齐心协力",p:"qí xīn xié lì",e:"work as one",pc:"",x:"只要我们齐心协力，任何挑战都难不倒我们。"},
+  {l:"L1 露营记",c:"配合",p:"pèi hé",e:"co-ordinate",pc:"互相配合",x:"搭客正在配合安全检查。"},
+  {l:"L1 露营记",c:"狼吞虎咽",p:"láng tūn hǔ yàn",e:"gobble up food",pc:"",x:"他见到饭菜就狼吞虎咽的吃了起来。"},
+  {l:"L1 露营记",c:"黄昏",p:"huáng hūn",e:"dusk",pc:"黄昏时分",x:"黄昏时分，同学们依依不舍地踏上了归程。"},
+  {l:"L1 露营记",c:"不管三七二十一",p:"bù guǎn sān qī èr shí yī",e:"regardless of consequences",pc:"",x:"小华不管三七二十一，马上上前去为他打抱不平。"},
+  {l:"L1 露营记",c:"景色",p:"jǐng sè",e:"scenery",pc:"景色迷人",x:"夜晚的东海岸公园景色优美。"},
+  {l:"L2 身体会说话",c:"测试",p:"cè shì",e:"test",pc:"通过测试",x:"为了能通过测试，同学们都加紧苦读。"},
+  {l:"L2 身体会说话",c:"正确",p:"zhèng què",e:"correct",pc:"回答正确",x:"在规定时间内正确回答了所有题目。"},
+  {l:"L2 身体会说话",c:"昏暗",p:"hūn àn",e:"dim",pc:"灯光昏暗",x:"地铁隧道里光线不足，显得十分昏暗。"},
+  {l:"L2 身体会说话",c:"距离",p:"jù lí",e:"distance",pc:"保持距离",x:"排队时请保持一定的社交距离。"},
+  {l:"L2 身体会说话",c:"强烈",p:"qiáng liè",e:"intense",pc:"强烈要求",x:"在孙子的强烈要求下，奶奶终于给他买了玩具。"},
+  {l:"L2 身体会说话",c:"明亮",p:"míng liàng",e:"bright",pc:"光线明亮",x:"蛾子很喜欢光线明亮的地方。"},
+  {l:"L2 身体会说话",c:"电脑",p:"diàn nǎo",e:"computer",pc:"手提电脑",x:"电脑是人生中不可缺少的一样东西。"},
+  {l:"L2 身体会说话",c:"定期",p:"dìng qī",e:"regularly",pc:"定期检查",x:"老师会定期抽查学生的功课。"},
+  {l:"L2 身体会说话",c:"惨",p:"cǎn",e:"miserable",pc:"惨不忍睹",x:"要是妈妈知道我没做作业，我就惨了。"},
+  {l:"L2 身体会说话",c:"盯",p:"dīng",e:"stare at",pc:"盯紧",x:"别一直盯着别人，那样很不礼貌。"},
+  {l:"L2 身体会说话",c:"头疼",p:"tóu téng",e:"headache",pc:"经常头疼",x:"这个问题真的太难了，把我搞到很头疼。"},
+  {l:"L2 身体会说话",c:"咳嗽",p:"ké sou",e:"cough",pc:"不停咳嗽",x:"我看到小明不停地咳嗽。"},
+  {l:"L2 身体会说话",c:"下降",p:"xià jiàng",e:"decline",pc:"视力下降",x:"飞机开始下降了，景色越来越清楚。"},
+  {l:"L2 身体会说话",c:"模糊",p:"mó hu",e:"blur",pc:"视力模糊",x:"我觉得视力模糊，看不清白板上的字。"},
+  {l:"L2 身体会说话",c:"充足",p:"chōng zú",e:"adequate",pc:"时间充足",x:"我们需要充足的休息来补充精神。"},
+  {l:"L2 身体会说话",c:"放松",p:"fàng sōng",e:"relax",pc:"放松心情",x:"阅读是一个让大脑放松下来的活动。"},
+  {l:"L2 身体会说话",c:"目不转睛",p:"mù bù zhuǎn jīng",e:"gaze fixedly",pc:"",x:"他目不转睛地盯着平板电脑。"},
+  {l:"L2 身体会说话",c:"无精打采",p:"wú jīng dǎ cǎi",e:"listless",pc:"",x:"这次考试考的不理想，所以现在无精打采的。"},
+  {l:"L2 身体会说话",c:"痛苦",p:"tòng kǔ",e:"agony",pc:"经历痛苦",x:"小华住进了医院，现在感到十分痛苦。"},
+  {l:"L2 身体会说话",c:"伤害",p:"shāng hài",e:"hurt/harm",pc:"造成伤害",x:"不应该伤害他人，也不应该伤害自己。"},
+  {l:"L3 懂事的你",c:"材料",p:"cái liào",e:"materials",pc:"准备材料",x:"同学们把需要的材料拿了出来。"},
+  {l:"L3 懂事的你",c:"调味料",p:"tiáo wèi liào",e:"seasoning",pc:"加调味料",x:"调味料的用量必须要控制好。"},
+  {l:"L3 懂事的你",c:"形状",p:"xíng zhuàng",e:"shape",pc:"各种形状",x:"妈妈把蔬菜切成了不同的形状。"},
+  {l:"L3 懂事的你",c:"搅拌",p:"jiǎo bàn",e:"stir",pc:"均匀搅拌",x:"重要步骤就是把材料搅拌好。"},
+  {l:"L3 懂事的你",c:"营养",p:"yíng yǎng",e:"nutritious",pc:"营养均衡",x:"蔬菜的营养成分很高。"},
+  {l:"L3 懂事的你",c:"惊喜",p:"jīng xǐ",e:"surprise",pc:"惊喜连连",x:"我们全家人要为她准备一个惊喜。"},
+  {l:"L3 懂事的你",c:"异口同声",p:"yì kǒu tóng shēng",e:"with one voice",pc:"",x:"同学们都异口同声说好。"},
+  {l:"L3 懂事的你",c:"犯",p:"fàn",e:"commit mistake",pc:"犯错",x:"我不能再犯这么低级的错误了。"},
+  {l:"L3 懂事的你",c:"烦恼",p:"fán nǎo",e:"troubled",pc:"十分烦恼",x:"他因为搬家的事情感到十分烦恼。"},
+  {l:"L3 懂事的你",c:"安慰",p:"ān wèi",e:"comfort",pc:"不停安慰",x:"我便上前安慰他，想让他的心情好起来。"},
+  {l:"L3 懂事的你",c:"爱惜",p:"ài xī",e:"cherish",pc:"非常爱惜",x:"弟弟很喜欢他的玩具，很爱惜它们。"},
+  {l:"L3 懂事的你",c:"劳累",p:"láo lèi",e:"tired",pc:"劳累过度",x:"妈妈干了一整天家务，劳累过度，病倒了。"},
+  {l:"L3 懂事的你",c:"沉默",p:"chén mò",e:"silence",pc:"沉默不语",x:"我们全都保持沉默，没人敢讲话。"},
+  {l:"L3 懂事的你",c:"谈论",p:"tán lùn",e:"discuss",pc:"谈论问题",x:"我们正在谈论小组作业的事。"},
+  {l:"L3 懂事的你",c:"七嘴八舌",p:"qī zuǐ bā shé",e:"everybody talking at once",pc:"",x:"同学们都七嘴八舌地讨论着小组专题作业。"},
+  {l:"L3 懂事的你",c:"养育",p:"yǎng yù",e:"raise",pc:"养育之恩",x:"我们应该牢记父母的养育之恩。"},
+  {l:"L4 分享是快乐的",c:"捐",p:"juān",e:"donate",pc:"捐款",x:"很多人都纷纷捐款，帮助那些不幸的儿童。"},
+  {l:"L4 分享是快乐的",c:"蔬菜",p:"shū cài",e:"vegetable",pc:"新鲜蔬菜",x:"蔬菜包含了很多身体需要的维生素和营养。"},
+  {l:"L4 分享是快乐的",c:"确保",p:"què bǎo",e:"ensure",pc:"",x:"为了确保行动万无一失，每个部门都日夜加班工作。"},
+  {l:"L4 分享是快乐的",c:"完好",p:"wán hǎo",e:"intact",pc:"完好无损",x:"所有的货物都完好无损。"},
+  {l:"L4 分享是快乐的",c:"新鲜",p:"xīn xiān",e:"fresh",pc:"新鲜水果",x:"那间餐馆只用新鲜的食材来准备美味的菜肴。"},
+  {l:"L4 分享是快乐的",c:"熟食",p:"shú shí",e:"cooked food",pc:"熟食摊位",x:"小贩中心的熟食摊位生意非常好。"},
+  {l:"L4 分享是快乐的",c:"自私",p:"zì sī",e:"selfish",pc:"非常自私",x:"你不能那么自私，你也要考虑其他人的感受。"},
+  {l:"L4 分享是快乐的",c:"愁眉苦脸",p:"chóu méi kǔ liǎn",e:"worried frown",pc:"",x:"他近来总是愁眉苦脸的。"},
+  {l:"L4 分享是快乐的",c:"缺少",p:"quē shǎo",e:"lack",pc:"缺少经验",x:"我们必须团结一致，不能缺少团队精神。"},
+  {l:"L4 分享是快乐的",c:"愉快",p:"yú kuài",e:"joyful",pc:"合作愉快",x:"我们的合作很愉快，希望下次还有这样的机会。"},
+  {l:"L4 分享是快乐的",c:"村民",p:"cūn mín",e:"villagers",pc:"",x:"所有村民都团结一致，最后成功把水塔建好了。"},
+  {l:"L4 分享是快乐的",c:"改变",p:"gǎi biàn",e:"change",pc:"做出改变",x:"试着改变一下自己，你的世界会更加美好。"},
+  {l:"L4 分享是快乐的",c:"一溜烟",p:"yì liù yān",e:"very quickly",pc:"",x:"看到警察来了，小偷吓得一溜烟地跑了。"},
+  {l:"L4 分享是快乐的",c:"幸福",p:"xìng fú",e:"happiness",pc:"幸福美满",x:"只有互相体谅对方，一家人才能幸福美满。"},
+  {l:"L5 我的东西找到了",c:"小贩中心",p:"xiǎo fàn zhōng xīn",e:"hawker centre",pc:"",x:"每天放学后，我都会到小贩中心用餐。"},
+  {l:"L5 我的东西找到了",c:"联系",p:"lián xì",e:"contact",pc:"方便联系",x:"妈妈给我们一人买了一台手机。"},
+  {l:"L5 我的东西找到了",c:"丢失",p:"diū shī",e:"lose",pc:"丢失物品",x:"我举起捡到的钱包，问大家是谁丢失的。"},
+  {l:"L5 我的东西找到了",c:"员工",p:"yuán gōng",e:"staff",pc:"聘请员工",x:"这件餐馆现在人手不足，正在聘请员工。"},
+  {l:"L5 我的东西找到了",c:"失主",p:"shī zhǔ",e:"owner of lost property",pc:"",x:"现在需要失主前来认领。"},
+  {l:"L5 我的东西找到了",c:"摇晃",p:"yáo huàng",e:"wobble",pc:"",x:"小明走起路来又摇摇晃晃的，真危险。"},
+  {l:"L5 我的东西找到了",c:"争先恐后",p:"zhēng xiān kǒng hòu",e:"rush to be first",pc:"",x:"乘客们都争先恐后地挤上了巴士。"},
+  {l:"L5 我的东西找到了",c:"呆住",p:"dāi zhù",e:"stunned",pc:"",x:"整个人顿时呆住了。"},
+  {l:"L5 我的东西找到了",c:"诚实",p:"chéng shí",e:"honest",pc:"诚实的孩子",x:"小华路不拾遗，是个诚实的孩子。"},
+  {l:"L5 我的东西找到了",c:"善良",p:"shàn liáng",e:"kind",pc:"心地善良",x:"小丽心地善良，人人都夸她是个好孩子。"},
+  {l:"L5 我的东西找到了",c:"不约而同",p:"bù yuē ér tóng",e:"act in concert",pc:"",x:"同学们都不约而同地说好。"},
+  {l:"L5 我的东西找到了",c:"喜出望外",p:"xǐ chū wàng wài",e:"overjoyed unexpectedly",pc:"",x:"当我得知考了满分之后，我喜出望外。"},
+  {l:"L6 一千桶水",c:"海洋",p:"hǎi yáng",e:"ocean",pc:"蓝色海洋",x:"海洋里有着丰富的资源。"},
+  {l:"L6 一千桶水",c:"浮",p:"fú",e:"float",pc:"浮起",x:"纸船浮在水面上，随着风飘走了。"},
+  {l:"L6 一千桶水",c:"皮肤",p:"pí fū",e:"skin",pc:"保养皮肤",x:"保养好皮肤的秘诀就是多锻炼。"},
+  {l:"L6 一千桶水",c:"深海",p:"shēn hǎi",e:"deep sea",pc:"",x:"深海里还有很多人不知道的秘密。"},
+  {l:"L6 一千桶水",c:"浅海",p:"qiǎn hǎi",e:"shallow sea",pc:"",x:"鲸鱼有时会搁浅在浅海里。"},
+  {l:"L6 一千桶水",c:"水面",p:"shuǐ miàn",e:"water surface",pc:"浮出水面",x:"水面终于平静了下来。"},
+  {l:"L6 一千桶水",c:"呼吸",p:"hū xī",e:"breathe",pc:"呼吸困难",x:"他现在感到呼吸困难，必须马上叫救护车。"},
+  {l:"L6 一千桶水",c:"保温",p:"bǎo wēn",e:"heat preservation",pc:"保温杯",x:"这个保温杯能长时间保存热水。"},
+  {l:"L6 一千桶水",c:"激动",p:"jī dòng",e:"excitement",pc:"异常激动",x:"心里感到十分激动，觉得我所做的一切都是值得的。"},
+  {l:"L6 一千桶水",c:"团团转",p:"tuán tuán zhuàn",e:"running around in circles",pc:"急得团团转",x:"我急得像热锅上的蚂蚁一团团转。"},
+  {l:"L6 一千桶水",c:"道谢",p:"dào xiè",e:"express thanks",pc:"",x:"我不停地向他道谢。"},
+  {l:"L6 一千桶水",c:"依依不舍",p:"yī yī bù shě",e:"reluctant to part",pc:"",x:"同学们都依依不舍地离开了美丽的圣淘沙。"},
+  {l:"L7 和时间赛跑",c:"制造",p:"zhì zào",e:"manufacture",pc:"本地制造",x:"这架精美的机器是由本地的木工厂制造的。"},
+  {l:"L7 和时间赛跑",c:"网络",p:"wǎng luò",e:"the Internet",pc:"网络连接",x:"现代的网络十分发达和方便。"},
+  {l:"L7 和时间赛跑",c:"发明",p:"fā míng",e:"invent",pc:"新发明",x:"博士又成功发明了可以帮助人类的机器。"},
+  {l:"L7 和时间赛跑",c:"天才",p:"tiān cái",e:"genius",pc:"数学天才",x:"天才那就是百分之一的灵感加上百分之九十九的汗水。"},
+  {l:"L7 和时间赛跑",c:"灵感",p:"líng gǎn",e:"inspiration",pc:"",x:"突然，我灵机一动，来了灵感。"},
+  {l:"L7 和时间赛跑",c:"永远",p:"yǒng yuǎn",e:"forever",pc:"永远坚持",x:"无论发生什么事，我们永远都会陪在你身边。"},
+  {l:"L7 和时间赛跑",c:"珍惜",p:"zhēn xī",e:"treasure/cherish",pc:"珍惜时间",x:"应该好好珍惜我们所拥有的一切。"},
+  {l:"L7 和时间赛跑",c:"难过",p:"nán guò",e:"sad",pc:"伤心难过",x:"妹妹心爱的小狗走丢了，她感到很难过。"},
+  {l:"L7 和时间赛跑",c:"上气不接下气",p:"shàng qì bù jiē xià qì",e:"out of breath",pc:"",x:"他拼命地跑，上气不接下气地跑到了终点。"},
+  {l:"L7 和时间赛跑",c:"禁不住",p:"jīn bu zhù",e:"cannot help but",pc:"",x:"泪水禁不住流了下来。"},
+  {l:"L7 和时间赛跑",c:"宝贵",p:"bǎo guì",e:"valuable",pc:"特别宝贵",x:"这件事给我上了宝贵的一堂课。"},
+  {l:"L8 很久很久以前",c:"免费",p:"miǎn fèi",e:"free",pc:"免费观看",x:"首三十位报名的人可以获得免费的礼物。"},
+  {l:"L8 很久很久以前",c:"票价",p:"piào jià",e:"ticket price",pc:"电影票价",x:"周末的时候，电影的票价比较高。"},
+  {l:"L8 很久很久以前",c:"装扮",p:"zhuāng bàn",e:"dress up as",pc:"精巧装扮",x:"他装扮成一个老婆婆。"},
+  {l:"L8 很久很久以前",c:"露天",p:"lù tiān",e:"open air",pc:"露天舞台",x:"庆典将会在露天的浮动舞台上举行。"},
+  {l:"L8 很久很久以前",c:"举办",p:"jǔ bàn",e:"hold an event",pc:"举办单位",x:"这次的活动是由一所电器公司举办。"},
+  {l:"L8 很久很久以前",c:"成人",p:"chéng rén",e:"adult",pc:"长大成人",x:"你已经长大成人，要负起自己的责任。"},
+  {l:"L8 很久很久以前",c:"领取",p:"lǐng qǔ",e:"receive",pc:"领取奖品",x:"我来这里的目的是领取幸运抽奖的奖品。"},
+  {l:"L8 很久很久以前",c:"敌人",p:"dí rén",e:"enemy",pc:"打败敌人",x:"我们打败了敌人，取得了胜利。"},
+  {l:"L8 很久很久以前",c:"孝心",p:"xiào xīn",e:"filial piety",pc:"一份孝心",x:"看在你有一份孝心的份上，我这次就原谅你吧。"},
+  {l:"L8 很久很久以前",c:"家乡",p:"jiā xiāng",e:"hometown",pc:"返回家乡",x:"林太太才刚从家乡来到这里。"},
+  {l:"L8 很久很久以前",c:"英雄",p:"yīng xióng",e:"hero",pc:"一位英雄",x:"堂哥成了大家眼中的英雄。"},
+  {l:"L8 很久很久以前",c:"可惜",p:"kě xī",e:"what a pity",pc:"实在可惜",x:"他失去了参赛资格，实在是太可惜了。"},
+  {l:"L8 很久很久以前",c:"多谢",p:"duō xiè",e:"thank you",pc:"多谢大家",x:"多谢各位的帮忙，我才能按时完成任务。"},
+  {l:"L9 成长的烦恼",c:"地址",p:"dì zhǐ",e:"address",pc:"住家地址",x:"我们按照钱包上的地址，很快就找到了失主。"},
+  {l:"L9 成长的烦恼",c:"嘲笑",p:"cháo xiào",e:"make fun of",pc:"大声嘲笑",x:"你不应该嘲笑他，而是应该安慰他。"},
+  {l:"L9 成长的烦恼",c:"上瘾",p:"shàng yǐn",e:"addicted",pc:"严重上瘾",x:"自从他沉迷于电脑游戏后，就打上瘾了。"},
+  {l:"L9 成长的烦恼",c:"控制",p:"kòng zhì",e:"control",pc:"自动控制",x:"如果不马上实施控制，恐怕只会越来越糟糕。"},
+  {l:"L9 成长的烦恼",c:"唠叨",p:"láo dao",e:"nag",pc:"不断唠叨",x:"妈妈虽然不断地唠叨，但她其实是为了你好啊。"},
+  {l:"L9 成长的烦恼",c:"成长",p:"chéng zhǎng",e:"growing up",pc:"不断成长",x:"你现在还小，需要不断的成长以及学习新的知识。"},
+  {l:"L9 成长的烦恼",c:"电邮",p:"diàn yóu",e:"email",pc:"发电邮",x:"我已经给你发了电邮，里面有关于这次会议的记录。"},
+  {l:"L9 成长的烦恼",c:"热线",p:"rè xiàn",e:"hotline",pc:"热线电话",x:"你遇到问题时，可以拨打热线来寻求帮助。"},
+  {l:"L9 成长的烦恼",c:"惭愧",p:"cán kuì",e:"remorseful",pc:"十分惭愧",x:"听了妈妈的话，我感到非常惭愧。"},
+  {l:"L9 成长的烦恼",c:"感恩",p:"gǎn ēn",e:"thankful",pc:"感恩之心",x:"我们应有感恩之心，将来好好报答他们。"},
+  {l:"L9 成长的烦恼",c:"童年",p:"tóng nián",e:"childhood",pc:"童年生活",x:"童年的时光总是很快乐。"},
+  {l:"L9 成长的烦恼",c:"丰盛",p:"fēng shèng",e:"sumptuous",pc:"丰盛晚餐",x:"妈妈为全家人煮了一顿丰盛的大餐。"},
+  {l:"L9 成长的烦恼",c:"原因",p:"yuán yīn",e:"reason",pc:"各种原因",x:"我相信他一定有原因，您就原谅他这一次吧。"},
+  {l:"L10 同学之间",c:"截止",p:"jié zhǐ",e:"deadline",pc:"截止日期",x:"下个星期日就是比赛截止日期了。"},
+  {l:"L10 同学之间",c:"有限",p:"yǒu xiàn",e:"limited",pc:"数量有限",x:"每次存货都很有限，因此很抢手。"},
+  {l:"L10 同学之间",c:"完成",p:"wán chéng",e:"complete",pc:"完成任务",x:"你今天必须完成这份作业。"},
+  {l:"L10 同学之间",c:"知识",p:"zhī shi",e:"knowledge",pc:"吸收知识",x:"读课外书能让我们学到课本里学不到的知识。"},
+  {l:"L10 同学之间",c:"报名",p:"bào míng",e:"sign up",pc:"报名参加",x:"有兴趣的话你可以报名参加。"},
+  {l:"L10 同学之间",c:"尽早",p:"jǐn zǎo",e:"as early as possible",pc:"尽早处理",x:"如果不尽早处理这个问题，以后肯定会造成后患。"},
+  {l:"L10 同学之间",c:"假日",p:"jià rì",e:"holiday",pc:"公共假日",x:"一到假日，商场就热闹起来。"},
+  {l:"L10 同学之间",c:"衬衫",p:"chèn shān",e:"shirt",pc:"一件衬衫",x:"这件衬衫很适合你，你应该考虑买一件。"},
+  {l:"L10 同学之间",c:"打架",p:"dǎ jià",e:"fight",pc:"",x:"你们是好姐妹，应该相亲相爱，怎么能打架呢？"},
+  {l:"L10 同学之间",c:"面对面",p:"miàn duì miàn",e:"face to face",pc:"面对面谈话",x:"应该坐下来，面对面地谈一谈。"},
+  {l:"L10 同学之间",c:"反正",p:"fǎn zhèng",e:"anyway",pc:"",x:"反正他也不在乎，我们就按我们的方案进行吧。"},
+  {l:"L10 同学之间",c:"不如",p:"bù rú",e:"how about",pc:"不如这样",x:"不如这样吧，你把联系方式告诉我。"},
+  {l:"L11 我为你骄傲",c:"著名",p:"zhù míng",e:"famous",pc:"非常著名",x:"这幅画是意大利的一位著名画家画的。"},
+  {l:"L11 我为你骄傲",c:"唯一",p:"wéi yī",e:"only",pc:"唯一亲人",x:"你是唯一一个准时交作业的人，你真棒！"},
+  {l:"L11 我为你骄傲",c:"连接",p:"liàn jiē",e:"connected to",pc:"成功连接",x:"这座桥把城市的东部和西部连接起来。"},
+  {l:"L11 我为你骄傲",c:"骄傲",p:"jiāo ào",e:"proud",pc:"非常骄傲",x:"我为你今天的成就感到骄傲。"},
+  {l:"L11 我为你骄傲",c:"自豪",p:"zì háo",e:"proud of",pc:"十分自豪",x:"李先生不禁为儿子感到自豪。"},
+  {l:"L11 我为你骄傲",c:"盼望",p:"pàn wàng",e:"look forward to",pc:"盼望已久",x:"盼望已久的动物园之旅终于来了！"},
+  {l:"L11 我为你骄傲",c:"渐渐地",p:"jiàn jiàn de",e:"gradually",pc:"渐渐淡忘",x:"很多事都渐渐淡忘了，但有一件事仍然记忆犹新。"},
+  {l:"L11 我为你骄傲",c:"五彩缤纷",p:"wǔ cǎi bīn fēn",e:"colourful",pc:"",x:"五彩缤纷的气球飞上了天空。"},
+  {l:"L11 我为你骄傲",c:"兴高采烈",p:"xìng gāo cǎi liè",e:"excitedly",pc:"",x:"同学们兴高采烈地往校门口走去。"},
+  {l:"L11 我为你骄傲",c:"庆典",p:"qìng diǎn",e:"celebration",pc:"国庆庆典",x:"这次的国庆典活动十分精彩。"},
+  {l:"L11 我为你骄傲",c:"降落",p:"jiàng luò",e:"land",pc:"安全降落",x:"飞机已经开始降落，最后安全着陆了。"},
+  {l:"L11 我为你骄傲",c:"烟花",p:"yān huā",e:"fireworks",pc:"烟花表演",x:"这次的国庆庆典由烟花表演画上了完美的句号。"},
+  {l:"L11 我为你骄傲",c:"高潮",p:"gāo cháo",e:"climax",pc:"达到高潮",x:"烟花表演把国庆庆典推向了高潮。"},
+  {l:"L12 汉字王国",c:"记录",p:"jì lù",e:"record",pc:"记录下来",x:"学校每次都会记录所有访客的详情。"},
+  {l:"L12 汉字王国",c:"历史",p:"lì shǐ",e:"history",pc:"历史古迹",x:"老师为我们讲解了古代中国的历史。"},
+  {l:"L12 汉字王国",c:"包括",p:"bāo kuò",e:"include",pc:"包括项目",x:"这个学习小组包括我在内，一共十个人。"},
+  {l:"L12 汉字王国",c:"根据",p:"gēn jù",e:"according to",pc:"",x:"根据这次调查，这个产品最适合消费者的要求。"},
+  {l:"L12 汉字王国",c:"汉语",p:"hàn yǔ",e:"Chinese language",pc:"汉语考试",x:"汉字是记录汉语的文字。"},
+  {l:"L12 汉字王国",c:"古老",p:"gǔ lǎo",e:"ancient",pc:"古老传说",x:"汉字是最古老的文字之一。"},
+  {l:"L12 汉字王国",c:"优美",p:"yōu měi",e:"beautiful",pc:"优美身姿",x:"舞蹈员表演时，十分优美，给我留下深刻的印象。"},
+  {l:"L12 汉字王国",c:"独特",p:"dú tè",e:"unique",pc:"非常独特",x:"这幅画真的是很独特，连最好的画家都无法复制。"},
+  {l:"L12 汉字王国",c:"艺术",p:"yì shù",e:"art",pc:"艺术作品",x:"水墨画是一门独特的艺术。"},
+  {l:"L12 汉字王国",c:"恍然大悟",p:"huǎng rán dà wù",e:"sudden realisation",pc:"",x:"我恍然大悟，终于明白为什么这道题我会做错了。"},
+  {l:"L12 汉字王国",c:"胸有成竹",p:"xiōng yǒu chéng zhú",e:"confidently planned",pc:"",x:"看他胸有成竹的样子，相信他做足了准备。"},
+  {l:"L12 汉字王国",c:"肯定",p:"kěn dìng",e:"definitely",pc:"非常肯定",x:"这件事肯定不是小明做的，他当时根本不在场。"},
+  {l:"L13 老师谢谢您",c:"遇到",p:"yù dào",e:"encounter",pc:"遇到麻烦",x:"他好像遇到了麻烦，我们还是上前帮帮他吧。"},
+  {l:"L13 老师谢谢您",c:"顽皮",p:"wán pí",e:"naughty",pc:"非常顽皮",x:"他是一个很顽皮的小孩。"},
+  {l:"L13 老师谢谢您",c:"培育",p:"péi yù",e:"nurture",pc:"精心培育",x:"他是一位好老师，精心培育他的学生。"},
+  {l:"L13 老师谢谢您",c:"宣布",p:"xuān bù",e:"announce",pc:"正式宣布",x:"学校已经正式宣布进行自动归还碗盘活动。"},
+  {l:"L13 老师谢谢您",c:"积极",p:"jī jí",e:"proactively",pc:"积极参与",x:"引来了很多公众的积极参与，十分成功。"},
+  {l:"L13 老师谢谢您",c:"敬爱",p:"jìng ài",e:"respected and loved",pc:"深深敬爱",x:"林老师深受学生们的敬爱。"},
+  {l:"L13 老师谢谢您",c:"困难",p:"kùn nán",e:"difficulty",pc:"十分困难",x:"他在经济方面有一些困难。"},
+  {l:"L13 老师谢谢您",c:"恢复",p:"huī fù",e:"recover",pc:"渐渐恢复",x:"爷爷出院后，很快就恢复了健康。"},
+  {l:"L13 老师谢谢您",c:"往往",p:"wǎng wǎng",e:"often",pc:"往往忽略",x:"往往都会忽略一些较小但重要的细节。"},
+  {l:"L13 老师谢谢您",c:"独自",p:"dú zì",e:"alone",pc:"独自一人",x:"我独自一人坐在书桌前，却一个字也写不出。"},
+  {l:"L13 老师谢谢您",c:"从此",p:"cóng cǐ",e:"since then",pc:"从此以后",x:"从此以后，王子和公主就过上了快快乐乐的日子。"},
+  {l:"L13 老师谢谢您",c:"自信",p:"zì xìn",e:"confidence",pc:"充满自信",x:"看他充满自信的样子，他一定是对考试胸有成竹了。"},
+  {l:"L14 想当一棵树",c:"栽种",p:"zāi zhòng",e:"plant",pc:"栽种植物",x:"校园里栽种了很多种植物。"},
+  {l:"L14 想当一棵树",c:"散发",p:"sàn fā",e:"emit",pc:"散发异味",x:"厨房已经很久没有清洗了，才会散发出异味。"},
+  {l:"L14 想当一棵树",c:"四周",p:"sì zhōu",e:"surroundings",pc:"巡视四周",x:"环顾四周，全都是陌生的面孔，我一下子呆了。"},
+  {l:"L14 想当一棵树",c:"慷慨",p:"kāng kǎi",e:"generous",pc:"慷慨捐献",x:"我国政府慷慨相助，马上派遣资源前往灾区帮忙。"},
+  {l:"L14 想当一棵树",c:"幽默",p:"yōu mò",e:"humour",pc:"十分幽默",x:"他这个人十分幽默，时不时会讲笑话逗大家笑。"},
+  {l:"L14 想当一棵树",c:"笔直",p:"bǐ zhí",e:"straight",pc:"",x:"小松树在阳光下站得笔直，像电线杆似的。"},
+  {l:"L14 想当一棵树",c:"阴凉",p:"yīn liáng",e:"shady",pc:"阴凉处",x:"快带他到前面的阴凉处休息一下。"},
+  {l:"L14 想当一棵树",c:"粗壮",p:"cū zhuàng",e:"sturdy",pc:"粗壮的身体",x:"他粗壮有力的身体足以拎着五十斤的重量，快步如飞。"},
+  {l:"L15 世界那么大",c:"坚固",p:"jiān gù",e:"strong/solid",pc:"坚固耐用",x:"由于这栋楼的结构十分坚固，地震时才躲过了一劫。"},
+  {l:"L15 世界那么大",c:"建筑",p:"jiàn zhù",e:"building",pc:"建筑物",x:"这一带的建筑物富有着深厚的历史背景。"},
+  {l:"L15 世界那么大",c:"地震",p:"dì zhèn",e:"earthquakes",pc:"大型地震",x:"这次的地震导致供电、交通等各种服务都受到了影响。"},
+  {l:"L15 世界那么大",c:"主要",p:"zhǔ yào",e:"mainly",pc:"主要任务",x:"这次行动的主要任务是把人救出来。"},
+  {l:"L15 世界那么大",c:"传统",p:"chuán tǒng",e:"traditional",pc:"传统服装",x:"仍然选择使用传统方法来做菜。"},
+  {l:"L15 世界那么大",c:"减少",p:"jiǎn shǎo",e:"reduce",pc:"减少浪费",x:"尽量呆在家中。"},
+  {l:"L15 世界那么大",c:"造成",p:"zào chéng",e:"cause",pc:"造成麻烦",x:"造成了无法挽回的后果。"},
+  {l:"L15 世界那么大",c:"恶劣",p:"è liè",e:"harsh",pc:"环境恶劣",x:"尽管当时的环境恶劣，他还是选择坚持下去，不放弃。"},
+  {l:"L15 世界那么大",c:"神奇",p:"shén qí",e:"magical",pc:"神奇魔法",x:"这个神奇宝典里面有着你意想不到的惊喜。"},
+  {l:"L15 世界那么大",c:"黑暗",p:"hēi àn",e:"darkness",pc:"一片黑暗",x:"发现周围一片黑暗，完全不知道自己在哪里了。"},
+  {l:"L15 世界那么大",c:"尽管",p:"jǐn guǎn",e:"even though",pc:"尽管如此",x:"尽管他的一生困难重重，但他仍然选择不放弃，最终取得成功。"},
+  {l:"L15 世界那么大",c:"生存",p:"shēng cún",e:"survive",pc:"生存环境",x:"为了生存，他每天都出去打猎，也学会了自己种小麦。"},
+  {l:"L15 世界那么大",c:"通常",p:"tōng cháng",e:"typically",pc:"通常情况",x:"通常我们都会先做自我介绍，然后才开始上课。"},
+  {l:"L15 世界那么大",c:"取代",p:"qǔ dài",e:"replace",pc:"成功取代",x:"机器人在不久的将来会取代很多人的工作。"}
+];
+
+var LESSONS=["全部"].concat([...new Set(V.map(function(v){return v.l;}))]);
+var deck=[],idx=0,known=new Set(),flipped=false;
+var qDeck=[],qIdx=0,qScore=0,qOpts=[],qChosen=null,qAnswered=false;
+var curLesson="全部",curMode="fl";
+
+function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+
+function init(){
+  var f=document.getElementById("filters");
+  LESSONS.forEach(function(l){
+    var b=document.createElement("button");
+    b.className="fb"+(l==="全部"?" on":"");
+    b.textContent=l==="全部"?"全部":l.split(" ")[0];
+    b.setAttribute("data-l",l);
+    b.addEventListener("click",function(){setLesson(l);});
+    f.appendChild(b);
+  });
+  setLesson("全部");
+}
+
+function setLesson(l){
+  curLesson=l;
+  var pool=l==="全部"?V:V.filter(function(v){return v.l===l;});
+  deck=shuffle(pool);
+  idx=0;known=new Set();flipped=false;
+  document.querySelectorAll(".fb").forEach(function(b){
+    b.classList.toggle("on",b.getAttribute("data-l")===l);
+  });
+  updateStats();renderCard();
+  if(curMode==="qz")startQuiz();
+  if(curMode==="pr")renderList();
+}
+
+function updateStats(){
+  document.getElementById("tot").textContent=deck.length;
+  document.getElementById("kn").textContent=known.size;
+  document.getElementById("rv").textContent=deck.length-known.size;
+}
+
+function speak(){
+  if(!deck.length||!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(deck[idx].c);
+  u.lang="zh-CN";
+  u.rate=0.8;
+  var voices=window.speechSynthesis.getVoices();
+  // Priority: zh-CN (Simplified/Mainland) → zh-SG (Singapore) → any zh except zh-TW
+  var zhVoice=
+    voices.find(function(v){return v.lang==="zh-CN";}) ||
+    voices.find(function(v){return v.lang==="zh-SG";}) ||
+    voices.find(function(v){return v.lang.startsWith("zh") && v.lang!=="zh-TW" && v.lang!=="zh-HK";});
+  if(zhVoice)u.voice=zhVoice;
+  window.speechSynthesis.speak(u);
+}
+
+function renderCard(){
+  if(!deck.length)return;
+  var v=deck[idx];
+  document.getElementById("ftag").textContent=v.l;
+  document.getElementById("fcn").textContent=v.c;
+  document.getElementById("fpy").textContent=v.p;
+  document.getElementById("fen").textContent=v.e;
+  document.getElementById("fpc").textContent=v.pc?"配词："+v.pc:"";
+  document.getElementById("fex").textContent=v.x;
+  document.getElementById("ctr").textContent=(idx+1)+" / "+deck.length;
+  // reset flip - always show front
+  flipped=false;
+  document.getElementById("cfront").style.display="flex";
+  document.getElementById("cback").style.display="none";
+  document.getElementById("pf").style.width=(known.size/deck.length*100)+"%";
+  document.getElementById("bprev").disabled=idx===0;
+  document.getElementById("bnext").disabled=idx===deck.length-1;
+  // Auto-speak after short delay (needed for iOS voice loading)
+  setTimeout(speak, 300);
+}
+
+function flip(){
+  flipped=!flipped;
+  document.getElementById("cfront").style.display=flipped?"none":"flex";
+  document.getElementById("cback").style.display=flipped?"flex":"none";
+}
+function nextCard(){if(idx<deck.length-1){idx++;renderCard();}}
+function prevCard(){if(idx>0){idx--;renderCard();}}
+function mark(yes){if(yes)known.add(idx);updateStats();nextCard();}
+
+function goMode(m){
+  curMode=m;
+  ["fl","qz","pr"].forEach(function(id){
+    document.getElementById(id).style.display=id===m?"block":"none";
+  });
+  document.querySelectorAll(".tab").forEach(function(t,i){
+    t.classList.toggle("on",["fl","qz","pr"][i]===m);
+  });
+  if(m==="qz")startQuiz();
+  if(m==="pr")renderList();
+}
+
+function startQuiz(){
+  document.getElementById("qdone").style.display="none";
+  document.getElementById("qcard").style.display="block";
+  var pool=curLesson==="全部"?V:V.filter(function(v){return v.l===curLesson;});
+  qDeck=shuffle(pool.slice()).slice(0,Math.min(15,pool.length));
+  qIdx=0;qScore=0;qChosen=null;qAnswered=false;
+  document.getElementById("qtot").textContent=qDeck.length;
+  document.getElementById("qsc").textContent=0;
+  renderQ();
+}
+
+function renderQ(){
+  if(qIdx>=qDeck.length){showDone();return;}
+  qAnswered=false;qChosen=null;
+  var v=qDeck[qIdx];
+  document.getElementById("qnum").textContent=qIdx+1;
+  document.getElementById("qcn").textContent=v.c;
+  document.getElementById("qfb").textContent="";
+  document.getElementById("qfb").className="qfb";
+  document.getElementById("qnxt").style.display="none";
+  document.getElementById("qpbf").style.width=(qIdx/qDeck.length*100)+"%";
+  var wrongs=shuffle(V.filter(function(x){return x.e!==v.e;})).slice(0,3);
+  qOpts=shuffle([v].concat(wrongs));
+  var el=document.getElementById("qopts");
+  el.innerHTML="";
+  qOpts.forEach(function(o){
+    var b=document.createElement("button");
+    b.className="qopt";b.textContent=o.e;
+    b.addEventListener("click",function(){checkAns(b,o,v);});
+    el.appendChild(b);
+  });
+}
+
+function checkAns(btn,chosen,correct){
+  if(qAnswered)return;
+  qAnswered=true;qChosen=chosen;
+  document.querySelectorAll(".qopt").forEach(function(b){
+    b.disabled=true;
+    if(b.textContent===correct.e)b.classList.add("correct");
+  });
+  if(chosen.e===correct.e){
+    qScore++;btn.classList.add("correct");
+    document.getElementById("qfb").textContent="🎉 答对了！";
+    document.getElementById("qfb").className="qfb ok";
+  }else{
+    btn.classList.add("wrong");
+    document.getElementById("qfb").textContent="❌ 正确："+correct.e;
+    document.getElementById("qfb").className="qfb err";
+  }
+  document.getElementById("qsc").textContent=qScore;
+  document.getElementById("qnxt").style.display="block";
+}
+
+function qNext(){qIdx++;renderQ();}
+
+function showDone(){
+  document.getElementById("qcard").style.display="none";
+  document.getElementById("qdone").style.display="block";
+  var t=qDeck.length,p=qScore/t;
+  document.getElementById("dsc").textContent=qScore+" / "+t;
+  document.getElementById("dmsg").textContent=p>=0.9?"🌟 太棒了！华语小达人！":p>=0.7?"👍 做得很好！继续加油！":"💪 再多练习，你能行！";
+}
+
+function renderList(){
+  var el=document.getElementById("wgrid");
+  el.innerHTML="";
+  deck.forEach(function(v){
+    var d=document.createElement("div");
+    d.className="wcard";
+    d.innerHTML='<div class="wtag">'+v.l+'</div><div class="wcn">'+v.c+'</div><div class="wen">'+v.e+'</div>'+(v.pc?'<div class="wpc">配：'+v.pc+'</div>':'');
+    el.appendChild(d);
+  });
+}
+
+// iOS Safari loads voices asynchronously — trigger early load
+if(window.speechSynthesis){
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged=function(){window.speechSynthesis.getVoices();};
+}
+init();
+</script>
+</body>
+</html>
