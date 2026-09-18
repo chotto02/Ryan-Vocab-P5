@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ryan's PSLE Vocab — Read & Spell</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f7f6f3; --surface: #ffffff; --border: #e2e0db; --border-strong: #c8c5be;
+  --text: #1a1917; --text-2: #5a5854; --text-3: #9a9894;
+  --accent: #2563eb; --accent-bg: #eff6ff; --accent-border: #bfdbfe;
+  --r2-accent: #7c3aed; --r2-bg: #f5f3ff; --r2-border: #ddd6fe;
+  --r3-accent: #0f766e; --r3-bg: #f0fdfa; --r3-border: #99f6e4;
+  --radius: 10px; --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 2rem 1rem 4rem; }
+.page-header { max-width: 780px; margin: 0 auto 1.5rem; }
+.page-title { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+.page-sub { font-size: 14px; color: var(--text-3); }
+.tabs { max-width: 780px; margin: 0 auto 1.5rem; display: flex; gap: 6px; flex-wrap: wrap; }
+.tab-btn { height: 36px; padding: 0 18px; border-radius: var(--radius); border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-2); font-size: 13px; cursor: pointer; font-weight: 500; }
+.tab-btn.active-r1 { background: var(--accent-bg); color: var(--accent); border-color: var(--accent-border); }
+.tab-btn.active-r2 { background: var(--r2-bg); color: var(--r2-accent); border-color: var(--r2-border); }
+.tab-btn.active-r3 { background: var(--r3-bg); color: var(--r3-accent); border-color: var(--r3-border); }
+.section { display: none; max-width: 780px; margin: 0 auto; }
+.section.visible { display: block; }
+.section-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 1rem; flex-wrap: wrap; }
+.section-title { font-size: 17px; font-weight: 600; }
+.section-desc { font-size: 13px; color: var(--text-3); margin-top: 2px; }
+.controls-row { display: flex; gap: 10px; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.controls-row label { font-size: 13px; color: var(--text-2); }
+select, input[type=range] { height: 32px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); font-size: 13px; padding: 0 8px; cursor: pointer; }
+input[type=range] { padding: 0; width: 90px; }
+.speed-val { font-size: 13px; color: var(--text-2); min-width: 28px; }
+.action-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.play-all-btn { display: flex; align-items: center; gap: 7px; height: 36px; padding: 0 16px; border-radius: var(--radius); border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); font-size: 13px; font-weight: 500; cursor: pointer; box-shadow: var(--shadow); }
+.play-all-btn.playing { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.stop-btn { height: 36px; padding: 0 14px; border-radius: var(--radius); border: 1px solid #fca5a5; background: #fef2f2; color: #b91c1c; font-size: 13px; cursor: pointer; display: none; }
+.stop-btn.visible { display: block; }
+.prog-label { font-size: 13px; color: var(--text-3); display: none; align-items: center; gap: 6px; }
+.prog-label.visible { display: flex; }
+.spinner { width: 13px; height: 13px; border: 2px solid var(--border-strong); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.ab-group { display: flex; border: 1px solid var(--border-strong); border-radius: var(--radius); overflow: hidden; margin-left: 6px; }
+.ab-btn { height: 32px; padding: 0 14px; border: none; background: var(--surface); color: var(--text-2); font-size: 13px; font-weight: 500; cursor: pointer; border-right: 1px solid var(--border-strong); }
+.ab-btn:last-child { border-right: none; }
+.ab-btn.ab-active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+.ab-label { font-size: 12px; color: var(--text-3); margin-left: 2px; }
+
+/* PHASE INDICATOR */
+.phase-bar { display: flex; gap: 6px; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.phase-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--text-3); }
+.phase-pill.active { background: var(--accent-bg); color: var(--accent); border-color: var(--accent-border); font-weight: 600; }
+
+.items-list { display: flex; flex-direction: column; gap: 6px; }
+.item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); cursor: pointer; user-select: none; transition: border-color 0.15s, background 0.15s; }
+.item.speaking-r1 { border-color: var(--accent); background: var(--accent-bg); }
+.item.speaking-r2 { border-color: var(--r2-accent); background: var(--r2-bg); }
+.item.speaking-r3 { border-color: var(--r3-accent); background: var(--r3-bg); }
+.item-num { font-size: 11px; color: var(--text-3); min-width: 20px; text-align: right; flex-shrink: 0; }
+.item-play { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border-strong); background: var(--surface); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: var(--shadow); }
+.item-play svg { width: 12px; height: 12px; }
+.item.speaking-r1 .item-play { border-color: var(--accent); background: var(--accent); }
+.item.speaking-r1 .item-play svg { fill: white; }
+.item.speaking-r2 .item-play { border-color: var(--r2-accent); background: var(--r2-accent); }
+.item.speaking-r2 .item-play svg { fill: white; }
+.item.speaking-r3 .item-play { border-color: var(--r3-accent); background: var(--r3-accent); }
+.item.speaking-r3 .item-play svg { fill: white; }
+.item-body { flex: 1; }
+.phrase-line { font-size: 15px; font-weight: 500; }
+.phrase-line .verb { color: var(--accent); }
+.phrase-line .verb-r2 { color: var(--r2-accent); }
+.def-line { font-size: 12px; color: var(--text-2); margin-top: 3px; line-height: 1.45; }
+.sp-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sp-root { font-size: 15px; font-weight: 500; color: var(--text-2); }
+.sp-arrow { color: var(--text-3); }
+.sp-derived { font-size: 15px; font-weight: 600; color: var(--r3-accent); }
+.sp-tag { font-size: 11px; color: var(--text-3); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 2px 7px; }
+
+/* LETTER HIGHLIGHT */
+.spell-display { font-size: 22px; font-weight: 700; letter-spacing: 0.18em; color: var(--text-3); margin-top: 6px; min-height: 32px; font-family: monospace; display: none; }
+.spell-display span.lit { color: var(--accent); }
+.item.speaking-r2 .spell-display span.lit { color: var(--r2-accent); }
+.item.speaking-r3 .spell-display span.lit { color: var(--r3-accent); }
+.item.speaking-r1 .spell-display,
+.item.speaking-r2 .spell-display,
+.item.speaking-r3 .spell-display { display: block; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-title">Ryan's PSLE Vocab — Read &amp; Spell</div>
+  <div class="page-sub">Each word is read aloud, spelled letter by letter, then read again with its definition</div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active-r1" onclick="showSection('r1',this)">Revision 2 — Collocations</button>
+  <button class="tab-btn" onclick="showSection('r2',this)">Revision 3 — Phrasal Verbs</button>
+  <button class="tab-btn" onclick="showSection('r3',this)">Spelling Pairs</button>
+</div>
+
+<!-- R1 -->
+<div class="section visible" id="sec-r1">
+  <div class="section-header">
+    <div><div class="section-title">Revision 2 — Common Collocations</div><div class="section-desc">50 PSLE prepositions &amp; phrase partners</div></div>
+    <div class="action-row">
+      <div class="prog-label" id="prog-r1"><div class="spinner"></div><span id="prog-label-r1"></span></div>
+      <button class="stop-btn" id="stop-r1" onclick="stopAll()">■ Stop</button>
+      <button class="play-all-btn" id="playall-r1" onclick="playAll('r1')">▶ Play all</button>
+    </div>
+  </div>
+  <div class="controls-row">
+    <label>Speed</label>
+    <input type="range" min="0.5" max="1.3" step="0.1" value="0.85" oninput="setRate(this,'r1')" />
+    <span class="speed-val" id="rate-r1">0.85×</span>
+    <label style="margin-left:10px">Voice</label>
+    <select id="voice-r1" onchange="setVoice(this,'r1')"></select>
+    <span id="voice-info-r1" style="font-size:11px;color:var(--text-3);max-width:160px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></span>
+    <div class="ab-group">
+      <button class="ab-btn" id="ab-r1-a" onclick="setMode('r1','a')">A — Read only</button>
+      <button class="ab-btn ab-active" id="ab-r1-b" onclick="setMode('r1','b')">B — Read &amp; Spell</button>
+    </div>
+  </div>
+  <div class="phase-bar" id="phases-r1">
+    <span class="phase-pill" id="ph-r1-0">Say</span>
+    <span style="font-size:12px;color:var(--text-3)">→</span>
+    <span class="phase-pill" id="ph-r1-1">Spell</span>
+    <span style="font-size:12px;color:var(--text-3)">→</span>
+    <span class="phase-pill" id="ph-r1-2">Say again</span>
+    <span style="font-size:12px;color:var(--text-3)">→</span>
+    <span class="phase-pill" id="ph-r1-3">Definition</span>
+  </div>
+  <div class="items-list" id="list-r1"></div>
+</div>
+
+<!-- R2 -->
+<div class="section" id="sec-r2">
+  <div class="section-header">
+    <div><div class="section-title">Revision 3 — Phrasal Verbs</div><div class="section-desc">50 PSLE phrasal verbs with definitions</div></div>
+    <div class="action-row">
+      <div class="prog-label" id="prog-r2"><div class="spinner" style="border-top-color:var(--r2-accent)"></div><span id="prog-label-r2"></span></div>
+      <button class="stop-btn" id="stop-r2" onclick="stopAll()">■ Stop</button>
+      <button class="play-all-btn" id="playall-r2" onclick="playAll('r2')">▶ Play all</button>
+    </div>
+  </div>
+  <div class="controls-row">
+    <label>Speed</label>
+    <input type="range" min="0.5" max="1.3" step="0.1" value="0.85" oninput="setRate(this,'r2')" />
+    <span class="speed-val" id="rate-r2">0.85×</span>
+    <label style="margin-left:10px">Voice</label>
+    <select id="voice-r2" onchange="setVoice(this,'r2')"></select>
+    <span id="voice-info-r2" style="font-size:11px;color:var(--text-3);max-width:160px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></span>
+    <div class="ab-group">
+      <button class="ab-btn" id="ab-r2-a" onclick="setMode('r2','a')">A — Read only</button>
+      <button class="ab-btn ab-active" id="ab-r2-b" onclick="setMode('r2','b')">B — Read &amp; Spell</button>
+    </div>
+  </div>
+  <div class="phase-bar" id="phases-r2">
+    <span class="phase-pill" id="ph-r2-0">Say</span>
+    <span style="font-size:12px;color:var(--text-3)">→</span>
+    <span class="phase-pill" id="ph-r2-1">Spell</span>
+    <span style="font-size:12px;color:var(--text-3)">→</span>
+    <span class="phase-pill" id="ph-r2-2">Say again</span>
+    <span style="font-size:12px;color:var(--text-3)">→</span>
+    <span class="phase-pill" id="ph-r2-3">Definition</span>
+  </div>
+  <div class="items-list" id="list-r2"></div>
+</div>
+
+<!-- R3 -->
+<div class="section" id="sec-r3">
+  <div class="section-header">
+    <div><div class="section-title">Spelling Pairs — Word Transformations</div><div class="section-desc">40 root → derived forms</div></div>
+    <div class="action-row">
+      <div class="prog-label" id="prog-r3"><div class="spinner" style="border-top-color:var(--r3-accent)"></div><span id="prog-label-r3"></span></div>
+      <button class="stop-btn" id="stop-r3" onclick="stopAll()">■ Stop</button>
+      <button class="play-all-btn" id="playall-r3" onclick="playAll('r3')">▶ Play all</button>
+    </div>
+  </div>
+  <div class="controls-row">
+    <label>Speed</label>
+    <input type="range" min="0.5" max="1.3" step="0.1" value="0.85" oninput="setRate(this,'r3')" />
+    <span class="speed-val" id="rate-r3">0.85×</span>
+    <label style="margin-left:10px">Voice</label>
+    <select id="voice-r3" onchange="setVoice(this,'r3')"></select>
+    <span id="voice-info-r3" style="font-size:11px;color:var(--text-3);max-width:160px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></span>
+    <div class="ab-group">
+      <button class="ab-btn" id="ab-r3-a" onclick="setMode('r3','a')">A — Read only</button>
+      <button class="ab-btn ab-active" id="ab-r3-b" onclick="setMode('r3','b')">B — Read &amp; Spell</button>
+    </div>
+  </div>
+  <div class="phase-bar" id="phases-r3">
+    <span class="phase-pill" id="ph-r3-0">Root word</span>
+    <span style="font-size:12px;color:var(--text-3)">→</span>
+    <span class="phase-pill" id="ph-r3-1">Spell root</span>
+    <span style="font-size:12px;color:var(--text-3)">→</span>
+    <span class="phase-pill" id="ph-r3-2">Derived word</span>
+    <span style="font-size:12px;color:var(--text-3)">→</span>
+    <span class="phase-pill" id="ph-r3-3">Spell derived</span>
+  </div>
+  <div class="items-list" id="list-r3"></div>
+</div>
+
+<script>
+const R1 = [
+  {p:"According to",d:"As stated by or in agreement with."},
+  {p:"Accuse someone of",d:"To blame someone for doing something wrong."},
+  {p:"Agree with or to",d:"To share the same opinion with a person, or accept a plan."},
+  {p:"Apologise for",d:"To say sorry for a specific action."},
+  {p:"Appeal to",d:"To attract or interest someone."},
+  {p:"Approve of",d:"To think well of something or someone."},
+  {p:"As a result of",d:"Because of something that happened."},
+  {p:"Aware of",d:"Knowing or realizing something."},
+  {p:"Belong to",d:"To be the property of someone."},
+  {p:"Boast about",d:"To talk with excessive pride about one's achievements."},
+  {p:"Bond with",d:"To develop a close connection or relationship with someone."},
+  {p:"Bored with",d:"Tired and impatient because something is uninteresting."},
+  {p:"Capable of",d:"Having the ability or power to do something."},
+  {p:"Care for or about",d:"To look after someone, or to feel that something is important."},
+  {p:"Commit to",d:"To make a firm promise or decision to do something."},
+  {p:"Compare to or with",d:"To look at the similarities or differences between things."},
+  {p:"Complain about",d:"To express dissatisfaction or annoyance about something."},
+  {p:"Comply with",d:"To obey a rule, order, or request."},
+  {p:"Concentrate on",d:"To give all your attention to something."},
+  {p:"Congratulate someone on",d:"To praise someone for an achievement."},
+  {p:"Cope with",d:"To deal effectively with something difficult."},
+  {p:"Depend on",d:"To rely on or need someone or something."},
+  {p:"Deprive of",d:"To take something necessary or pleasant away from someone."},
+  {p:"Different from",d:"Not the same as another person or thing."},
+  {p:"Disappointed with or in",d:"Unhappy because someone or something failed to meet expectations."},
+  {p:"Due to",d:"Caused by or because of."},
+  {p:"Engaged in",d:"Busy doing something or participating in an activity."},
+  {p:"Familiar with",d:"Knowing something well or experiencing it often."},
+  {p:"Famous for",d:"Well-known for a specific reason or trait."},
+  {p:"Fed up with",d:"Annoyed or bored with something happening for too long."},
+  {p:"Focus on",d:"To direct attention or effort toward something."},
+  {p:"Fond of",d:"Having a liking or affection for someone or something."},
+  {p:"Good at",d:"Able to do something well."},
+  {p:"In addition to",d:"As well as; besides."},
+  {p:"In spite of",d:"Regardless of; despite."},
+  {p:"Insist on",d:"To demand something firmly."},
+  {p:"Interested in",d:"Wanting to know or learn about something."},
+  {p:"Jealous of",d:"Feeling unhappy because someone else has something you want."},
+  {p:"Keen on",d:"Very interested in or enthusiastic about something."},
+  {p:"Look forward to",d:"To feel excited about something that is going to happen."},
+  {p:"Object to",d:"To express disapproval or opposition to something."},
+  {p:"Participate in",d:"To take part in an activity."},
+  {p:"Prevent someone from",d:"To stop someone from doing something."},
+  {p:"Proud of",d:"Feeling deep satisfaction with one's own or someone else's achievements."},
+  {p:"Rely on",d:"To trust or depend on someone or something."},
+  {p:"Responsible for",d:"Having the duty to take care of something or someone."},
+  {p:"Satisfied with",d:"Pleased because something is as good as you expected."},
+  {p:"Similar to",d:"Having a resemblance to someone or something else."},
+  {p:"Succeed in",d:"To achieve a desired aim or result."},
+  {p:"Take pride in",d:"To feel proud of something you do or own."},
+];
+
+const R2 = [
+  {p:"Back down",d:"To yield, give in, or withdraw from an argument or position."},
+  {p:"Blow up",d:"To explode, or to suddenly become very angry."},
+  {p:"Break down",d:"To stop functioning, or to lose emotional control."},
+  {p:"Break into",d:"To enter a place illegally or by force."},
+  {p:"Break off",d:"To abruptly stop talking, or to separate a piece from something."},
+  {p:"Bring about",d:"To cause something to happen."},
+  {p:"Bring up",d:"To raise a child, or to introduce a topic into a conversation."},
+  {p:"Call off",d:"To cancel an event or an agreement."},
+  {p:"Call on",d:"To formally invite someone to speak, or to visit someone."},
+  {p:"Carry out",d:"To perform or complete a task, experiment, or instruction."},
+  {p:"Catch on",d:"To understand or realize something, or to become popular."},
+  {p:"Check in or out",d:"To register at a hotel or airport, or to leave a hotel."},
+  {p:"Cheer up",d:"To make someone feel happier or less sad."},
+  {p:"Come across",d:"To find or meet something or someone by chance."},
+  {p:"Come up with",d:"To suggest or think of an idea, plan, or solution."},
+  {p:"Count on",d:"To rely or depend on someone."},
+  {p:"Cut down on",d:"To reduce the amount or consumption of something."},
+  {p:"Do away with",d:"To get rid of or abolish something."},
+  {p:"Drop out",d:"To quit a school, course, or competition before finishing."},
+  {p:"Fall out",d:"To have a quarrel or argument with someone, ruining the relationship."},
+  {p:"Find out",d:"To discover information or a fact."},
+  {p:"Get along with",d:"To have a friendly relationship with someone."},
+  {p:"Get over",d:"To recover from an illness, disappointment, or problem."},
+  {p:"Give in",d:"To finally agree to something after refusing, or to surrender."},
+  {p:"Give up",d:"To stop trying, or to quit a habit."},
+  {p:"Go through",d:"To examine something carefully, or to experience a difficult period."},
+  {p:"Hold on",d:"To wait for a short time, or to grip tightly."},
+  {p:"Keep up with",d:"To move at the same speed as someone, or to stay updated."},
+  {p:"Look after",d:"To take care of someone or something."},
+  {p:"Look down on",d:"To view someone as inferior or unimportant."},
+  {p:"Look forward to",d:"To anticipate something in the future with pleasure."},
+  {p:"Look into",d:"To investigate or examine the facts about a situation."},
+  {p:"Look up to",d:"To admire and respect someone."},
+  {p:"Make up",d:"To invent a story or excuse, or to become friends again after a fight."},
+  {p:"Pass away",d:"A polite way to say that someone has died."},
+  {p:"Pass out",d:"To lose consciousness or faint."},
+  {p:"Pick up",d:"To lift something, collect someone, or learn a new skill easily."},
+  {p:"Put off",d:"To postpone an event, or to discourage someone."},
+  {p:"Put out",d:"To extinguish a fire or a cigarette."},
+  {p:"Put up with",d:"To tolerate or accept an unpleasant situation without complaining."},
+  {p:"Run out of",d:"To finish the supply of something completely."},
+  {p:"Set off",d:"To start a journey."},
+  {p:"Show off",d:"To behave boastfully to attract attention to one's abilities."},
+  {p:"Stand by",d:"To support or be loyal to someone, or to be ready to take action."},
+  {p:"Take after",d:"To resemble an older relative in appearance or character."},
+  {p:"Take off",d:"To leave the ground, or to remove clothing."},
+  {p:"Turn down",d:"To reject an offer or invitation, or to lower the volume."},
+  {p:"Turn up",d:"To arrive or appear, often unexpectedly."},
+  {p:"Watch out",d:"To be careful or alert to danger."},
+  {p:"Work out",d:"To solve a problem, or to exercise at the gym."},
+];
+
+const R3 = [
+  {root:"curious",derived:"curiosity",tag:"adjective → noun"},
+  {root:"notorious",derived:"notoriety",tag:"adjective → noun"},
+  {root:"generous",derived:"generosity",tag:"adjective → noun"},
+  {root:"anxious",derived:"anxiety",tag:"adjective → noun"},
+  {root:"monstrous",derived:"monstrosity",tag:"adjective → noun"},
+  {root:"maintain",derived:"maintenance",tag:"verb → noun"},
+  {root:"sustain",derived:"sustenance",tag:"verb → noun"},
+  {root:"retain",derived:"retention",tag:"verb → noun"},
+  {root:"abstain",derived:"abstention",tag:"verb → noun"},
+  {root:"acquit",derived:"acquittal",tag:"verb → noun"},
+  {root:"occur",derived:"occurrence",tag:"verb → noun"},
+  {root:"omit",derived:"omission",tag:"verb → noun"},
+  {root:"admit",derived:"admission",tag:"verb → noun"},
+  {root:"pronounce",derived:"pronunciation",tag:"verb → noun"},
+  {root:"denounce",derived:"denunciation",tag:"verb → noun"},
+  {root:"destroy",derived:"destruction",tag:"verb → noun"},
+  {root:"receive",derived:"reception",tag:"verb → noun"},
+  {root:"argue",derived:"argument",tag:"verb → noun"},
+  {root:"judge",derived:"judgment",tag:"verb → noun"},
+  {root:"high",derived:"height",tag:"adjective → noun"},
+  {root:"decide",derived:"decision",tag:"verb → noun"},
+  {root:"collide",derived:"collision",tag:"verb → noun"},
+  {root:"explode",derived:"explosion",tag:"verb → noun"},
+  {root:"conclude",derived:"conclusion",tag:"verb → noun"},
+  {root:"persuade",derived:"persuasion",tag:"verb → noun"},
+  {root:"apply",derived:"application",tag:"verb → noun"},
+  {root:"multiply",derived:"multiplication",tag:"verb → noun"},
+  {root:"satisfy",derived:"satisfaction",tag:"verb → noun"},
+  {root:"vary",derived:"variety",tag:"verb → noun"},
+  {root:"sober",derived:"sobriety",tag:"adjective → noun"},
+  {root:"absolute",derived:"absolutely",tag:"adjective → adverb"},
+  {root:"desperate",derived:"desperation",tag:"adjective → noun"},
+  {root:"separate",derived:"separation",tag:"adjective → noun"},
+  {root:"clear",derived:"clarity",tag:"adjective → noun"},
+  {root:"receive",derived:"receivable",tag:"verb → adjective"},
+  {root:"true",derived:"truly",tag:"adjective → adverb"},
+  {root:"notice",derived:"noticeable",tag:"verb → adjective"},
+  {root:"acquire",derived:"acquisition",tag:"verb → noun"},
+  {root:"repeat",derived:"repetition",tag:"verb → noun"},
+  {root:"deep",derived:"depth",tag:"adjective → noun"},
+];
+
+// ——— TTS helpers ———
+let voices = [];
+const cfg = {
+  r1: { rate: 0.85, voice: null },
+  r2: { rate: 0.85, voice: null },
+  r3: { rate: 0.85, voice: null },
+};
+const abMode = { r1: 'b', r2: 'b', r3: 'b' }; // 'a' = read only, 'b' = read & spell
+
+function setMode(sec, mode) {
+  stopAll();
+  abMode[sec] = mode;
+  document.getElementById('ab-'+sec+'-a').className = 'ab-btn' + (mode === 'a' ? ' ab-active' : '');
+  document.getElementById('ab-'+sec+'-b').className = 'ab-btn' + (mode === 'b' ? ' ab-active' : '');
+  // show/hide phase bar based on mode
+  const phases = document.getElementById('phases-'+sec);
+  if (phases) phases.style.opacity = mode === 'b' ? '1' : '0.3';
+}
+
+let stopFlag = false;
+let playingSection = null;
+let currentItemEl = null;
+let currentSpellEl = null;
+
+// Priority list: neural/enhanced voices that sound most human and teacher-like
+const VOICE_PRIORITY = [
+  /Google UK English Female/i,
+  /Google UK English Male/i,
+  /Google US English/i,
+  /Samantha/i,
+  /Daniel/i,
+  /Karen/i,
+  /Moira/i,
+  /Rishi/i,
+  /Martha/i,
+  /Nicky/i,
+  /Microsoft Aria/i,
+  /Microsoft Guy/i,
+  /Microsoft Jenny/i,
+  /Microsoft Zira/i,
+];
+
+function pickBestVoice(voiceList) {
+  for (const pattern of VOICE_PRIORITY) {
+    const match = voiceList.find(v => pattern.test(v.name));
+    if (match) return match;
+  }
+  // Fallback: prefer any non-compact, non-novelty English voice
+  return voiceList.find(v => !/compact|novelty|whisper|bad|Zarvox|Cellos|Pipe/i.test(v.name)) || voiceList[0];
+}
+
+function loadVoices() {
+  voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'));
+  if (!voices.length) return;
+
+  ['r1','r2','r3'].forEach(s => {
+    const sel = document.getElementById('voice-'+s);
+    const prevName = cfg[s].voice ? cfg[s].voice.name : null;
+    sel.innerHTML = '';
+
+    // Sort: put neural/Google voices first
+    const sorted = [...voices].sort((a, b) => {
+      const aScore = VOICE_PRIORITY.findIndex(p => p.test(a.name));
+      const bScore = VOICE_PRIORITY.findIndex(p => p.test(b.name));
+      if (aScore === -1 && bScore === -1) return 0;
+      if (aScore === -1) return 1;
+      if (bScore === -1) return -1;
+      return aScore - bScore;
+    });
+
+    sorted.forEach((v, i) => {
+      const o = document.createElement('option');
+      o.value = voices.indexOf(v); // keep original index for cfg lookup
+      const tag = /Google|Microsoft Aria|Microsoft Jenny|Microsoft Guy/i.test(v.name) ? ' ✦' : '';
+      o.textContent = v.name.replace('Google ','').replace('Microsoft ','') + tag;
+      sel.appendChild(o);
+    });
+
+    // Restore previous or pick best
+    const restoreIdx = prevName ? voices.findIndex(v => v.name === prevName) : -1;
+    if (restoreIdx >= 0) {
+      sel.value = restoreIdx;
+    } else {
+      const best = pickBestVoice(voices);
+      sel.value = voices.indexOf(best);
+    }
+    cfg[s].voice = voices[parseInt(sel.value)] || voices[0];
+    document.getElementById('voice-info-'+s).textContent = cfg[s].voice ? '🎙 ' + cfg[s].voice.name : '';
+  });
+}
+speechSynthesis.onvoiceschanged = loadVoices;
+setTimeout(loadVoices, 100);
+
+function setRate(el, s) { cfg[s].rate = parseFloat(el.value); document.getElementById('rate-'+s).textContent = el.value + '×'; }
+function setVoice(el, s) {
+  cfg[s].voice = voices[el.value];
+  document.getElementById('voice-info-'+s).textContent = cfg[s].voice ? '🎙 ' + cfg[s].voice.name : '';
+}
+
+function sayText(text, s, overrideRate) {
+  return new Promise(resolve => {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = overrideRate !== undefined ? overrideRate : cfg[s].rate;
+    u.pitch = 1.0;       // flat = more natural, not sing-song
+    u.volume = 1.0;
+    if (cfg[s].voice) u.voice = cfg[s].voice;
+    // Chrome bug: long utterances silently stop — keep alive with a heartbeat
+    let keepAlive = setInterval(() => {
+      if (!speechSynthesis.speaking) { clearInterval(keepAlive); }
+      else { speechSynthesis.pause(); speechSynthesis.resume(); }
+    }, 10000);
+    u.onend = () => { clearInterval(keepAlive); resolve(); };
+    u.onerror = () => { clearInterval(keepAlive); resolve(); };
+    speechSynthesis.speak(u);
+  });
+}
+
+function pause(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function spellWord(word, s, highlightEl) {
+  return new Promise(async resolve => {
+    const letters = word.toUpperCase().replace(/[^A-Z]/g, '').split('');
+    if (!letters.length) { resolve(); return; }
+
+    // Show all letters in the highlight bar at once
+    if (highlightEl) {
+      highlightEl.innerHTML = letters.map(l => `<span>${l}</span>`).join('');
+    }
+
+    // Speak the whole spelling as ONE utterance: "A... C... C... O... R... D... I... N... G"
+    // Using ellipsis between letters forces a natural pause without the robotic chop of separate utterances
+    const spelled = letters.join('... ');
+    const utt = new SpeechSynthesisUtterance(spelled);
+    utt.rate = 0.78;
+    utt.pitch = 1.05;
+    if (cfg[s].voice) utt.voice = cfg[s].voice;
+
+    // Approximate per-letter timing to drive the highlight
+    const approxMsPerLetter = Math.max(420, (spelled.length / utt.rate) * 12);
+    let litIdx = 0;
+    const ticker = setInterval(() => {
+      if (highlightEl && litIdx < letters.length) {
+        highlightEl.querySelectorAll('span').forEach((sp, j) => sp.className = j === litIdx ? 'lit' : '');
+        litIdx++;
+      } else {
+        clearInterval(ticker);
+      }
+    }, approxMsPerLetter);
+
+    utt.onend = () => {
+      clearInterval(ticker);
+      if (highlightEl) highlightEl.querySelectorAll('span').forEach(sp => sp.className = '');
+      resolve();
+    };
+    utt.onerror = () => { clearInterval(ticker); resolve(); };
+
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utt);
+  });
+}
+
+function setPhase(sec, phaseIdx) {
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById('ph-'+sec+'-'+i);
+    if (el) el.className = 'phase-pill' + (i === phaseIdx ? ' active' : '');
+  }
+}
+
+function clearPhases(sec) { setPhase(sec, -1); }
+
+function highlightItem(el, sec) {
+  if (currentItemEl) currentItemEl.className = 'item';
+  currentItemEl = el;
+  el.className = 'item speaking-' + sec;
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function stopAll() {
+  stopFlag = true;
+  speechSynthesis.cancel();
+  if (currentItemEl) { currentItemEl.className = 'item'; currentItemEl = null; }
+  ['r1','r2','r3'].forEach(s => {
+    document.getElementById('playall-'+s).classList.remove('playing');
+    document.getElementById('stop-'+s).classList.remove('visible');
+    document.getElementById('prog-'+s).classList.remove('visible');
+    clearPhases(s);
+  });
+  playingSection = null;
+}
+
+async function speakEntry(sec, idx, itemEl) {
+  const doSpell = abMode[sec] === 'b';
+  highlightItem(itemEl, sec);
+  const spellEl = itemEl.querySelector('.spell-display');
+
+  if (sec === 'r1' || sec === 'r2') {
+    const dataset = sec === 'r1' ? R1 : R2;
+    const item = dataset[idx];
+    const words = item.p.split(' ');
+
+    // Phase 0: say phrase
+    setPhase(sec, 0);
+    await sayText(item.p, sec);
+    if (stopFlag) return;
+
+    if (doSpell) {
+      // Phase 1: spell word by word
+      setPhase(sec, 1);
+      for (let w = 0; w < words.length; w++) {
+        if (stopFlag) return;
+        const clean = words[w].replace(/[^a-zA-Z]/g,'');
+        if (!clean) continue;
+        await sayText(clean, sec);
+        await pause(120);
+        await spellWord(clean, sec, spellEl);
+        await pause(200);
+      }
+
+      // Phase 2: say phrase again
+      setPhase(sec, 2);
+      await sayText(item.p, sec);
+      if (stopFlag) return;
+    }
+
+    // Phase 3: definition
+    setPhase(sec, 3);
+    await sayText(item.d, sec);
+
+  } else {
+    // R3 spelling pairs
+    const item = R3[idx];
+
+    // Phase 0: root word
+    setPhase(sec, 0);
+    await sayText(item.root, sec);
+    if (stopFlag) return;
+
+    if (doSpell) {
+      // Phase 1: spell root
+      setPhase(sec, 1);
+      await spellWord(item.root, sec, spellEl);
+      await pause(300);
+      if (stopFlag) return;
+    }
+
+    // Phase 2: derived word
+    setPhase(sec, 2);
+    await sayText('becomes... ' + item.derived, sec);
+    if (stopFlag) return;
+
+    if (doSpell) {
+      // Phase 3: spell derived
+      setPhase(sec, 3);
+      await spellWord(item.derived, sec, spellEl);
+      await pause(200);
+    }
+  }
+
+  if (currentItemEl === itemEl) itemEl.className = 'item';
+  clearPhases(sec);
+}
+
+async function speakItem(sec, idx) {
+  stopAll();
+  await pause(100);
+  stopFlag = false;
+  const itemEl = document.getElementById('item-'+sec+'-'+idx);
+  await speakEntry(sec, idx, itemEl);
+}
+
+async function playAll(sec) {
+  stopAll();
+  await pause(150);
+  stopFlag = false;
+  playingSection = sec;
+
+  const data = sec === 'r1' ? R1 : sec === 'r2' ? R2 : R3;
+  document.getElementById('playall-'+sec).classList.add('playing');
+  document.getElementById('stop-'+sec).classList.add('visible');
+  document.getElementById('prog-'+sec).classList.add('visible');
+
+  for (let i = 0; i < data.length; i++) {
+    if (stopFlag || playingSection !== sec) break;
+    document.getElementById('prog-label-'+sec).textContent = `${i+1} of ${data.length}`;
+    const itemEl = document.getElementById('item-'+sec+'-'+i);
+    await speakEntry(sec, i, itemEl);
+    if (!stopFlag) await pause(500);
+  }
+
+  if (!stopFlag) stopAll();
+}
+
+function showSection(sec, btn) {
+  stopAll();
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.getElementById('sec-'+sec).classList.add('visible');
+  document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn');
+  btn.className = 'tab-btn active-'+sec;
+}
+
+// ——— RENDER ———
+function playIcon() {
+  return `<svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.5l10 5.5-10 5.5V2.5z"/></svg>`;
+}
+
+function renderR1() {
+  document.getElementById('list-r1').innerHTML = R1.map((item, i) => {
+    const parts = item.p.split(' ');
+    const ph = `<span class="verb">${parts[0]}</span> ${parts.slice(1).join(' ')}`;
+    return `<div class="item" id="item-r1-${i}" onclick="speakItem('r1',${i})">
+      <div class="item-num">${i+1}</div>
+      <div class="item-play">${playIcon()}</div>
+      <div class="item-body">
+        <div class="phrase-line">${ph}</div>
+        <div class="def-line">${item.d}</div>
+        <div class="spell-display"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderR2() {
+  document.getElementById('list-r2').innerHTML = R2.map((item, i) => {
+    const parts = item.p.split(' ');
+    const ph = `<span class="verb-r2">${parts[0]}</span> ${parts.slice(1).join(' ')}`;
+    return `<div class="item" id="item-r2-${i}" onclick="speakItem('r2',${i})">
+      <div class="item-num">${i+1}</div>
+      <div class="item-play">${playIcon()}</div>
+      <div class="item-body">
+        <div class="phrase-line">${ph}</div>
+        <div class="def-line">${item.d}</div>
+        <div class="spell-display"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderR3() {
+  document.getElementById('list-r3').innerHTML = R3.map((item, i) => {
+    return `<div class="item" id="item-r3-${i}" onclick="speakItem('r3',${i})">
+      <div class="item-num">${i+1}</div>
+      <div class="item-play">${playIcon()}</div>
+      <div class="item-body">
+        <div class="sp-row">
+          <span class="sp-root">${item.root}</span>
+          <span class="sp-arrow">→</span>
+          <span class="sp-derived">${item.derived}</span>
+          <span class="sp-tag">${item.tag}</span>
+        </div>
+        <div class="spell-display"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+renderR1(); renderR2(); renderR3();
+</script>
+</body>
+</html>
