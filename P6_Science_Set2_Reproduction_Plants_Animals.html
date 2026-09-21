@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P6 Science Set 2 — Reproduction & Life Cycles</title>
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=FREE"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f0f2f5;--surface:#fff;--surface2:#f7f8fa;--border:#e2e5ea;--border-strong:#cbd0d8;
+    --text:#1a1d23;--text-sec:#5a6072;--text-muted:#8a93a6;
+    --accent:#2563eb;--accent-bg:#eff4ff;--accent-border:#bfccf8;
+    --green:#16a34a;--green-bg:#f0fdf4;--green-border:#bbf7d0;
+    --red:#dc2626;--red-bg:#fef2f2;--red-border:#fecaca;
+    --amber:#d97706;--amber-bg:#fffbeb;--amber-border:#fde68a;
+    --purple:#7c3aed;--purple-bg:#f5f3ff;
+    --teal:#0d9488;--teal-bg:#f0fdfa;--teal-border:#99f6e4;
+    --pink:#db2777;--pink-bg:#fdf2f8;--pink-border:#fbcfe8;
+    --radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.05)
+  }
+  body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+  .page{max-width:760px;margin:0 auto;padding:2rem 1.25rem 4rem}
+  .header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .header-left h1{font-size:1.35rem;font-weight:600}
+  .header-left p{font-size:.8125rem;color:var(--text-muted);margin-top:2px}
+  .chapter-select{font-size:.8125rem;font-family:inherit;font-weight:500;padding:8px 12px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;outline:none;box-shadow:var(--shadow)}
+  .set-badge{display:inline-block;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-border);margin-bottom:.5rem}
+  .audio-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:1.25rem;box-shadow:var(--shadow)}
+  .audio-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .audio-label{font-size:.8rem;font-weight:600;color:var(--text-sec);white-space:nowrap}
+  .play-btn{display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:var(--radius);border:none;cursor:pointer;font-family:inherit;font-size:.875rem;font-weight:600;background:var(--accent);color:#fff;transition:background .15s}
+  .play-btn:hover{background:#1d4ed8}
+  .play-btn.playing{background:var(--red)}
+  .auto-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface2);color:var(--text-sec);font-family:inherit;font-size:.8125rem;font-weight:500;cursor:pointer;transition:all .15s}
+  .auto-btn.on{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+  .voice-row{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);flex-wrap:wrap}
+  .voice-lbl{font-size:.75rem;color:var(--text-muted);white-space:nowrap}
+  .voice-sel,.speed-sel{font-size:.75rem;font-family:inherit;padding:5px 8px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer}
+  .voice-sel{flex:1;min-width:140px}
+  .speaking-badge{display:none;align-items:center;gap:6px;font-size:.75rem;color:var(--accent);font-weight:500;background:var(--accent-bg);padding:5px 10px;border-radius:99px;border:1px solid var(--accent-border)}
+  .speaking-badge.show{display:flex}
+  .bars{display:flex;gap:2px;align-items:center;height:14px}
+  .bars span{width:3px;background:var(--accent);border-radius:2px;animation:eq .8s infinite ease-in-out;display:block}
+  .bars span:nth-child(1){height:5px;animation-delay:0s}.bars span:nth-child(2){height:10px;animation-delay:.1s}
+  .bars span:nth-child(3){height:14px;animation-delay:.2s}.bars span:nth-child(4){height:10px;animation-delay:.3s}
+  .bars span:nth-child(5){height:5px;animation-delay:.4s}
+  @keyframes eq{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;text-align:center;box-shadow:var(--shadow)}
+  .stat-card .val{font-size:1.5rem;font-weight:600}
+  .stat-card .lbl{font-size:.7rem;color:var(--text-muted);margin-top:1px}
+  .stat-card.s-correct .val{color:var(--green)}.stat-card.s-wrong .val{color:var(--red)}.stat-card.s-score .val{color:var(--accent)}
+  .prog-wrap{margin-bottom:1.25rem}
+  .prog-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text-muted);margin-bottom:6px}
+  .prog-track{height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+  .prog-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .4s ease}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
+  .leg-pill{font-size:.6875rem;font-weight:500;padding:4px 10px;border-radius:99px;cursor:pointer;border:1px solid transparent;transition:opacity .15s}
+  .leg-pill:hover{opacity:.75}
+  .ch0{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-border)}
+  .ch1{background:var(--pink-bg);color:var(--pink);border-color:var(--pink-border)}
+  .ch2{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
+  .ch3{background:var(--purple-bg);color:var(--purple);border-color:#ddd6fe}
+  .ch4{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-border)}
+  .qcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.75rem;box-shadow:var(--shadow);margin-bottom:1rem}
+  .qcard-meta{display:flex;align-items:center;gap:8px;margin-bottom:1rem}
+  .topic-pill{font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:99px;letter-spacing:.02em}
+  .qnum{font-size:.75rem;color:var(--text-muted);margin-left:auto}
+  .question{font-size:1rem;font-weight:500;line-height:1.65;margin-bottom:1.25rem}
+  .options{display:grid;gap:9px}
+  .opt{width:100%;text-align:left;padding:12px 15px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;font-size:.875rem;cursor:pointer;display:flex;gap:12px;align-items:flex-start;transition:border-color .15s,background .15s;line-height:1.5}
+  .opt:hover:not(:disabled){background:var(--accent-bg);border-color:var(--accent-border)}
+  .opt:disabled{cursor:default}
+  .opt-label{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:.6875rem;font-weight:600;flex-shrink:0;color:var(--text-sec);margin-top:1px;transition:all .15s}
+  .opt-text{flex:1}
+  .opt.correct{background:var(--green-bg);border-color:var(--green-border)}
+  .opt.correct .opt-label{background:var(--green);border-color:var(--green);color:#fff}
+  .opt.correct .opt-text{color:var(--green);font-weight:500}
+  .opt.wrong{background:var(--red-bg);border-color:var(--red-border)}
+  .opt.wrong .opt-label{background:var(--red);border-color:var(--red);color:#fff}
+  .opt.wrong .opt-text{color:var(--red);font-weight:500}
+  .opt.reveal{background:var(--green-bg);border-color:var(--green-border)}
+  .opt.reveal .opt-label{background:var(--green);border-color:var(--green);color:#fff}
+  .opt.reveal .opt-text{color:var(--green)}
+  .feedback{margin-top:1rem;padding:13px 16px;border-radius:var(--radius);font-size:.8125rem;line-height:1.6;color:var(--text-sec);background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent);display:none}
+  .feedback.show{display:block}
+  .feedback strong{color:var(--text)}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:.5rem}
+  .btn{font-family:inherit;font-size:.875rem;font-weight:500;padding:10px 20px;border-radius:var(--radius);cursor:pointer;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);transition:background .15s}
+  .btn:hover{background:var(--surface2)}
+  .btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn-primary:hover{background:#1d4ed8}
+  .btn-skip{color:var(--text-muted);border-color:var(--border)}
+  .done-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:3rem 2rem;text-align:center;box-shadow:var(--shadow)}
+  .done-ring{width:110px;height:110px;border-radius:50%;background:var(--accent-bg);border:3px solid var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+  .done-pct{font-size:1.75rem;font-weight:600;color:var(--accent)}
+  .done-pct-label{font-size:.6875rem;color:var(--text-muted)}
+  .done-score{font-size:1.1rem;font-weight:600;margin-bottom:6px}
+  .done-msg{font-size:.875rem;color:var(--text-sec);margin-bottom:2rem}
+  .done-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:2rem}
+  .done-stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
+  .done-stat .v{font-size:1.25rem;font-weight:600}
+  .done-stat .l{font-size:.7rem;color:var(--text-muted);margin-top:2px}
+  .done-stat.g .v{color:var(--green)}.done-stat.r .v{color:var(--red)}.done-stat.b .v{color:var(--accent)}
+  @media(max-width:520px){.stats{grid-template-columns:repeat(2,1fr)}.page{padding:1.25rem 1rem 3rem}.qcard{padding:1.25rem}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-left">
+      <div class="set-badge">SET 2 of 4</div>
+      <h1>Reproduction &amp; Life Cycles</h1>
+      <p>Plants · Animals · Human Body · Adaptations · Seed Dispersal</p>
+    </div>
+    <select class="chapter-select" id="chapterSel" onchange="changeChapter()">
+      <option value="all">All topics</option>
+      <option value="0">Plant reproduction</option>
+      <option value="1">Animal reproduction</option>
+      <option value="2">Human body systems</option>
+      <option value="3">Adaptations</option>
+      <option value="4">Seed dispersal</option>
+    </select>
+  </div>
+  <div class="audio-bar">
+    <div class="audio-row">
+      <span class="audio-label">🎙 Read aloud</span>
+      <button class="play-btn" id="playBtn" onclick="onPlayBtn()"><span id="playIcon">▶</span><span id="playLabel">Read question</span></button>
+      <button class="auto-btn" id="autoBtn" onclick="toggleAuto()"><span id="autoIcon">🔇</span><span id="autoLabel">Auto-read off</span></button>
+      <div class="speaking-badge" id="speakBadge"><div class="bars"><span></span><span></span><span></span><span></span><span></span></div>Speaking…</div>
+    </div>
+    <div class="voice-row">
+      <span class="voice-lbl">Voice</span><select class="voice-sel" id="voiceSel" onchange="onVoiceChange()"></select>
+      <span class="voice-lbl">Speed</span>
+      <select class="speed-sel" id="speedSel">
+        <option value="0.7">Slow</option><option value="0.85">Easy</option>
+        <option value="1" selected>Normal</option><option value="1.15">Fast</option>
+      </select>
+    </div>
+  </div>
+  <div class="legend">
+    <span class="leg-pill ch0" onclick="setChapter(0)">🌸 Plant reproduction</span>
+    <span class="leg-pill ch1" onclick="setChapter(1)">🐣 Animal reproduction</span>
+    <span class="leg-pill ch2" onclick="setChapter(2)">🫀 Human body</span>
+    <span class="leg-pill ch3" onclick="setChapter(3)">🦎 Adaptations</span>
+    <span class="leg-pill ch4" onclick="setChapter(4)">🌱 Seed dispersal</span>
+  </div>
+  <div class="stats">
+    <div class="stat-card"><div class="val" id="sTotal">0</div><div class="lbl">total</div></div>
+    <div class="stat-card s-correct"><div class="val" id="sCorrect">0</div><div class="lbl">correct</div></div>
+    <div class="stat-card s-wrong"><div class="val" id="sWrong">0</div><div class="lbl">wrong</div></div>
+    <div class="stat-card s-score"><div class="val" id="sScore">—</div><div class="lbl">score</div></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-label"><span id="progText">Question 0 of 0</span><span id="progPct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="pbar" style="width:0%"></div></div>
+  </div>
+  <div id="quizArea"></div>
+  <div class="actions" id="actions"></div>
+</div>
+<script>
+const LABELS=['A','B','C','D'];
+const CH_CLASS=['ch0','ch1','ch2','ch3','ch4'];
+const VOICE_OPTIONS=[
+  {label:"UK English Female (natural)",rv:"UK English Female"},
+  {label:"UK English Male",rv:"UK English Male"},
+  {label:"US English Female",rv:"US English Female"},
+  {label:"US English Male",rv:"US English Male"},
+  {label:"Australian Female",rv:"Australian Female"},
+  {label:"Australian Male",rv:"Australian Male"},
+];
+let currentVoice=VOICE_OPTIONS[0].rv,autoRead=false,isSpeaking=false;
+function initVoiceSelect(){const s=document.getElementById('voiceSel');VOICE_OPTIONS.forEach((v,i)=>{const o=document.createElement('option');o.value=i;o.textContent=v.label;s.appendChild(o)})}
+function onVoiceChange(){currentVoice=VOICE_OPTIONS[+document.getElementById('voiceSel').value].rv}
+function getRate(){return parseFloat(document.getElementById('speedSel').value)||1}
+function clean(t){return t.replace(/CO₂/g,'carbon dioxide').replace(/O₂/g,'oxygen').replace(/→/g,'produces').replace(/\+/g,'plus').replace(/°C/g,'degrees Celsius').replace(/<br\s*\/?>/gi,', ').replace(/<[^>]+>/g,'').replace(/&amp;/g,'and').replace(/\s+/g,' ').trim()}
+function buildScript(q){return clean(q.q)+'. '+q.opts.map((o,i)=>'Option '+LABELS[i]+'. '+clean(o)).join('. ')+'.'}
+function speak(text,onDone){
+  if(typeof responsiveVoice==='undefined'){const s=window.speechSynthesis;if(!s){if(onDone)onDone();return}s.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=getRate();u.onend=u.onerror=()=>{setSpeaking(false);if(onDone)onDone()};s.speak(u);setSpeaking(true);return}
+  responsiveVoice.cancel();setSpeaking(true);
+  responsiveVoice.speak(text,currentVoice,{rate:getRate(),pitch:1,volume:1,onend:()=>{setSpeaking(false);if(onDone)onDone()},onerror:()=>{setSpeaking(false);if(onDone)onDone()}})
+}
+function stopSpeech(){if(typeof responsiveVoice!=='undefined')responsiveVoice.cancel();if(window.speechSynthesis)window.speechSynthesis.cancel();setSpeaking(false)}
+function setSpeaking(val){isSpeaking=val;document.getElementById('speakBadge').classList.toggle('show',val);const b=document.getElementById('playBtn');b.classList.toggle('playing',val);document.getElementById('playIcon').textContent=val?'■':'▶';document.getElementById('playLabel').textContent=val?'Stop':'Read question'}
+function onPlayBtn(){if(isSpeaking){stopSpeech();return}if(!deck.length||idx>=deck.length)return;speak(buildScript(deck[idx]))}
+function toggleAuto(){autoRead=!autoRead;const b=document.getElementById('autoBtn');b.classList.toggle('on',autoRead);document.getElementById('autoIcon').textContent=autoRead?'🔊':'🔇';document.getElementById('autoLabel').textContent=autoRead?'Auto-read on':'Auto-read off';if(autoRead&&!isSpeaking&&deck.length&&idx<deck.length)setTimeout(()=>speak(buildScript(deck[idx])),200);else if(!autoRead)stopSpeech()}
+
+const ALL_Q=[
+  // Ch 0 — Plant reproduction
+  {ch:0,t:"Plant reproduction",q:"A flower's petals were removed. Which statement is correct after the removal?",opts:["The flower can no longer be pollinated","The flower can no longer be fertilised","The flower cannot produce its own pollen grains","The flower cannot develop into a fruit"],ans:0,exp:"Petals attract pollinators such as insects and birds. Without petals, the flower is less likely to attract pollinators, so it cannot be pollinated. Fertilisation and fruit development depend on pollination happening first."},
+  {ch:0,t:"Plant reproduction",q:"The stigma of a flower was removed. Which statement(s) are correct?",opts:["The flower can still produce pollen","The flower can still be pollinated by wind","The flower cannot receive pollen grains","Both A and C are correct"],ans:3,exp:"The stigma is where pollen grains land during pollination. Without it, the flower cannot receive pollen grains. However, the anthers can still produce pollen. Options A and C are both correct."},
+  {ch:0,t:"Plant reproduction",q:"Part Y (the petals) of a flower was removed. Which statements are correct after removal? A: The flower cannot be fertilised. B: The flower cannot be pollinated. C: The flower cannot develop into a fruit. D: The flower cannot produce its own pollen grains.",opts:["B only","D only","B and C only","A and D only"],ans:2,exp:"Without petals, the flower cannot attract pollinators (B correct). Without pollination, fertilisation cannot occur and the flower cannot develop into a fruit (C correct). The anthers can still produce pollen grains, so D is wrong."},
+  {ch:0,t:"Plant reproduction",q:"Which part of a flower produces the female reproductive cells (eggs)?",opts:["Anther","Stigma","Ovary","Style"],ans:2,exp:"The ovary contains the ovules which hold the female reproductive cells (eggs). The anther produces the male reproductive cells (pollen grains). The stigma receives pollen, and the style connects the stigma to the ovary."},
+  {ch:0,t:"Plant reproduction",q:"After a cut was made on a branch of a plant, only the leaves above the cut wilted. What can be concluded?",opts:["The water-carrying tubes were cut","Only the food-carrying tubes were cut","The leaves could still make food for the plant","The roots could not take in water for the plant"],ans:0,exp:"Water is carried upward from roots to leaves through the xylem (water-carrying tubes). Since only leaves above the cut wilted, the cut must have severed the water-carrying tubes, stopping water from reaching those leaves."},
+  {ch:0,t:"Plant reproduction",q:"In a photosynthesis experiment, a water plant was placed in a jar under a lamp. A gas was collected in the test tube. Which gas was collected?",opts:["Oxygen","Nitrogen","Water vapour","Carbon dioxide"],ans:0,exp:"During photosynthesis, plants use light energy, carbon dioxide, and water to produce glucose and oxygen. The gas collected in the test tube is oxygen, which is released as a by-product of photosynthesis."},
+  {ch:0,t:"Plant reproduction",q:"Seth placed plants in three jars: Jar X had a chemical releasing carbon dioxide, Jar Y had a chemical absorbing carbon dioxide, and Jar Z had neither. Which jar would contain the most oxygen after a few hours?",opts:["Jar X","Jar Y","Jar Z","All jars would be equal"],ans:0,exp:"Photosynthesis uses carbon dioxide to produce oxygen. Jar X has the most carbon dioxide available, so the plant in it will photosynthesise the fastest and produce the most oxygen."},
+
+  // Ch 1 — Animal reproduction
+  {ch:1,t:"Animal reproduction",q:"Insect X has four stages in its life cycle: egg, larva, pupa, and adult. Which statements correctly describe insect X?",opts:["Its young looks like the adult and it gives birth to live young","Its young does not look like the adult and it has four life cycle stages","It gives birth to live young and its young does not have wings","It has three life cycle stages and lays eggs"],ans:1,exp:"An insect with egg, larva, pupa, and adult stages undergoes complete metamorphosis. The young (larva) looks completely different from the adult. It lays eggs, not giving birth to live young. Both C and D in the original are correct — its young (larva) has no wings and it has four stages."},
+  {ch:1,t:"Animal reproduction",q:"Group X contains a bat and a hamster. Group Y contains a fish and a frog. Which row correctly describes their characteristics?",opts:["Group X: covered with scales, gives birth to live young","Group X: covered with fur, gives birth to live young","Group Y: covered with fur, lays eggs","Group Y: covered with scales, gives birth to live young"],ans:1,exp:"Bats and hamsters are mammals — they are covered with fur and give birth to live young. Fish and frogs are not mammals; fish have scales and frogs have moist skin, and both lay eggs."},
+  {ch:1,t:"Animal reproduction",q:"A cut was made at the fallopian tube of the human female reproductive system. Which statements are true? A: No eggs will be released. B: Fertilisation can take place. C: Sperms can enter the vagina. D: The foetus will not be able to develop.",opts:["D only","B and C only","C and D only","A, B and C only"],ans:2,exp:"The fallopian tube is where fertilisation occurs and where the fertilised egg travels to the uterus. If cut: sperms can still enter the vagina (C correct), but eggs cannot travel to meet sperm so fertilisation cannot occur — meaning the foetus cannot develop (D correct)."},
+  {ch:1,t:"Animal reproduction",q:"In a reproductive parts table, which functions were wrongly matched? B (uterus): receives reproductive cells and produces reproductive cells. C (ovary): receives reproductive cells. D (fallopian tube): receives reproductive cells and fertilisation takes place here. E (vagina): fertilisation takes place here.",opts:["B and C only","B and E only","C and D only","D and E only"],ans:1,exp:"The uterus (B) receives fertilised eggs but does NOT produce reproductive cells — that is the ovary's job. So B is wrong. The vagina (E) receives sperm but fertilisation does not happen there — it occurs in the fallopian tube. So E is wrong. B and E have the wrong functions."},
+  {ch:1,t:"Animal reproduction",q:"Bird G lives along the seashore and builds nests on the ground using brown twigs. Its eggs have light brown shells with dark brown spots. Shortly after chicks hatch, Bird G carries the eggshells far away. Why?",opts:["To keep the nest clean and tidy","The white inner surface of the shells is conspicuous and could reveal the nest to predators, endangering the chicks","The shells are too heavy and would crush the chicks","To use the shells as food in another location"],ans:1,exp:"The outer shell of Bird G's eggs is camouflaged (light brown with dark spots). However, the inner surface is white and very conspicuous. Leaving white shells near the nest would attract predators. Carrying them away protects the hidden chicks from being discovered."},
+  {ch:1,t:"Animal reproduction",q:"Bird G has webbed feet. How does this adaptation help it survive?",opts:["To perch securely on branches near the shore","The webbed feet push a larger area of water backwards, helping Bird G swim faster to catch prey or escape predators","To walk more silently on sand when hunting","To grip slippery rocks at the shoreline"],ans:1,exp:"Webbed feet act like paddles — they push against a larger surface of water per stroke, giving the bird more thrust when swimming. This allows Bird G to swim faster to chase fish (prey) or escape predators."},
+
+  // Ch 2 — Human body systems
+  {ch:2,t:"Human body systems",q:"What is respiration?",opts:["The process of breathing in and out","The process in which energy is released from food","The process of absorbing nutrients in the intestines","The process of pumping blood through the body"],ans:1,exp:"Respiration is the process in which energy is released from food (glucose). The chemical equation is: glucose plus oxygen produces carbon dioxide, water, and energy. It is different from breathing, which is the physical act of inhaling and exhaling."},
+  {ch:2,t:"Human body systems",q:"The diagram shows blood flow: lungs → heart → legs. Blood vessel H carries blood rich in oxygen from the lungs to the heart. What is the correct amount of oxygen in vessels leaving the lungs (S) versus returning from legs (T)?",opts:["S and T both have the same high oxygen","S has high oxygen and T has low oxygen","S has low oxygen and T has high oxygen","Both S and T have low oxygen"],ans:1,exp:"Blood vessel S carries oxygenated blood from the lungs to the heart — it is rich in oxygen. Blood vessel T returns deoxygenated blood from the body (legs) back to the heart — oxygen has been used by the muscles, so it has low oxygen content."},
+  {ch:2,t:"Human body systems",q:"During jogging, the amount of blood transported to the muscular system increased from 750 to 12,500 units per minute. Why does more blood go to the muscles during jogging?",opts:["The muscles need more water to prevent dehydration","When jogging, muscles respire faster to release more energy — more blood is needed to supply oxygen and food and to remove carbon dioxide","Blood pressure drops during jogging so more blood is pumped","The heart needs to rest so blood is diverted away from it"],ans:1,exp:"During jogging, muscles work harder and need more energy. Respiration increases, requiring more oxygen and glucose (food) delivered by blood. More blood also removes the extra carbon dioxide produced. So blood flow to muscles increases significantly."},
+  {ch:2,t:"Human body systems",q:"Miguel climbed a mountain from point A (bottom) to point B (top). A graph shows oxygen in the air decreasing as he climbed higher. How does his heart rate at point B compare to point A?",opts:["Heart rate is lower at point B because he is resting at the top","Heart rate is higher at point B because there is less oxygen in the air at higher altitude","Heart rate is the same at both points","Heart rate depends only on physical exertion, not altitude"],ans:1,exp:"At higher altitude (point B), there is less oxygen in the air. To compensate, the heart pumps blood faster to deliver enough oxygen to all parts of the body — so heart rate is higher at point B."},
+  {ch:2,t:"Human body systems",q:"After reaching point B, Miguel rested for 15 minutes but his heart rate remained high. Why?",opts:["He was still walking and exercising","There was still less oxygen in the air at that altitude, so his heart continued pumping faster to transport enough oxygen to all parts of the body","His heart was damaged from the climb","His muscles had fully recovered and needed no more oxygen"],ans:1,exp:"Even at rest at point B, the air still has less oxygen than at sea level. The heart must continue beating faster to compensate for the lower oxygen concentration and deliver sufficient oxygen to the body's cells."},
+  {ch:2,t:"Human body systems",q:"The digestive system diagram shows parts A (oesophagus), B (stomach), and C (large intestine). After a meal, substance X increases through A, B and peaks at B, then decreases; substance Y peaks at C. What are X and Y?",opts:["X: digested food, Y: undigested food","X: digested food, Y: water","X: undigested food, Y: water","X: undigested food, Y: digested food"],ans:2,exp:"Food enters mostly undigested and is broken down progressively. Undigested food (X) is high in early parts and decreases. Water (Y) is mainly absorbed in the large intestine (C), so it peaks there. X is undigested food and Y is water."},
+
+  // Ch 3 — Adaptations
+  {ch:3,t:"Adaptations",q:"Four organisms have these characteristics: W has gills, X has needle-shaped leaves, Y has air spaces in its leaf stalk, Z shuts its nostrils while in water. Which correctly matches organism to function?",opts:["W takes in dissolved oxygen, X reduces water loss, Y floats on water","W floats on water, X reduces water loss, Y takes in dissolved oxygen","W takes in dissolved oxygen, X reduces water loss, Z floats on water","Z reduces water loss, W takes in dissolved oxygen, Y floats on water"],ans:0,exp:"Gills (W) absorb dissolved oxygen from water. Needle-shaped leaves (X) have less surface area, reducing water loss. Air spaces in the leaf stalk (Y) provide buoyancy for floating on water. Z shutting nostrils keeps water out when submerged — this is a behavioural adaptation."},
+  {ch:3,t:"Adaptations",q:"Plant P has thin, sharp spikes as leaves. Animal Q has a thick layer of fur. Which statement is correct?",opts:["Both adaptations are behavioural adaptations","Both adaptations allow the organisms to defend against predators","Both adaptations enable the organisms to cope with physical factors of the environment","The spikes of plant P disperse its seeds while Q's fur keeps it warm"],ans:2,exp:"Spikes on plant P reduce water loss in hot, dry environments (physical factor). A thick layer of fur on animal Q insulates against cold temperatures (physical factor). Both are structural adaptations that help cope with the physical conditions of their environment."},
+  {ch:3,t:"Adaptations",q:"Two birds were observed. Bird X has wide flat feet with a large strong claw and a smaller toe. Bird Y has muscular and powerful feet with sharp curved claws. What is the correct purpose of their foot adaptations?",opts:["Bird X: to perch on branches, Bird Y: to swim in water","Bird X: to walk on soft ground and not sink, Bird Y: to catch and hold prey","Bird X: to swim in water, Bird Y: to perch on branches","Bird X: to catch and hold prey, Bird Y: to walk on soft ground"],ans:1,exp:"Bird X's wide flat feet spread its weight, preventing it from sinking into soft ground (like mud or snow). Bird Y's muscular feet with sharp curved claws are adapted for catching, gripping, and holding onto struggling prey — this is a bird of prey."},
+  {ch:3,t:"Adaptations",q:"Organism W is a worm with a muscular body and no skeleton, allowing it to twist around obstacles to find food in soil. Which row best describes the type and purpose of this adaptation?",opts:["Behavioural only — to find food","Structural only — to move around","Behavioural and structural — to move around","Behavioural and structural — to find food and move around"],ans:3,exp:"The muscular boneless body is a structural adaptation (physical body feature). Using this body to twist around obstacles to find food is a behavioural adaptation (how it acts). Together they serve both purposes: finding food and moving around in the soil."},
+  {ch:3,t:"Adaptations",q:"Plant Q has fruits with a spiky hard outer covering when unripe, but breaks open easily and has a strong smell when ripe. Animal X eats the ripe fruit flesh and passes out seeds onto the grassland. Give two reasons why this helps plant Q survive.",opts:["Seeds land in fertile soil and away from the parent plant, reducing competition for sunlight","Seeds are eaten so they can grow inside the animal and seeds spread further","Seeds grow faster inside animals and the grassland has more water","The animal protects the seeds from other animals and the smell attracts more pollinators"],ans:0,exp:"Seeds passed out with faeces land in nutrient-rich soil which helps germination. Seeds are also dispersed away from the parent plant onto the grassland, where there is less competition for sunlight, water, and space — improving the young plant's chances of survival."},
+
+  // Ch 4 — Seed dispersal
+  {ch:4,t:"Seed dispersal",q:"Plant S has fruits with a fibrous husk (like a coconut). Plant Q has fruits with hooks. Plant R has fruits in a pod that splits open explosively. Which dispersal method does each use?",opts:["S: wind, Q: animal (external), R: explosive","S: water, Q: animal (external), R: explosive","S: animal (eaten), Q: wind, R: water","S: explosive, Q: water, R: animal (external)"],ans:1,exp:"A fibrous husk (S) traps air, allowing the fruit to float and be dispersed by water. Hooks (Q) cling to animal fur or clothing — dispersed by animals externally. Pods that split explosively (R) scatter seeds by the fruit's own force — self-dispersal."},
+  {ch:4,t:"Seed dispersal",q:"Fruit X has small seeds embedded in sweet fleshy fruit. How are the seeds of fruit X dispersed?",opts:["By wind, because the seeds are light","Animals eat the fleshy fruit; the small seeds are not digested and are passed out in droppings away from the parent plant","By water, because the seeds float","By explosive action when the fruit dries out"],ans:1,exp:"Small seeds inside sweet flesh are adapted for animal dispersal (internal). Animals eat the fruit for its nutrition. The small, tough seeds pass through the digestive system unharmed and are deposited in droppings — often far from the parent plant."},
+  {ch:4,t:"Seed dispersal",q:"Why are seeds dispersed far away from their parent plant?",opts:["So they get more water from rain","To reduce overcrowding and competition with the parent plant for sunlight, water, mineral salts, and space","So animals can find them more easily","To protect seeds from being eaten by insects"],ans:1,exp:"If seeds germinated near the parent plant, they would compete with it and each other for the same limited resources — sunlight, water, mineral salts, and space. Dispersal spreads seeds to new locations, reducing competition and increasing each seedling's chance of survival."},
+  {ch:4,t:"Seed dispersal",q:"Plant Q has a fruit with a spiky, hard outer covering that is difficult to break open when unripe. How does this adaptation ensure there will be young plants of Q?",opts:["The spiky cover attracts insects that help pollinate the flowers","Seeds will be fully developed before they are dispersed, and will be able to germinate into young plants","The hard cover makes seeds sink in water to reach new locations","The spikes scare away animals before the seed is ready"],ans:1,exp:"The hard, spiky covering protects the seeds while they are still developing. It prevents animals from eating the fruit before the seeds are mature. By the time the fruit softens and becomes accessible, the seeds are fully developed and ready to germinate into young plants."},
+  {ch:4,t:"Seed dispersal",q:"Plant R has seeds in a pod that splits open explosively when ripe. Young plants of R are found scattered around but not near the parent plant. What is the most likely dispersal method and which direction would seeds travel?",opts:["Wind dispersal — seeds travel upward into the wind","Self-dispersal by explosive action — seeds are flung outward from the parent plant in all directions","Water dispersal — seeds travel downstream","Animal dispersal — birds carry seeds upward and drop them"],ans:1,exp:"Pod plants like touch-me-not or pea use explosive self-dispersal. When ripe, the pod dries and its two halves twist and spring apart suddenly, flinging seeds outward in all directions from the parent plant. This explains why young plants are found scattered around but not directly beneath the parent."},
+];
+
+let deck=[],idx=0,answered=false,correct=0,wrong=0,selected=-1;
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function setChapter(ch){document.getElementById('chapterSel').value=ch;changeChapter()}
+function changeChapter(){stopSpeech();const v=document.getElementById('chapterSel').value;const f=v==='all'?[...ALL_Q]:ALL_Q.filter(q=>q.ch===+v);deck=shuffle(f);idx=0;correct=0;wrong=0;answered=false;selected=-1;render()}
+function render(){updateStats();if(idx>=deck.length){renderDone();return}const q=deck[idx];const pct=deck.length>0?Math.round((idx/deck.length)*100):0;document.getElementById('pbar').style.width=pct+'%';document.getElementById('progText').textContent='Question '+(idx+1)+' of '+deck.length;document.getElementById('progPct').textContent=pct+'%';document.getElementById('quizArea').innerHTML=`<div class="qcard"><div class="qcard-meta"><span class="topic-pill ${CH_CLASS[q.ch]}">${q.t}</span><span class="qnum">${idx+1} / ${deck.length}</span></div><div class="question">${q.q.replace(/\n/g,'<br>')}</div><div class="options" id="opts">${q.opts.map((o,i)=>`<button class="opt" id="opt${i}" onclick="pick(${i})"><span class="opt-label">${LABELS[i]}</span><span class="opt-text">${o}</span></button>`).join('')}</div><div class="feedback" id="fb"><strong>Explanation: </strong>${q.exp}</div></div>`;if(answered){showResult(q);document.getElementById('fb').classList.add('show')}renderActions();if(autoRead&&!answered)setTimeout(()=>speak(buildScript(q)),400)}
+function pick(i){if(answered)return;stopSpeech();answered=true;selected=i;const q=deck[idx];if(i===q.ans)correct++;else wrong++;showResult(q);document.getElementById('fb').classList.add('show');updateStats();renderActions();if(autoRead){const v=(i===q.ans)?'Correct! '+clean(q.exp):'The correct answer is option '+LABELS[q.ans]+'. '+clean(q.exp);setTimeout(()=>speak(v),400)}}
+function showResult(q){document.querySelectorAll('.opt').forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add(selected===i?'correct':'reveal');else if(i===selected&&selected!==q.ans)b.classList.add('wrong')})}
+function renderActions(){const a=document.getElementById('actions');if(!answered){a.innerHTML=`<button class="btn btn-skip" onclick="skip()">Skip question</button>`}else{const l=idx>=deck.length-1;a.innerHTML=`<button class="btn btn-primary" onclick="next()">${l?'See results':'Next question →'}</button><button class="btn btn-skip" onclick="restart()">Restart</button>`}}
+function skip(){stopSpeech();idx++;answered=false;selected=-1;render()}
+function next(){stopSpeech();idx++;answered=false;selected=-1;render()}
+function restart(){stopSpeech();changeChapter()}
+function updateStats(){const t=correct+wrong;document.getElementById('sTotal').textContent=deck.length;document.getElementById('sCorrect').textContent=correct;document.getElementById('sWrong').textContent=wrong;document.getElementById('sScore').textContent=t>0?Math.round((correct/t)*100)+'%':'—'}
+function renderDone(){stopSpeech();const t=correct+wrong;const pct=t>0?Math.round((correct/t)*100):0;const msg=pct>=80?'🎉 Excellent! You are well prepared.':pct>=60?'👍 Good effort — keep practising!':'💪 Keep going — review the explanations and try again.';document.getElementById('pbar').style.width='100%';document.getElementById('progText').textContent='Completed!';document.getElementById('progPct').textContent='100%';document.getElementById('quizArea').innerHTML=`<div class="done-card"><div class="done-ring"><div class="done-pct">${pct}%</div><div class="done-pct-label">score</div></div><div class="done-score">${correct} out of ${deck.length} correct</div><div class="done-msg">${msg}</div><div class="done-grid"><div class="done-stat g"><div class="v">${correct}</div><div class="l">correct</div></div><div class="done-stat r"><div class="v">${wrong}</div><div class="l">wrong</div></div><div class="done-stat b"><div class="v">${deck.length-correct-wrong}</div><div class="l">skipped</div></div></div><button class="btn btn-primary" onclick="restart()">Try again</button>&nbsp;<button class="btn" onclick="setChapter('all')">All topics</button></div>`;document.getElementById('actions').innerHTML='';if(autoRead)speak('Quiz complete! You scored '+pct+' percent. '+correct+' correct out of '+deck.length+' questions.')}
+initVoiceSelect();changeChapter();
+</script>
+</body>
+</html>
