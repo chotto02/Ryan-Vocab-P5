@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P6 Science MCQ Flashcards</title>
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=FREE"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f0f2f5;
+    --surface: #ffffff;
+    --surface2: #f7f8fa;
+    --border: #e2e5ea;
+    --border-strong: #cbd0d8;
+    --text: #1a1d23;
+    --text-sec: #5a6072;
+    --text-muted: #8a93a6;
+    --accent: #2563eb;
+    --accent-bg: #eff4ff;
+    --accent-border: #bfccf8;
+    --green: #16a34a;
+    --green-bg: #f0fdf4;
+    --green-border: #bbf7d0;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --red-border: #fecaca;
+    --amber: #d97706;
+    --amber-bg: #fffbeb;
+    --amber-border: #fde68a;
+    --purple: #7c3aed;
+    --purple-bg: #f5f3ff;
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; line-height: 1.6;
+  }
+
+  .page { max-width: 760px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+  /* ── Header ── */
+  .header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+  }
+  .header-left h1 { font-size: 1.35rem; font-weight: 600; }
+  .header-left p { font-size: 0.8125rem; color: var(--text-muted); margin-top: 2px; }
+
+  .chapter-select {
+    font-size: 0.8125rem; font-family: inherit; font-weight: 500;
+    padding: 8px 12px; border-radius: var(--radius);
+    border: 1px solid var(--border-strong); background: var(--surface);
+    color: var(--text); cursor: pointer; outline: none; box-shadow: var(--shadow);
+  }
+
+  /* ── Audio bar ── */
+  .audio-bar {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px 16px; margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .audio-row {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .audio-label {
+    font-size: 0.8rem; font-weight: 600; color: var(--text-sec);
+    white-space: nowrap;
+  }
+
+  /* big play/stop toggle */
+  .play-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 18px; border-radius: var(--radius);
+    border: none; cursor: pointer; font-family: inherit;
+    font-size: 0.875rem; font-weight: 600;
+    background: var(--accent); color: #fff;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .play-btn:hover { background: #1d4ed8; }
+  .play-btn:active { transform: scale(0.97); }
+  .play-btn.playing { background: var(--red); }
+  .play-btn.playing:hover { background: #b91c1c; }
+
+  .auto-btn {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: var(--radius);
+    border: 1px solid var(--border-strong); background: var(--surface2);
+    color: var(--text-sec); font-family: inherit; font-size: 0.8125rem;
+    font-weight: 500; cursor: pointer; transition: all 0.15s;
+  }
+  .auto-btn:hover { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); }
+  .auto-btn.on { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+
+  .voice-row {
+    display: flex; align-items: center; gap: 8px; margin-top: 10px;
+    padding-top: 10px; border-top: 1px solid var(--border); flex-wrap: wrap;
+  }
+  .voice-lbl { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
+  .voice-sel {
+    font-size: 0.75rem; font-family: inherit; padding: 5px 8px;
+    border-radius: var(--radius); border: 1px solid var(--border-strong);
+    background: var(--surface); color: var(--text); cursor: pointer; flex: 1; min-width: 140px;
+  }
+  .speed-sel {
+    font-size: 0.75rem; font-family: inherit; padding: 5px 8px;
+    border-radius: var(--radius); border: 1px solid var(--border-strong);
+    background: var(--surface); color: var(--text); cursor: pointer;
+  }
+
+  /* speaking animation */
+  .speaking-badge {
+    display: none; align-items: center; gap: 6px;
+    font-size: 0.75rem; color: var(--accent); font-weight: 500;
+    background: var(--accent-bg); padding: 5px 10px;
+    border-radius: 99px; border: 1px solid var(--accent-border);
+  }
+  .speaking-badge.show { display: flex; }
+  .bars { display: flex; gap: 2px; align-items: center; height: 14px; }
+  .bars span {
+    width: 3px; background: var(--accent); border-radius: 2px;
+    animation: eq 0.8s infinite ease-in-out;
+    display: block;
+  }
+  .bars span:nth-child(1) { height: 5px; animation-delay: 0s; }
+  .bars span:nth-child(2) { height: 10px; animation-delay: 0.1s; }
+  .bars span:nth-child(3) { height: 14px; animation-delay: 0.2s; }
+  .bars span:nth-child(4) { height: 10px; animation-delay: 0.3s; }
+  .bars span:nth-child(5) { height: 5px; animation-delay: 0.4s; }
+  @keyframes eq { 0%,100%{transform:scaleY(0.4)} 50%{transform:scaleY(1)} }
+
+  /* needs-internet note */
+  .net-note {
+    font-size: 0.72rem; color: var(--text-muted);
+    margin-left: auto; display: flex; align-items: center; gap: 4px;
+  }
+
+  /* ── Stats ── */
+  .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 1.25rem; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px 14px; text-align: center; box-shadow: var(--shadow);
+  }
+  .stat-card .val { font-size: 1.5rem; font-weight: 600; }
+  .stat-card .lbl { font-size: 0.7rem; color: var(--text-muted); margin-top: 1px; }
+  .stat-card.s-correct .val { color: var(--green); }
+  .stat-card.s-wrong .val { color: var(--red); }
+  .stat-card.s-score .val { color: var(--accent); }
+
+  /* ── Progress ── */
+  .prog-wrap { margin-bottom: 1.25rem; }
+  .prog-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; }
+  .prog-track { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .prog-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.4s ease; }
+
+  /* ── Legend pills ── */
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+  .leg-pill {
+    font-size: 0.6875rem; font-weight: 500; padding: 4px 10px;
+    border-radius: 99px; cursor: pointer; border: 1px solid transparent; transition: opacity 0.15s;
+  }
+  .leg-pill:hover { opacity: 0.75; }
+
+  /* ── Question card ── */
+  .qcard {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.75rem; box-shadow: var(--shadow); margin-bottom: 1rem;
+  }
+  .qcard-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
+  .topic-pill {
+    font-size: 0.7rem; font-weight: 600; padding: 3px 10px;
+    border-radius: 99px; letter-spacing: 0.02em;
+  }
+  .ch0 { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+  .ch1 { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border); }
+  .ch2 { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+  .ch3 { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+  .ch4 { background: var(--purple-bg); color: var(--purple); border: 1px solid #ddd6fe; }
+  .qnum { font-size: 0.75rem; color: var(--text-muted); margin-left: auto; }
+  .question { font-size: 1rem; font-weight: 500; line-height: 1.65; margin-bottom: 1.25rem; }
+
+  /* ── Options ── */
+  .options { display: grid; gap: 9px; }
+  .opt {
+    width: 100%; text-align: left; padding: 12px 15px;
+    border-radius: var(--radius); border: 1px solid var(--border);
+    background: var(--surface2); color: var(--text); font-family: inherit;
+    font-size: 0.875rem; cursor: pointer; display: flex; gap: 12px;
+    align-items: flex-start; transition: border-color 0.15s, background 0.15s; line-height: 1.5;
+  }
+  .opt:hover:not(:disabled) { background: var(--accent-bg); border-color: var(--accent-border); }
+  .opt:disabled { cursor: default; }
+  .opt-label {
+    width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--border-strong);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6875rem; font-weight: 600; flex-shrink: 0; color: var(--text-sec);
+    margin-top: 1px; transition: all 0.15s;
+  }
+  .opt-text { flex: 1; }
+
+  .opt.correct { background: var(--green-bg); border-color: var(--green-border); }
+  .opt.correct .opt-label { background: var(--green); border-color: var(--green); color: #fff; }
+  .opt.correct .opt-text { color: var(--green); font-weight: 500; }
+
+  .opt.wrong { background: var(--red-bg); border-color: var(--red-border); }
+  .opt.wrong .opt-label { background: var(--red); border-color: var(--red); color: #fff; }
+  .opt.wrong .opt-text { color: var(--red); font-weight: 500; }
+
+  .opt.reveal { background: var(--green-bg); border-color: var(--green-border); }
+  .opt.reveal .opt-label { background: var(--green); border-color: var(--green); color: #fff; }
+  .opt.reveal .opt-text { color: var(--green); }
+
+  /* ── Feedback ── */
+  .feedback {
+    margin-top: 1rem; padding: 13px 16px; border-radius: var(--radius);
+    font-size: 0.8125rem; line-height: 1.6; color: var(--text-sec);
+    background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback strong { color: var(--text); }
+
+  /* ── Action buttons ── */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 0.5rem; }
+  .btn {
+    font-family: inherit; font-size: 0.875rem; font-weight: 500;
+    padding: 10px 20px; border-radius: var(--radius); cursor: pointer;
+    border: 1px solid var(--border-strong); background: var(--surface); color: var(--text);
+    transition: background 0.15s;
+  }
+  .btn:hover { background: var(--surface2); }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover { background: #1d4ed8; }
+  .btn-skip { color: var(--text-muted); border-color: var(--border); }
+
+  /* ── Done card ── */
+  .done-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 3rem 2rem; text-align: center; box-shadow: var(--shadow);
+  }
+  .done-ring {
+    width: 110px; height: 110px; border-radius: 50%;
+    background: var(--accent-bg); border: 3px solid var(--accent);
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; margin: 0 auto 1.5rem;
+  }
+  .done-pct { font-size: 1.75rem; font-weight: 600; color: var(--accent); }
+  .done-pct-label { font-size: 0.6875rem; color: var(--text-muted); }
+  .done-score { font-size: 1.1rem; font-weight: 600; margin-bottom: 6px; }
+  .done-msg { font-size: 0.875rem; color: var(--text-sec); margin-bottom: 2rem; }
+  .done-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 2rem; }
+  .done-stat { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+  .done-stat .v { font-size: 1.25rem; font-weight: 600; }
+  .done-stat .l { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+  .done-stat.g .v { color: var(--green); }
+  .done-stat.r .v { color: var(--red); }
+  .done-stat.b .v { color: var(--accent); }
+
+  @media (max-width: 520px) {
+    .stats { grid-template-columns: repeat(2,1fr); }
+    .page { padding: 1.25rem 1rem 3rem; }
+    .qcard { padding: 1.25rem; }
+    .net-note { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>P6 Science — MCQ Flashcards</h1>
+      <p>Primary 6 PSLE Preparation &nbsp;·&nbsp; 2026 Prelim Edition</p>
+    </div>
+    <select class="chapter-select" id="chapterSel" onchange="changeChapter()">
+      <option value="all">All chapters</option>
+      <option value="0">Ch 1 — Energy in food</option>
+      <option value="1">Ch 2 — 8 forms of energy</option>
+      <option value="2">Ch 3 — Forces</option>
+      <option value="3">Ch 4 — Living together</option>
+      <option value="4">Ch 6 — People &amp; environment</option>
+    </select>
+  </div>
+
+  <!-- Audio controls -->
+  <div class="audio-bar">
+    <div class="audio-row">
+      <span class="audio-label">🎙 Read aloud</span>
+
+      <button class="play-btn" id="playBtn" onclick="onPlayBtn()">
+        <span id="playIcon">▶</span>
+        <span id="playLabel">Read question</span>
+      </button>
+
+      <button class="auto-btn" id="autoBtn" onclick="toggleAuto()">
+        <span id="autoIcon">🔇</span>
+        <span id="autoLabel">Auto-read off</span>
+      </button>
+
+      <div class="speaking-badge" id="speakBadge">
+        <div class="bars">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        Speaking…
+      </div>
+
+      <span class="net-note">⚡ Requires internet for natural voice</span>
+    </div>
+
+    <div class="voice-row">
+      <span class="voice-lbl">Voice</span>
+      <select class="voice-sel" id="voiceSel" onchange="onVoiceChange()"></select>
+      <span class="voice-lbl">Speed</span>
+      <select class="speed-sel" id="speedSel">
+        <option value="0.7">Slow (0.7×)</option>
+        <option value="0.85">Easy (0.85×)</option>
+        <option value="1" selected>Normal (1×)</option>
+        <option value="1.15">Fast (1.15×)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Chapter legend -->
+  <div class="legend">
+    <span class="leg-pill ch0" onclick="setChapter(0)">Ch 1 · Energy in food</span>
+    <span class="leg-pill ch1" onclick="setChapter(1)">Ch 2 · 8 forms of energy</span>
+    <span class="leg-pill ch2" onclick="setChapter(2)">Ch 3 · Forces</span>
+    <span class="leg-pill ch3" onclick="setChapter(3)">Ch 4 · Living together</span>
+    <span class="leg-pill ch4" onclick="setChapter(4)">Ch 6 · People &amp; environment</span>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card"><div class="val" id="sTotal">0</div><div class="lbl">total</div></div>
+    <div class="stat-card s-correct"><div class="val" id="sCorrect">0</div><div class="lbl">correct</div></div>
+    <div class="stat-card s-wrong"><div class="val" id="sWrong">0</div><div class="lbl">wrong</div></div>
+    <div class="stat-card s-score"><div class="val" id="sScore">—</div><div class="lbl">score</div></div>
+  </div>
+
+  <!-- Progress -->
+  <div class="prog-wrap">
+    <div class="prog-label"><span id="progText">Question 0 of 0</span><span id="progPct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="pbar" style="width:0%"></div></div>
+  </div>
+
+  <div id="quizArea"></div>
+  <div class="actions" id="actions"></div>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   VOICE LIST — ResponsiveVoice natural voices
+   (requires internet connection)
+═══════════════════════════════════════════ */
+const VOICE_OPTIONS = [
+  { label: "UK English Female (natural)",   rv: "UK English Female" },
+  { label: "UK English Male",               rv: "UK English Male" },
+  { label: "US English Female",             rv: "US English Female" },
+  { label: "US English Male",               rv: "US English Male" },
+  { label: "Australian Female",             rv: "Australian Female" },
+  { label: "Australian Male",               rv: "Australian Male" },
+];
+
+let currentVoice = VOICE_OPTIONS[0].rv;
+let autoRead = false;
+let isSpeaking = false;
+
+function initVoiceSelect() {
+  const sel = document.getElementById('voiceSel');
+  VOICE_OPTIONS.forEach((v, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = v.label;
+    sel.appendChild(opt);
+  });
+}
+
+function onVoiceChange() {
+  const i = +document.getElementById('voiceSel').value;
+  currentVoice = VOICE_OPTIONS[i].rv;
+}
+
+function getRate() {
+  return parseFloat(document.getElementById('speedSel').value) || 1;
+}
+
+/* Clean text for natural speech */
+function clean(text) {
+  return text
+    .replace(/CO₂/g, 'carbon dioxide')
+    .replace(/O₂/g, 'oxygen')
+    .replace(/H₂O/g, 'water')
+    .replace(/→/g, 'produces')
+    .replace(/\+/g, 'plus')
+    .replace(/°C/g, 'degrees Celsius')
+    .replace(/<br\s*\/?>/gi, ', ')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/g, 'and')
+    .replace(/&lt;/g, 'less than')
+    .replace(/&gt;/g, 'greater than')
+    .replace(/[★☆●○▲△]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function buildQuestionScript(q) {
+  const qText = clean(q.q);
+  const opts = q.opts.map((o, i) => 'Option ' + LABELS[i] + '. ' + clean(o)).join('. ');
+  return qText + '. ' + opts + '.';
+}
+
+function speak(text, onDone) {
+  if (typeof responsiveVoice === 'undefined') {
+    // fallback to browser TTS
+    const synth = window.speechSynthesis;
+    if (!synth) { if (onDone) onDone(); return; }
+    synth.cancel();
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.rate = getRate();
+    utt.onend = utt.onerror = () => { setSpeaking(false); if (onDone) onDone(); };
+    synth.speak(utt);
+    setSpeaking(true);
+    return;
+  }
+
+  responsiveVoice.cancel();
+  setSpeaking(true);
+  responsiveVoice.speak(text, currentVoice, {
+    rate: getRate(),
+    pitch: 1,
+    volume: 1,
+    onend: () => { setSpeaking(false); if (onDone) onDone(); },
+    onerror: () => { setSpeaking(false); if (onDone) onDone(); }
+  });
+}
+
+function stopSpeech() {
+  if (typeof responsiveVoice !== 'undefined') responsiveVoice.cancel();
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  setSpeaking(false);
+}
+
+function setSpeaking(val) {
+  isSpeaking = val;
+  const badge = document.getElementById('speakBadge');
+  const btn = document.getElementById('playBtn');
+  const icon = document.getElementById('playIcon');
+  const lbl = document.getElementById('playLabel');
+  badge.classList.toggle('show', val);
+  btn.classList.toggle('playing', val);
+  icon.textContent = val ? '■' : '▶';
+  lbl.textContent  = val ? 'Stop' : 'Read question';
+}
+
+function onPlayBtn() {
+  if (isSpeaking) { stopSpeech(); return; }
+  if (!deck.length || idx >= deck.length) return;
+  speak(buildQuestionScript(deck[idx]));
+}
+
+function toggleAuto() {
+  autoRead = !autoRead;
+  const btn = document.getElementById('autoBtn');
+  const icon = document.getElementById('autoIcon');
+  const lbl = document.getElementById('autoLabel');
+  btn.classList.toggle('on', autoRead);
+  icon.textContent = autoRead ? '🔊' : '🔇';
+  lbl.textContent  = autoRead ? 'Auto-read on' : 'Auto-read off';
+  if (autoRead && !isSpeaking && deck.length && idx < deck.length) {
+    setTimeout(() => speak(buildQuestionScript(deck[idx])), 200);
+  } else if (!autoRead) {
+    stopSpeech();
+  }
+}
+
+/* ═══════════════════════════════════════════
+   QUESTIONS
+═══════════════════════════════════════════ */
+const LABELS = ['A','B','C','D'];
+const CH_CLASS = ['ch0','ch1','ch2','ch3','ch4'];
+
+const ALL_Q = [
+  // Ch 1 — Energy in food
+  {ch:0,t:"Energy in food",q:"Where does the energy in food ultimately originate from?",opts:["The soil","The Sun","Carbon dioxide in air","Water absorbed by roots"],ans:1,exp:"Energy in food originates from the Sun. Plants capture light energy from the Sun during photosynthesis to make food."},
+  {ch:0,t:"Energy in food",q:"What is photosynthesis?",opts:["Food + oxygen → CO₂ + water + energy","CO₂ + water → food (glucose) + oxygen, using light energy","Glucose + water → CO₂ + light + oxygen","Oxygen + light → food + water"],ans:1,exp:"Photosynthesis: carbon dioxide plus water produces food (glucose) and oxygen, using light energy. Plants are producers because they make their own food this way."},
+  {ch:0,t:"Energy in food",q:"Why are animals called consumers?",opts:["They produce food for plants","They consume sunlight directly","They obtain energy by eating plants or other animals","They release oxygen for other organisms"],ans:2,exp:"Animals are consumers because they cannot make their own food. They obtain energy by eating plants or other animals."},
+  {ch:0,t:"Energy in food",q:"How is energy released from food in living things?",opts:["By photosynthesis","By evaporation","By respiration — food broken down using oxygen to release energy","By digestion alone"],ans:2,exp:"Respiration breaks down food using oxygen to release energy, carbon dioxide and water. Respiration happens in all living cells."},
+  {ch:0,t:"Energy in food",q:"Why does the respiration rate increase during exercise?",opts:["Less oxygen is needed","More energy is needed for muscle movement","Body temperature drops","Heart rate decreases"],ans:1,exp:"During exercise, muscles need more energy for movement, so respiration rate increases to release more energy from food faster."},
+  {ch:0,t:"Energy in food",q:"Why are there fewer organisms at higher trophic levels in a food chain?",opts:["Predators are physically larger","Less energy is available at each successive level","Competition is stronger at higher levels","Lower levels have less living space"],ans:1,exp:"Energy is lost as heat at each trophic level, so less energy is available for organisms higher up the food chain, supporting fewer individuals."},
+  {ch:0,t:"Energy in food",q:"Which statement best shows that photosynthesis and respiration are opposites?",opts:["Both processes happen only in plants","Photosynthesis produces food and oxygen; respiration uses food and oxygen to release energy","Both processes produce carbon dioxide","Photosynthesis happens at night; respiration happens in the day"],ans:1,exp:"Photosynthesis produces food and oxygen using carbon dioxide and water. Respiration does the reverse — it uses food and oxygen to release carbon dioxide, water, and energy."},
+
+  // Ch 2 — 8 forms of energy
+  {ch:1,t:"8 forms of energy",q:"Which list correctly names all 8 forms of energy studied in P6?",opts:["Heat, light, sound, electrical, kinetic, chemical potential, elastic potential, gravitational potential","Heat, light, wind, electrical, kinetic, chemical, spring, gravitational","Heat, light, sound, nuclear, kinetic, chemical, elastic, gravitational","Thermal, light, sound, electrical, motion, chemical, elastic, gravitational"],ans:0,exp:"The 8 forms are: heat, light, sound, electrical, kinetic, chemical potential, elastic potential, and gravitational potential energy."},
+  {ch:1,t:"8 forms of energy",q:"A ball is rolled down a hill and slows to a stop on a flat surface. Which energy conversion best describes the full journey?",opts:["Kinetic to gravitational potential to heat","Gravitational potential to kinetic to heat and sound","Elastic potential to kinetic to sound","Chemical potential to kinetic to gravitational potential"],ans:1,exp:"As the ball rolls down, gravitational potential energy converts to kinetic energy. Friction then converts kinetic energy to heat and sound energy until the ball stops."},
+  {ch:1,t:"8 forms of energy",q:"What is gravitational potential energy?",opts:["Energy of a moving object","Stored energy due to height above the ground","Energy carried by electric charges","Energy released by burning fuel"],ans:1,exp:"Gravitational potential energy is stored energy due to an object's height above the ground. It increases with greater mass and greater height."},
+  {ch:1,t:"8 forms of energy",q:"John compressed a spring toy and released it. Which energy conversion is correct as it jumped upward?",opts:["Kinetic to heat to potential","Kinetic to heat to kinetic","Elastic potential to kinetic to elastic potential","Gravitational potential to elastic to kinetic"],ans:2,exp:"The compressed spring stores elastic potential energy. When released, it converts to kinetic energy as the toy moves upward. At the highest point it momentarily stores gravitational potential energy."},
+  {ch:1,t:"8 forms of energy",q:"A toy car runs on batteries. What is the correct energy conversion sequence?",opts:["Kinetic to electrical to heat","Chemical potential to electrical to kinetic plus heat","Electrical to chemical to kinetic","Gravitational to electrical to kinetic"],ans:1,exp:"A battery stores chemical potential energy, which converts to electrical energy through the circuit, then to kinetic energy and heat energy in the motor."},
+  {ch:1,t:"8 forms of energy",q:"What happens to kinetic energy when an object slows to a stop on a rough surface?",opts:["It becomes gravitational potential energy","It disappears completely","It is converted to heat and sound energy","It converts to elastic potential energy"],ans:2,exp:"Friction between the object and surface converts kinetic energy to heat and sound energy. Energy is never destroyed — it only changes form."},
+  {ch:1,t:"8 forms of energy",q:"A ball released from height X rolls to the bottom and back up to point Z where it stops. What is true about Z compared to X?",opts:["Z is at the same height as X","Z is higher than X","Z is lower than X because some energy was lost to heat and sound","Z is lower than X because the ball gained mass"],ans:2,exp:"The ball cannot return to height X because some kinetic energy was converted to heat and sound by friction. Z will always be lower than X."},
+
+  // Ch 3 — Forces
+  {ch:2,t:"Forces",q:"What is frictional force?",opts:["A force that pulls objects toward Earth","A force between two surfaces in contact that opposes motion","A force exerted by a compressed spring","A force of attraction between magnets"],ans:1,exp:"Frictional force acts between two surfaces in contact and always opposes the direction of motion. It slows objects down and converts kinetic energy to heat and sound."},
+  {ch:2,t:"Forces",q:"Spring T is stiffer than spring S. Both start at the same length. When the same load is hung on each, what is observed?",opts:["Spring S stretches more than spring T","Spring T stretches more than spring S","Both springs stretch by the same amount","The stiffer spring T stretches more at first then equalises"],ans:0,exp:"A stiffer spring resists stretching more. So the less stiff spring S will stretch more than spring T when the same load is applied."},
+  {ch:2,t:"Forces",q:"Ball K has mass 50 grams and ball L has mass 25 grams. They are dropped from the same height into water. Which statement about gravitational force is correct?",opts:["Both balls experience the same gravitational force","Ball K experiences greater gravitational force than ball L","Ball L experiences greater gravitational force","Gravitational force does not depend on mass"],ans:1,exp:"Gravitational force depends on mass. The heavier 50 gram ball K experiences greater gravitational force than the 25 gram ball L, regardless of position."},
+  {ch:2,t:"Forces",q:"What forces act on a wooden block as it slides down a ramp?",opts:["Only gravitational force acts downward","Gravitational force pulls it down the slope while frictional force opposes the motion","Elastic force pulls it down while gravity slows it","Magnetic force and gravity act together"],ans:1,exp:"On a slope, gravitational force pulls the object down the incline. Frictional force acts in the opposite direction, opposing the motion."},
+  {ch:2,t:"Forces",q:"Why does a heavier object require more force to move across a flat surface?",opts:["It has a larger surface area","Greater gravitational force on it increases friction with the surface","It creates more air resistance","It has less elastic potential energy"],ans:1,exp:"A heavier object has greater weight pressing it into the surface, which increases the frictional force. More applied force is needed to overcome this friction."},
+  {ch:2,t:"Forces",q:"What is elastic spring force?",opts:["The force of gravity pulling an object down","A force exerted by a stretched or compressed spring or elastic object","A force between two magnetic poles","A push force on an object in water"],ans:1,exp:"Elastic spring force is the force exerted by a stretched or compressed spring or elastic object. It acts to return the object to its original length."},
+  {ch:2,t:"Forces",q:"Harvey tested two springs. Less stiff spring S and stiffer spring T. Which graph correctly shows length versus load added?",opts:["T has a steeper slope than S","S has a steeper slope than T, both starting at the same natural length","Both have the same slope","S starts shorter than T"],ans:1,exp:"A less stiff spring S extends more for each unit of load added, giving it a steeper slope on a length versus load graph. Stiffer spring T has a shallower slope."},
+
+  // Ch 4 — Living together
+  {ch:3,t:"Living together",q:"What is a population?",opts:["All different species living in a habitat","All organisms of the same species living in a habitat","All the plants in an ecosystem","A group of predators in one area"],ans:1,exp:"A population is all organisms of the same species living together in a habitat. A community is different populations living together in the same habitat."},
+  {ch:3,t:"Living together",q:"Organism W feeds on organism S only. In the food web, S is eaten by T and S eats R. What is the immediate effect on R and T when W is introduced?",opts:["R decreases and T decreases","R increases and T decreases","R increases and T increases","R decreases and T increases"],ans:1,exp:"W eats S so population of S decreases. Fewer S eat R, so R increases. Fewer S are available for T to eat, so T decreases."},
+  {ch:3,t:"Living together",q:"Which correctly describes a structural adaptation?",opts:["Migrating to find food in winter","Moving slowly to avoid being spotted","Hunting only at night","Having pigments in the body that allow colour change for camouflage"],ans:3,exp:"Structural adaptations are physical body features. Pigments that change colour for camouflage are a physical feature of the body structure, not a behaviour."},
+  {ch:3,t:"Living together",q:"How does competition between organisms affect population size?",opts:["Competition increases all populations equally","Competition for food, water, space or light decreases population size","Competition only affects predators","Competition has no effect on producers"],ans:1,exp:"When organisms compete for limited resources such as food, water, space, and light, weaker competitors get fewer resources, reducing their ability to survive and reproduce."},
+  {ch:3,t:"Living together",q:"Why are decomposers important in a habitat?",opts:["They produce food for producers","They return mineral salts and nutrients to the soil for plant growth","They compete with consumers for food","They prevent pollution in the soil"],ans:1,exp:"Decomposers break down dead organisms into simpler substances, returning mineral salts and nutrients to the soil. This supports plant growth and keeps the food chain cycling."},
+  {ch:3,t:"Living together",q:"As pond water temperature rose from 25 to 35 degrees, far fewer organism P survived. What can be concluded?",opts:["Higher temperature helps organism P survive better","Higher temperature decreases the survival of organism P","Temperature has no effect on organism P","Organism P thrives best at 35 degrees Celsius"],ans:1,exp:"As pond water temperature increases from 25 to 35 degrees Celsius, the number of organism P surviving decreases significantly. Higher temperature is harmful to organism P's survival."},
+  {ch:3,t:"Living together",q:"Organism G was introduced and competed with organism F for the same food. How would this affect organism F?",opts:["Population of F will increase as G provides more food","Population of F will decrease as F has less food due to competition with G","F will not be affected as G is a different species","G will help F find more food"],ans:1,exp:"G competes with F for the same food source. With more competition, F has less food available, so F's population will decrease."},
+
+  // Ch 6 — People & environment
+  {ch:4,t:"People and environment",q:"How does burning fossil fuels cause global warming?",opts:["Fossil fuels produce more oxygen when burned","Burning fossil fuels releases carbon dioxide which traps heat, causing global warming","Fossil fuels cool the atmosphere when burned","Burning fossil fuels produces water vapour only"],ans:1,exp:"Burning fossil fuels releases carbon dioxide into the atmosphere. Carbon dioxide is a greenhouse gas that traps heat from the Sun, causing global warming."},
+  {ch:4,t:"People and environment",q:"How does deforestation cause global warming?",opts:["Trees release carbon dioxide when they grow","Cutting trees reduces carbon dioxide absorption and increases carbon dioxide trapping heat","Fewer trees means less oxygen for humans","Deforestation only increases soil erosion"],ans:1,exp:"Trees absorb carbon dioxide through photosynthesis. Cutting them means less carbon dioxide is removed from the atmosphere, so more heat is trapped, causing global warming."},
+  {ch:4,t:"People and environment",q:"How does deforestation cause soil erosion?",opts:["Tree roots cause cracks in the soil","Without roots holding the soil, it is easily washed away by rain","More sunlight dries out and breaks up the soil","Soil becomes toxic without trees"],ans:1,exp:"Tree roots bind soil particles together. Without roots, rain washes the topsoil away easily, causing soil erosion and reducing soil fertility."},
+  {ch:4,t:"People and environment",q:"Which is a direct result of increased greenhouse effect?",opts:["Increase in air pollution","Increase in temperature","Increase in water pollution","Increase in burning of coal"],ans:1,exp:"The increased greenhouse effect traps more heat in the atmosphere, directly resulting in an increase in global temperature, which we call global warming."},
+  {ch:4,t:"People and environment",q:"Deforestation destroys habitats of animals. Deforestation by burning causes air pollution. Which statements are correct?",opts:["First statement only","Second statement only","Both statements are correct","Neither statement is correct"],ans:2,exp:"Deforestation destroys the natural habitats of animals, reducing their shelter and food. Burning forests releases smoke and harmful particles into the air, causing air pollution. Both statements are correct."},
+  {ch:4,t:"People and environment",q:"How do renewable energy sources benefit the environment?",opts:["They produce more energy than fossil fuels","Renewable energy reduces pollution and does not run out","They are always cheaper to produce","They release less carbon dioxide only when first burned"],ans:1,exp:"Renewable energy sources such as solar, wind, and hydroelectric power do not produce harmful pollutants and their supply is not depleted over time, making them environmentally sustainable."},
+  {ch:4,t:"People and environment",q:"How does global warming affect sea levels?",opts:["Global warming causes more rain which fills the seas","Global warming melts ice caps causing sea level rise and flooding","Global warming reduces sea water evaporation","Global warming cools the polar regions"],ans:1,exp:"Global warming raises temperatures, melting polar ice caps and glaciers. The meltwater flows into the oceans, causing sea levels to rise and increasing the risk of coastal flooding."},
+  {ch:4,t:"People and environment",q:"How does soil erosion from deforestation affect aquatic plants in rivers?",opts:["Soil adds nutrients for aquatic plants to grow better","Soil blocks light in the water so less light is available for photosynthesis, reducing plant growth","Soil increases the temperature of the water","Soil provides more space for plants to grow"],ans:1,exp:"Eroded soil washes into rivers and makes the water murky. This blocks sunlight from reaching aquatic plants, reducing photosynthesis and plant growth."},
+];
+
+/* ═══════════════════════════════════════════
+   QUIZ LOGIC
+═══════════════════════════════════════════ */
+let deck = [], idx = 0, answered = false, correct = 0, wrong = 0, selected = -1;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function setChapter(ch) {
+  document.getElementById('chapterSel').value = ch;
+  changeChapter();
+}
+
+function changeChapter() {
+  stopSpeech();
+  const v = document.getElementById('chapterSel').value;
+  const filtered = v === 'all' ? [...ALL_Q] : ALL_Q.filter(q => q.ch === +v);
+  deck = shuffle(filtered);
+  idx = 0; correct = 0; wrong = 0; answered = false; selected = -1;
+  render();
+}
+
+function render() {
+  updateStats();
+  if (idx >= deck.length) { renderDone(); return; }
+
+  const q = deck[idx];
+  const pct = deck.length > 0 ? Math.round((idx / deck.length) * 100) : 0;
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('progText').textContent = 'Question ' + (idx + 1) + ' of ' + deck.length;
+  document.getElementById('progPct').textContent = pct + '%';
+
+  document.getElementById('quizArea').innerHTML = `
+    <div class="qcard">
+      <div class="qcard-meta">
+        <span class="topic-pill ${CH_CLASS[q.ch]}">${q.t}</span>
+        <span class="qnum">${idx + 1} / ${deck.length}</span>
+      </div>
+      <div class="question">${q.q.replace(/\n/g, '<br>')}</div>
+      <div class="options" id="opts">
+        ${q.opts.map((o, i) => `
+          <button class="opt" id="opt${i}" onclick="pick(${i})">
+            <span class="opt-label">${LABELS[i]}</span>
+            <span class="opt-text">${o}</span>
+          </button>`).join('')}
+      </div>
+      <div class="feedback" id="fb"><strong>Explanation: </strong>${q.exp}</div>
+    </div>`;
+
+  if (answered) {
+    showResult(q);
+    document.getElementById('fb').classList.add('show');
+  }
+  renderActions();
+
+  // auto-read new card
+  if (autoRead && !answered) {
+    setTimeout(() => speak(buildQuestionScript(q)), 400);
+  }
+}
+
+function pick(i) {
+  if (answered) return;
+  stopSpeech();
+  answered = true; selected = i;
+  const q = deck[idx];
+  if (i === q.ans) correct++; else wrong++;
+  showResult(q);
+  document.getElementById('fb').classList.add('show');
+  updateStats();
+  renderActions();
+
+  if (autoRead) {
+    const correct_ans = LABELS[q.ans];
+    const verdict = (i === q.ans)
+      ? 'Correct! ' + clean(q.exp)
+      : 'The correct answer is option ' + correct_ans + '. ' + clean(q.exp);
+    setTimeout(() => speak(verdict), 400);
+  }
+}
+
+function showResult(q) {
+  document.querySelectorAll('.opt').forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.ans) b.classList.add(selected === i ? 'correct' : 'reveal');
+    else if (i === selected && selected !== q.ans) b.classList.add('wrong');
+  });
+}
+
+function renderActions() {
+  const a = document.getElementById('actions');
+  if (!answered) {
+    a.innerHTML = `<button class="btn btn-skip" onclick="skip()">Skip question</button>`;
+  } else {
+    const isLast = idx >= deck.length - 1;
+    a.innerHTML = `
+      <button class="btn btn-primary" onclick="next()">${isLast ? 'See results' : 'Next question →'}</button>
+      <button class="btn btn-skip" onclick="restart()">Restart</button>`;
+  }
+}
+
+function skip() { stopSpeech(); idx++; answered = false; selected = -1; render(); }
+function next() { stopSpeech(); idx++; answered = false; selected = -1; render(); }
+function restart() { stopSpeech(); changeChapter(); }
+
+function updateStats() {
+  const total = correct + wrong;
+  document.getElementById('sTotal').textContent = deck.length;
+  document.getElementById('sCorrect').textContent = correct;
+  document.getElementById('sWrong').textContent = wrong;
+  document.getElementById('sScore').textContent = total > 0 ? Math.round((correct / total) * 100) + '%' : '—';
+}
+
+function renderDone() {
+  stopSpeech();
+  const total = correct + wrong;
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const msg = pct >= 80 ? '🎉 Excellent! You are well prepared.'
+    : pct >= 60 ? '👍 Good effort — keep practising!'
+    : '💪 Keep going — review the explanations and try again.';
+
+  document.getElementById('pbar').style.width = '100%';
+  document.getElementById('progText').textContent = 'Completed!';
+  document.getElementById('progPct').textContent = '100%';
+  document.getElementById('quizArea').innerHTML = `
+    <div class="done-card">
+      <div class="done-ring">
+        <div class="done-pct">${pct}%</div>
+        <div class="done-pct-label">score</div>
+      </div>
+      <div class="done-score">${correct} out of ${deck.length} correct</div>
+      <div class="done-msg">${msg}</div>
+      <div class="done-grid">
+        <div class="done-stat g"><div class="v">${correct}</div><div class="l">correct</div></div>
+        <div class="done-stat r"><div class="v">${wrong}</div><div class="l">wrong</div></div>
+        <div class="done-stat b"><div class="v">${deck.length - correct - wrong}</div><div class="l">skipped</div></div>
+      </div>
+      <button class="btn btn-primary" onclick="restart()">Try again</button>
+      &nbsp;
+      <button class="btn" onclick="setChapter('all')">All chapters</button>
+    </div>`;
+  document.getElementById('actions').innerHTML = '';
+
+  if (autoRead) {
+    speak('Quiz complete! You scored ' + pct + ' percent. ' + correct + ' correct out of ' + deck.length + ' questions.');
+  }
+}
+
+// Boot
+initVoiceSelect();
+changeChapter();
+</script>
+</body>
+</html>
