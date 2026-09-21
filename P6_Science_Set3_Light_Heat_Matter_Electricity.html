@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P6 Science Set 3 — Light, Heat, Matter &amp; Electricity</title>
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=FREE"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f0f2f5;--surface:#fff;--surface2:#f7f8fa;--border:#e2e5ea;--border-strong:#cbd0d8;
+    --text:#1a1d23;--text-sec:#5a6072;--text-muted:#8a93a6;
+    --accent:#2563eb;--accent-bg:#eff4ff;--accent-border:#bfccf8;
+    --green:#16a34a;--green-bg:#f0fdf4;--green-border:#bbf7d0;
+    --red:#dc2626;--red-bg:#fef2f2;--red-border:#fecaca;
+    --amber:#d97706;--amber-bg:#fffbeb;--amber-border:#fde68a;
+    --purple:#7c3aed;--purple-bg:#f5f3ff;
+    --indigo:#4338ca;--indigo-bg:#eef2ff;--indigo-border:#c7d2fe;
+    --orange:#ea580c;--orange-bg:#fff7ed;--orange-border:#fed7aa;
+    --sky:#0284c7;--sky-bg:#f0f9ff;--sky-border:#bae6fd;
+    --rose:#e11d48;--rose-bg:#fff1f2;--rose-border:#fecdd3;
+    --radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.05)
+  }
+  body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+  .page{max-width:760px;margin:0 auto;padding:2rem 1.25rem 4rem}
+  .header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .header-left h1{font-size:1.35rem;font-weight:600}
+  .header-left p{font-size:.8125rem;color:var(--text-muted);margin-top:2px}
+  .chapter-select{font-size:.8125rem;font-family:inherit;font-weight:500;padding:8px 12px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;outline:none;box-shadow:var(--shadow)}
+  .set-badge{display:inline-block;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border);margin-bottom:.5rem}
+  .audio-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:1.25rem;box-shadow:var(--shadow)}
+  .audio-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .audio-label{font-size:.8rem;font-weight:600;color:var(--text-sec);white-space:nowrap}
+  .play-btn{display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:var(--radius);border:none;cursor:pointer;font-family:inherit;font-size:.875rem;font-weight:600;background:var(--accent);color:#fff;transition:background .15s}
+  .play-btn:hover{background:#1d4ed8}.play-btn.playing{background:var(--red)}
+  .auto-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface2);color:var(--text-sec);font-family:inherit;font-size:.8125rem;font-weight:500;cursor:pointer;transition:all .15s}
+  .auto-btn.on{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+  .voice-row{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);flex-wrap:wrap}
+  .voice-lbl{font-size:.75rem;color:var(--text-muted);white-space:nowrap}
+  .voice-sel,.speed-sel{font-size:.75rem;font-family:inherit;padding:5px 8px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer}
+  .voice-sel{flex:1;min-width:140px}
+  .speaking-badge{display:none;align-items:center;gap:6px;font-size:.75rem;color:var(--accent);font-weight:500;background:var(--accent-bg);padding:5px 10px;border-radius:99px;border:1px solid var(--accent-border)}
+  .speaking-badge.show{display:flex}
+  .bars{display:flex;gap:2px;align-items:center;height:14px}
+  .bars span{width:3px;background:var(--accent);border-radius:2px;animation:eq .8s infinite ease-in-out;display:block}
+  .bars span:nth-child(1){height:5px;animation-delay:0s}.bars span:nth-child(2){height:10px;animation-delay:.1s}
+  .bars span:nth-child(3){height:14px;animation-delay:.2s}.bars span:nth-child(4){height:10px;animation-delay:.3s}
+  .bars span:nth-child(5){height:5px;animation-delay:.4s}
+  @keyframes eq{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;text-align:center;box-shadow:var(--shadow)}
+  .stat-card .val{font-size:1.5rem;font-weight:600}.stat-card .lbl{font-size:.7rem;color:var(--text-muted);margin-top:1px}
+  .stat-card.s-correct .val{color:var(--green)}.stat-card.s-wrong .val{color:var(--red)}.stat-card.s-score .val{color:var(--accent)}
+  .prog-wrap{margin-bottom:1.25rem}
+  .prog-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text-muted);margin-bottom:6px}
+  .prog-track{height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+  .prog-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .4s ease}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
+  .leg-pill{font-size:.6875rem;font-weight:500;padding:4px 10px;border-radius:99px;cursor:pointer;border:1px solid transparent;transition:opacity .15s}
+  .leg-pill:hover{opacity:.75}
+  .ch0{background:var(--sky-bg);color:var(--sky);border-color:var(--sky-border)}
+  .ch1{background:var(--orange-bg);color:var(--orange);border-color:var(--orange-border)}
+  .ch2{background:var(--indigo-bg);color:var(--indigo);border-color:var(--indigo-border)}
+  .ch3{background:var(--rose-bg);color:var(--rose);border-color:var(--rose-border)}
+  .ch4{background:var(--purple-bg);color:var(--purple);border-color:#ddd6fe}
+  .qcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.75rem;box-shadow:var(--shadow);margin-bottom:1rem}
+  .qcard-meta{display:flex;align-items:center;gap:8px;margin-bottom:1rem}
+  .topic-pill{font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:99px;letter-spacing:.02em}
+  .qnum{font-size:.75rem;color:var(--text-muted);margin-left:auto}
+  .question{font-size:1rem;font-weight:500;line-height:1.65;margin-bottom:1.25rem}
+  .options{display:grid;gap:9px}
+  .opt{width:100%;text-align:left;padding:12px 15px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;font-size:.875rem;cursor:pointer;display:flex;gap:12px;align-items:flex-start;transition:border-color .15s,background .15s;line-height:1.5}
+  .opt:hover:not(:disabled){background:var(--accent-bg);border-color:var(--accent-border)}.opt:disabled{cursor:default}
+  .opt-label{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:.6875rem;font-weight:600;flex-shrink:0;color:var(--text-sec);margin-top:1px;transition:all .15s}
+  .opt-text{flex:1}
+  .opt.correct{background:var(--green-bg);border-color:var(--green-border)}.opt.correct .opt-label{background:var(--green);border-color:var(--green);color:#fff}.opt.correct .opt-text{color:var(--green);font-weight:500}
+  .opt.wrong{background:var(--red-bg);border-color:var(--red-border)}.opt.wrong .opt-label{background:var(--red);border-color:var(--red);color:#fff}.opt.wrong .opt-text{color:var(--red);font-weight:500}
+  .opt.reveal{background:var(--green-bg);border-color:var(--green-border)}.opt.reveal .opt-label{background:var(--green);border-color:var(--green);color:#fff}.opt.reveal .opt-text{color:var(--green)}
+  .feedback{margin-top:1rem;padding:13px 16px;border-radius:var(--radius);font-size:.8125rem;line-height:1.6;color:var(--text-sec);background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent);display:none}
+  .feedback.show{display:block}.feedback strong{color:var(--text)}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:.5rem}
+  .btn{font-family:inherit;font-size:.875rem;font-weight:500;padding:10px 20px;border-radius:var(--radius);cursor:pointer;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);transition:background .15s}
+  .btn:hover{background:var(--surface2)}.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn-primary:hover{background:#1d4ed8}.btn-skip{color:var(--text-muted);border-color:var(--border)}
+  .done-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:3rem 2rem;text-align:center;box-shadow:var(--shadow)}
+  .done-ring{width:110px;height:110px;border-radius:50%;background:var(--accent-bg);border:3px solid var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+  .done-pct{font-size:1.75rem;font-weight:600;color:var(--accent)}.done-pct-label{font-size:.6875rem;color:var(--text-muted)}
+  .done-score{font-size:1.1rem;font-weight:600;margin-bottom:6px}.done-msg{font-size:.875rem;color:var(--text-sec);margin-bottom:2rem}
+  .done-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:2rem}
+  .done-stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
+  .done-stat .v{font-size:1.25rem;font-weight:600}.done-stat .l{font-size:.7rem;color:var(--text-muted);margin-top:2px}
+  .done-stat.g .v{color:var(--green)}.done-stat.r .v{color:var(--red)}.done-stat.b .v{color:var(--accent)}
+  @media(max-width:520px){.stats{grid-template-columns:repeat(2,1fr)}.page{padding:1.25rem 1rem 3rem}.qcard{padding:1.25rem}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-left">
+      <div class="set-badge">SET 3 of 4</div>
+      <h1>Light, Heat, Matter &amp; Electricity</h1>
+      <p>Light &amp; Shadows · Heat &amp; Materials · States of Matter · Circuits &amp; Magnets</p>
+    </div>
+    <select class="chapter-select" id="chapterSel" onchange="changeChapter()">
+      <option value="all">All topics</option>
+      <option value="0">Light &amp; shadows</option>
+      <option value="1">Heat &amp; materials</option>
+      <option value="2">States of matter</option>
+      <option value="3">Electrical circuits</option>
+      <option value="4">Magnets</option>
+    </select>
+  </div>
+  <div class="audio-bar">
+    <div class="audio-row">
+      <span class="audio-label">🎙 Read aloud</span>
+      <button class="play-btn" id="playBtn" onclick="onPlayBtn()"><span id="playIcon">▶</span><span id="playLabel">Read question</span></button>
+      <button class="auto-btn" id="autoBtn" onclick="toggleAuto()"><span id="autoIcon">🔇</span><span id="autoLabel">Auto-read off</span></button>
+      <div class="speaking-badge" id="speakBadge"><div class="bars"><span></span><span></span><span></span><span></span><span></span></div>Speaking…</div>
+    </div>
+    <div class="voice-row">
+      <span class="voice-lbl">Voice</span><select class="voice-sel" id="voiceSel" onchange="onVoiceChange()"></select>
+      <span class="voice-lbl">Speed</span>
+      <select class="speed-sel" id="speedSel">
+        <option value="0.7">Slow</option><option value="0.85">Easy</option>
+        <option value="1" selected>Normal</option><option value="1.15">Fast</option>
+      </select>
+    </div>
+  </div>
+  <div class="legend">
+    <span class="leg-pill ch0" onclick="setChapter(0)">💡 Light &amp; shadows</span>
+    <span class="leg-pill ch1" onclick="setChapter(1)">🔥 Heat &amp; materials</span>
+    <span class="leg-pill ch2" onclick="setChapter(2)">💧 States of matter</span>
+    <span class="leg-pill ch3" onclick="setChapter(3)">⚡ Electrical circuits</span>
+    <span class="leg-pill ch4" onclick="setChapter(4)">🧲 Magnets</span>
+  </div>
+  <div class="stats">
+    <div class="stat-card"><div class="val" id="sTotal">0</div><div class="lbl">total</div></div>
+    <div class="stat-card s-correct"><div class="val" id="sCorrect">0</div><div class="lbl">correct</div></div>
+    <div class="stat-card s-wrong"><div class="val" id="sWrong">0</div><div class="lbl">wrong</div></div>
+    <div class="stat-card s-score"><div class="val" id="sScore">—</div><div class="lbl">score</div></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-label"><span id="progText">Question 0 of 0</span><span id="progPct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="pbar" style="width:0%"></div></div>
+  </div>
+  <div id="quizArea"></div>
+  <div class="actions" id="actions"></div>
+</div>
+<script>
+const LABELS=['A','B','C','D'];
+const CH_CLASS=['ch0','ch1','ch2','ch3','ch4'];
+const VOICE_OPTIONS=[{label:"UK English Female (natural)",rv:"UK English Female"},{label:"UK English Male",rv:"UK English Male"},{label:"US English Female",rv:"US English Female"},{label:"US English Male",rv:"US English Male"},{label:"Australian Female",rv:"Australian Female"},{label:"Australian Male",rv:"Australian Male"}];
+let currentVoice=VOICE_OPTIONS[0].rv,autoRead=false,isSpeaking=false;
+function initVoiceSelect(){const s=document.getElementById('voiceSel');VOICE_OPTIONS.forEach((v,i)=>{const o=document.createElement('option');o.value=i;o.textContent=v.label;s.appendChild(o)})}
+function onVoiceChange(){currentVoice=VOICE_OPTIONS[+document.getElementById('voiceSel').value].rv}
+function getRate(){return parseFloat(document.getElementById('speedSel').value)||1}
+function clean(t){return t.replace(/CO₂/g,'carbon dioxide').replace(/O₂/g,'oxygen').replace(/→/g,'produces').replace(/\+/g,'plus').replace(/°C/g,'degrees Celsius').replace(/<br\s*\/?>/gi,', ').replace(/<[^>]+>/g,'').replace(/&amp;/g,'and').replace(/\s+/g,' ').trim()}
+function buildScript(q){return clean(q.q)+'. '+q.opts.map((o,i)=>'Option '+LABELS[i]+'. '+clean(o)).join('. ')+'.'}
+function speak(text,onDone){if(typeof responsiveVoice==='undefined'){const s=window.speechSynthesis;if(!s){if(onDone)onDone();return}s.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=getRate();u.onend=u.onerror=()=>{setSpeaking(false);if(onDone)onDone()};s.speak(u);setSpeaking(true);return}responsiveVoice.cancel();setSpeaking(true);responsiveVoice.speak(text,currentVoice,{rate:getRate(),pitch:1,volume:1,onend:()=>{setSpeaking(false);if(onDone)onDone()},onerror:()=>{setSpeaking(false);if(onDone)onDone()}})}
+function stopSpeech(){if(typeof responsiveVoice!=='undefined')responsiveVoice.cancel();if(window.speechSynthesis)window.speechSynthesis.cancel();setSpeaking(false)}
+function setSpeaking(val){isSpeaking=val;document.getElementById('speakBadge').classList.toggle('show',val);const b=document.getElementById('playBtn');b.classList.toggle('playing',val);document.getElementById('playIcon').textContent=val?'■':'▶';document.getElementById('playLabel').textContent=val?'Stop':'Read question'}
+function onPlayBtn(){if(isSpeaking){stopSpeech();return}if(!deck.length||idx>=deck.length)return;speak(buildScript(deck[idx]))}
+function toggleAuto(){autoRead=!autoRead;const b=document.getElementById('autoBtn');b.classList.toggle('on',autoRead);document.getElementById('autoIcon').textContent=autoRead?'🔊':'🔇';document.getElementById('autoLabel').textContent=autoRead?'Auto-read on':'Auto-read off';if(autoRead&&!isSpeaking&&deck.length&&idx<deck.length)setTimeout(()=>speak(buildScript(deck[idx])),200);else if(!autoRead)stopSpeech()}
+
+const ALL_Q=[
+  // Ch 0 — Light & shadows
+  {ch:0,t:"Light & shadows",q:"A clear glass jar with a candle inside was set up in a brightly lit room. Which statement(s) explain why the glass jar can be seen?",opts:["The candle reflected some light only","The glass jar reflected some light only","The glass jar reflected some light AND allowed most light to pass through","The candle produced light that made everything visible"],ans:2,exp:"The glass jar can be seen for two reasons: the jar reflects some light into our eyes (making it visible), and it is transparent so most light passes through it. Both B and C from the original are correct — the jar reflects light and allows light to pass through."},
+  {ch:0,t:"Light & shadows",q:"Zhen Li set up a light sensor, metal pole, and lamp in a dark room. The sensor recorded 50 units. He moved one object so the reading became 20 units. Which object was moved and in which direction?",opts:["Metal pole moved nearer to the lamp","Metal pole moved towards the screen, blocking more light","Lamp moved away from the metal pole","Screen moved nearer to the metal pole"],ans:1,exp:"Moving the metal pole towards the screen means the pole now blocks more of the lamp's light from reaching the sensor. This reduces the light reading from 50 to 20 units. The pole acts as a greater obstacle when positioned between the lamp and the sensor."},
+  {ch:0,t:"Light & shadows",q:"The diagram shows the positions of the sun at 8 am (low and to the left), 10 am (higher), and 12 noon (highest and most overhead). Which graph correctly shows the length of the tree's shadow throughout the day?",opts:["Shadow gets longer all morning","Shadow is longest at 8 am, shorter at 10 am, and shortest at noon","Shadow is shortest at 8 am and longest at noon","Shadow stays the same length all day"],ans:1,exp:"Shadows are longest when the Sun is lowest in the sky (early morning and late afternoon), because light hits at a shallow angle. At noon the Sun is almost overhead, so the shadow is shortest. From 8 am to noon: shadow goes from long to short."},
+  {ch:0,t:"Light & shadows",q:"Which objects placed one metre from a torch can reflect light into a person's eye?",opts:["Clear glass only","Brown wood only","Shiny metal and polished mirror only","All four objects: clear glass, shiny metal, brown wood, and polished mirror"],ans:3,exp:"All objects reflect some light — even dull objects like brown wood scatter light in all directions (diffuse reflection). Shiny objects and mirrors reflect light more directly. Since the eye only needs some reflected light to reach it, all four objects can reflect some light into the eye."},
+  {ch:0,t:"Light & shadows",q:"Four objects A, B, C and D are placed at one metre from a lit torch. Which objects can reflect light from the torch into the eye? A: clear glass, B: shiny metal, C: brown wood, D: polished mirror.",opts:["A only","C only","B and D only","A, B, C and D"],ans:3,exp:"Every surface reflects some light. Shiny metal (B) and polished mirror (D) give strong specular reflection. Clear glass (A) reflects some light from its surface. Brown wood (C) gives diffuse reflection but still reflects some light. All four can reflect some light into the observer's eye."},
+
+  // Ch 1 — Heat & materials
+  {ch:1,t:"Heat & materials",q:"A glass cup and a wooden spoon were left on a table overnight. Zara picked them up. The glass cup felt cooler than the wooden spoon. Why?",opts:["The wooden spoon absorbed more heat from the room overnight","Glass is a better conductor of heat. Heat from Zara's hand was transferred to the glass cup faster, making her hand feel colder","The glass cup was in a shaded position","The wooden spoon had more mass and stored more heat"],ans:1,exp:"Glass conducts heat better than wood. When Zara holds the glass cup, heat from her warm hand flows quickly into the glass (good conductor), making her hand feel cold. Wood is a poor conductor — heat leaves her hand slowly when holding the wooden spoon, so it feels warmer."},
+  {ch:1,t:"Heat & materials",q:"Zara poured hot oil into a thick-walled glass cup. The glass cup cracked. Why?",opts:["The oil was too heavy for the glass","The outer surface of the cup gained heat slower than the inner surface, so the outer surface expanded slower than the inner surface, creating stress that cracked the glass","Hot oil always dissolves glass","The cup was already cracked before the oil was added"],ans:1,exp:"When hot oil is poured in, the inner surface heats up and expands quickly. The thick outer walls heat up more slowly and expand less. The difference in expansion between the inner and outer surfaces creates stress (tension) inside the glass, which causes it to crack."},
+  {ch:1,t:"Heat & materials",q:"Two outdoor walkways, A and B, are made of identical tiles. Walkway A has gaps between tiles; Walkway B has no gaps. Both are exposed to hot afternoon sun. Which walkway is less suitable for a hot country and why?",opts:["Walkway A, because the gaps let water in causing damage","Walkway B is less suitable. Its tiles have no gaps, so when they expand in the heat they push against each other and may crack or buckle","Both walkways are equally suitable","Walkway A is less suitable because tiles without gaps expand more"],ans:1,exp:"In a hot country, tiles gain heat from the sun and expand. Walkway A has gaps that allow room for tiles to expand without pushing against each other. Walkway B has no gaps — expanded tiles push against adjacent tiles, creating pressure that can crack or buckle the walkway."},
+  {ch:1,t:"Heat & materials",q:"Amy tested three flexible materials F, G, and H to find out which causes a box to slide down a ramp slowest. Times recorded: F = 6.6, 7.2, 6.9 seconds; G = 2.4, 3.1, 2.9 seconds; H = 9.9, 10.2, 10.5 seconds. Which material is most suitable for goalkeeper gloves?",opts:["Material F, because it gives a medium level of grip","Material G, because the box slides fastest, meaning it is most slippery","Material H, because the box takes the longest to slide, meaning it produces the greatest friction and best grip","Material G is most suitable because it is lightest"],ans:2,exp:"A goalkeeper glove needs maximum grip to catch and hold the ball. Material H causes the box to take the longest to slide, meaning it produces the greatest frictional force. More friction equals better grip on the ball. H is the most suitable material for goalkeeper gloves."},
+  {ch:1,t:"Heat & materials",q:"Sandy opened a rice cooker lid and saw mist coming out. What is the state of the mist and how was it formed?",opts:["Gas — water vapour gained heat from the cooked rice","Gas — water vapour lost heat to the surroundings","Liquid — water vapour gained heat from the cooked rice","Liquid — water vapour lost heat to the surroundings"],ans:3,exp:"Inside the rice cooker, water evaporates and forms water vapour (gas). When this hot water vapour meets the cooler air outside, it loses heat to the surroundings and condenses into tiny liquid water droplets — this is the mist we can see. Mist is liquid, not gas."},
+
+  // Ch 2 — States of matter
+  {ch:2,t:"States of matter",q:"Which statement about matter is correct?",opts:["Gases do not have a definite volume","All matter has mass and can be compressed","Both solids and liquids have a definite shape","Shadows can be compressed and have no definite shape"],ans:0,exp:"Gases do not have a definite volume — they expand to fill whatever container they are in. Option B is wrong because liquids and solids cannot be compressed. Option C is wrong because liquids take the shape of their container. Shadows are not matter as they have no mass."},
+  {ch:2,t:"States of matter",q:"A glass jar (volume 300 cm³) contains 50 cm³ of water. A pump pushes 20 cm³ of air into the jar each time. After the plunger is pushed in once completely, what is the volume of air and water in the jar?",opts:["Air: 250 cm³, Water: 50 cm³","Air: 270 cm³, Water: 30 cm³","Air: 270 cm³, Water: 50 cm³","Air: 300 cm³, Water: 30 cm³"],ans:2,exp:"The jar has 300 cm³ total volume with 50 cm³ water already in it — meaning 250 cm³ of air is already there. Pumping adds 20 cm³ more air: 250 plus 20 = 270 cm³ of air. Air is a gas and gets compressed, so all 270 cm³ fits. Water volume stays at 50 cm³ (liquids are not compressed). Answer: Air 270 cm³, Water 50 cm³."},
+  {ch:2,t:"States of matter",q:"Tim placed identical glasses with 150 ml of water at 10 degrees Celsius in two different locations, A and B. After five minutes, water droplets appeared on the outside of both glasses. Which are the most likely temperatures of locations A and B?",opts:["Location A: 15°C, Location B: 35°C","Location A: 30°C, Location B: 10°C","Location A: 10°C, Location B: 15°C","Location A: 40°C, Location B: 30°C"],ans:0,exp:"Water droplets on the outside form by condensation — warm, moist air near the cold glass loses heat and water vapour condenses into liquid. For condensation to occur, the location must be warmer than the glass (10°C). Both 15°C (A) and 35°C (B) are warmer than 10°C, so condensation occurs at both locations. This is the most likely scenario."},
+  {ch:2,t:"States of matter",q:"Patrick placed three objects (X, Y, Z) into identical beakers of water. Object X raised the water level by 6 cm, Y by 8 cm, and Z by 12 cm. What can Patrick conclude?",opts:["Object X has the least mass","Object X has a smaller volume than object Z","Object Z has a greater volume than object Y","The mass of Z is greater than the mass of X"],ans:1,exp:"Objects placed in water displace water equal to their own volume. X raised water by 6 cm (smallest rise, smallest volume), Y by 8 cm, Z by 12 cm (largest rise, largest volume). So X has smaller volume than Z (B is correct). We cannot determine mass from this experiment alone, so A and D cannot be concluded."},
+  {ch:2,t:"States of matter",q:"Jody filled a beaker with ice cubes at room temperature 25°C. A graph shows temperature rising steeply from 10 min to 15 min, then levelling at 100°C from 15 to 20 min, then dropping after 20 min. What changes did Jody make at the 10th and 20th minutes?",opts:["Added ice cubes at minute 10; added tap water at minute 20","Added a heat source at minute 10; added ice cubes at minute 20","Added a heat source at minute 10; added a heat source again at minute 20","Added ice cubes at minute 10; removed the heat source at minute 20"],ans:1,exp:"The temperature rose sharply from minute 10 to 15 — a heat source was added at minute 10. It stayed at 100°C from 15 to 20 — the water was boiling steadily. Then it dropped after minute 20 — ice cubes were added at minute 20, reducing temperature. Answer: heat source added at minute 10, ice cubes added at minute 20."},
+
+  // Ch 3 — Electrical circuits
+  {ch:3,t:"Electrical circuits",q:"Miss Tan set up 3 circuits using identical bulbs and batteries. Circuit A: 3 batteries, 2 bulbs in series with bulb T. Circuit B: 1 battery, 2 bulbs in series with bulb T. Circuit C: 1 battery, 1 bulb T alone. She measured brightness of bulb T. Order from dimmest to brightest?",opts:["A → B → C","B → A → C","C → A → B","C → B → A"],ans:3,exp:"Brightness depends on current. More batteries = more current = brighter. Fewer bulbs in series = less resistance = more current = brighter. Circuit C: 1 battery, 1 bulb — moderate. Circuit B: 1 battery, 2 bulbs — dimmest (most resistance, least current). Circuit A: 3 batteries, 2 bulbs — brightest. Order dimmest to brightest: C → B → A."},
+  {ch:3,t:"Electrical circuits",q:"Li Jie constructed a circuit with two switches A and B. Results: A closed, B open = 0 bulbs lit. A open, B closed = 1 bulb lit. A closed, B closed = 2 bulbs lit. Which type of circuit did Li Jie use?",opts:["Both bulbs in series with both switches in series","Two bulbs in parallel; switch A controls one branch, switch B controls both bulbs plus the other branch","Parallel circuit where switch A alone controls one bulb and switch B alone controls one bulb, with both needed for the other","A parallel circuit where switch B controls one bulb independently and switch A and B together control the second bulb"],ans:3,exp:"When only B is closed: 1 bulb lights (switch B alone lights its bulb). When A and B are both closed: 2 bulbs light (the second bulb requires both A and B to be closed). When only A is closed: 0 bulbs (A alone cannot complete any circuit). This matches a parallel circuit where B independently controls one bulb, and both A and B are needed for the second."},
+  {ch:3,t:"Electrical circuits",q:"Rods P, Q, R and S of different materials were tested in an electrical circuit. Only bulbs B2 and B5 lit up. B1 is in series with rod P, B2 is in series with rod Q, and B3 and B4 are in series with rods R and S respectively, with B5 in series with rod Q's branch. What materials are P, Q, R and S?",opts:["P: steel, Q: wood, R: copper, S: aluminium","P: wood, Q: copper, R: aluminium, S: steel","P: glass, Q: aluminium, R: steel, S: wood","P: aluminium, Q: copper, R: steel, S: wood"],ans:3,exp:"B2 and B5 lit up, meaning current flows through Q's branch. Q must be a conductor. B1 did not light, so P is an insulator. The branch with B3 and B4 did not light, so R and S include at least one insulator. From the options: P: aluminium (conductor), Q: copper (conductor), R: steel (conductor), S: wood (insulator) — only option 4 has Q as copper and S as insulator (wood), which explains why only Q's circuit lights up."},
+  {ch:3,t:"Electrical circuits",q:"In a machine used to check if a parcel is overweight, the bulb does not light up in Diagram 1 (no parcel). In Diagram 2 (overweight parcel placed), the parcel pushes the bottom plate down to touch the metal stands and the bulb lights. Why did the bulb not light in Diagram 1?",opts:["The batteries were flat","There is an open circuit — the bottom plate does not touch the metal stands, so no complete circuit is formed","The bulb was faulty","The metal stands were not connected to the batteries"],ans:1,exp:"In Diagram 1 with no parcel, the bottom plate does not touch the metal stands. This means there is a gap in the circuit — an open circuit. Without a complete, unbroken circuit, current cannot flow and the bulb does not light."},
+  {ch:3,t:"Electrical circuits",q:"Jia Ying set up a circuit with two light bulbs, a bell, and two switches. Results: Both closed = 2 bulbs lit and bell rings. Switch 1 closed, Switch 2 open = 1 bulb lit, bell silent. Switch 1 open, Switch 2 closed = 1 bulb lit, bell rings. Which circuit correctly matches these observations?",opts:["Both bulbs and bell all in series with both switches","Switch 1 controls one bulb in one branch; Switch 2 controls one bulb and the bell in another branch — both branches in parallel","Both switches in series controlling all components","Switch 2 controls only the bell while Switch 1 controls both bulbs"],ans:1,exp:"When only Switch 2 is closed: 1 bulb lights and bell rings → Switch 2's branch has 1 bulb and the bell. When only Switch 1 is closed: 1 bulb lights, bell silent → Switch 1's branch has only 1 bulb. When both closed: 2 bulbs and bell. Two parallel branches: Switch 1 → bulb 1; Switch 2 → bulb 2 and bell."},
+
+  // Ch 4 — Magnets
+  {ch:4,t:"Magnets",q:"Yasmin hung four bar magnets W, X, Y, Z above a container of pins. Results over 3 tries: W attracted 14, 15, 14 pins; X attracted 4, 3, 3 pins; Y attracted 9, 8, 7 pins; Z attracted 10, 10, 11 pins. Which conclusions are correct? A: Magnet X has weakest strength. B: Magnet W has strongest strength. C: Magnet X has greater strength than Z. D: Magnet Y has greater strength than X.",opts:["A and C only","B and D only","A, B and C only","A, B and D only"],ans:3,exp:"Average pins attracted: W≈14 (strongest), Z≈10, Y≈8, X≈3 (weakest). A is correct (X is weakest). B is correct (W is strongest). C is wrong (X attracted fewer pins than Z, so X is weaker than Z, not stronger). D is correct (Y attracted more pins than X). Correct conclusions: A, B, and D."},
+  {ch:4,t:"Magnets",q:"Munirah stroked a nail 20 times with a magnet in the same direction. She brought it near iron pins and it did not attract any. Which explains her observation?",opts:["The nail was stroked too many times","The nail was stroked in the wrong direction — back and forth instead of in one direction only","The nail is made of a non-magnetic material like copper or aluminium","The magnet used was too strong and magnetised the nail incorrectly"],ans:1,exp:"To make a temporary magnet by stroking, you must stroke in ONE direction only (e.g., always left to right, lifting the magnet each time). Stroking back and forth cancels out the magnetic alignment of domains. If Munirah stroked incorrectly (back and forth), the nail would not become magnetised."},
+  {ch:4,t:"Magnets",q:"Sarah set up an experiment to find magnetic strength by moving magnets P, Q, R, S slowly toward a steel clip until the clip was attracted. Results show clip attracted soonest by Q (strongest), then P, then S, then R (weakest — had to be moved closest). Order from strongest to weakest?",opts:["Q, P, R, S","Q, P, S, R","R, S, P, Q","R, S, Q, P"],ans:1,exp:"The magnet that attracts the clip from the greatest distance is the strongest (it can exert attractive force over a longer range). From the diagram, Q attracted from farthest, then P, then S, then R needed to be closest. Order strongest to weakest: Q, P, S, R."},
+  {ch:4,t:"Magnets",q:"In a food dispenser machine, iron bars X and Y are coiled with wire. When a button is pressed, iron bar X becomes an electromagnet with greater strength than iron bar Y, and the steel gate moves from Y toward X. What property of the steel gate allows the set-up to work?",opts:["The steel gate is waterproof","The steel gate is made of a magnetic material that is attracted to electromagnets","The steel gate is flexible and can bend toward the magnet","The steel gate is transparent so light passes through it"],ans:1,exp:"The steel gate moves toward the stronger electromagnet X when current flows. This only works because the gate is made of a magnetic material (steel is magnetic). Magnetic materials are attracted to magnets and electromagnets. This property allows the electromagnet to pull the gate."},
+  {ch:4,t:"Magnets",q:"After the steel gate of the food dispenser was replaced, it no longer returned to touch iron bar Y when the button was released. What change was made to the steel gate?",opts:["The gate was replaced with one made of plastic","The gate replaced was of greater mass, so the magnetic force of iron bar Y was not enough to attract it back","The gate was made shorter","The gate was given a stronger permanent magnetic charge"],ans:1,exp:"Iron bar Y is an electromagnet that attracts the gate back to position A when the circuit is open. If the new gate has greater mass, the gravitational force holding it is greater, and iron bar Y's magnetic force is no longer sufficient to pull the heavier gate back. Hence it stays in position B."},
+];
+
+let deck=[],idx=0,answered=false,correct=0,wrong=0,selected=-1;
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function setChapter(ch){document.getElementById('chapterSel').value=ch;changeChapter()}
+function changeChapter(){stopSpeech();const v=document.getElementById('chapterSel').value;const f=v==='all'?[...ALL_Q]:ALL_Q.filter(q=>q.ch===+v);deck=shuffle(f);idx=0;correct=0;wrong=0;answered=false;selected=-1;render()}
+function render(){updateStats();if(idx>=deck.length){renderDone();return}const q=deck[idx];const pct=deck.length>0?Math.round((idx/deck.length)*100):0;document.getElementById('pbar').style.width=pct+'%';document.getElementById('progText').textContent='Question '+(idx+1)+' of '+deck.length;document.getElementById('progPct').textContent=pct+'%';document.getElementById('quizArea').innerHTML=`<div class="qcard"><div class="qcard-meta"><span class="topic-pill ${CH_CLASS[q.ch]}">${q.t}</span><span class="qnum">${idx+1} / ${deck.length}</span></div><div class="question">${q.q.replace(/\n/g,'<br>')}</div><div class="options" id="opts">${q.opts.map((o,i)=>`<button class="opt" id="opt${i}" onclick="pick(${i})"><span class="opt-label">${LABELS[i]}</span><span class="opt-text">${o}</span></button>`).join('')}</div><div class="feedback" id="fb"><strong>Explanation: </strong>${q.exp}</div></div>`;if(answered){showResult(q);document.getElementById('fb').classList.add('show')}renderActions();if(autoRead&&!answered)setTimeout(()=>speak(buildScript(q)),400)}
+function pick(i){if(answered)return;stopSpeech();answered=true;selected=i;const q=deck[idx];if(i===q.ans)correct++;else wrong++;showResult(q);document.getElementById('fb').classList.add('show');updateStats();renderActions();if(autoRead){const v=(i===q.ans)?'Correct! '+clean(q.exp):'The correct answer is option '+LABELS[q.ans]+'. '+clean(q.exp);setTimeout(()=>speak(v),400)}}
+function showResult(q){document.querySelectorAll('.opt').forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add(selected===i?'correct':'reveal');else if(i===selected&&selected!==q.ans)b.classList.add('wrong')})}
+function renderActions(){const a=document.getElementById('actions');if(!answered){a.innerHTML=`<button class="btn btn-skip" onclick="skip()">Skip question</button>`}else{const l=idx>=deck.length-1;a.innerHTML=`<button class="btn btn-primary" onclick="next()">${l?'See results':'Next question →'}</button><button class="btn btn-skip" onclick="restart()">Restart</button>`}}
+function skip(){stopSpeech();idx++;answered=false;selected=-1;render()}
+function next(){stopSpeech();idx++;answered=false;selected=-1;render()}
+function restart(){stopSpeech();changeChapter()}
+function updateStats(){const t=correct+wrong;document.getElementById('sTotal').textContent=deck.length;document.getElementById('sCorrect').textContent=correct;document.getElementById('sWrong').textContent=wrong;document.getElementById('sScore').textContent=t>0?Math.round((correct/t)*100)+'%':'—'}
+function renderDone(){stopSpeech();const t=correct+wrong;const pct=t>0?Math.round((correct/t)*100):0;const msg=pct>=80?'🎉 Excellent! You are well prepared.':pct>=60?'👍 Good effort — keep practising!':'💪 Keep going — review the explanations and try again.';document.getElementById('pbar').style.width='100%';document.getElementById('progText').textContent='Completed!';document.getElementById('progPct').textContent='100%';document.getElementById('quizArea').innerHTML=`<div class="done-card"><div class="done-ring"><div class="done-pct">${pct}%</div><div class="done-pct-label">score</div></div><div class="done-score">${correct} out of ${deck.length} correct</div><div class="done-msg">${msg}</div><div class="done-grid"><div class="done-stat g"><div class="v">${correct}</div><div class="l">correct</div></div><div class="done-stat r"><div class="v">${wrong}</div><div class="l">wrong</div></div><div class="done-stat b"><div class="v">${deck.length-correct-wrong}</div><div class="l">skipped</div></div></div><button class="btn btn-primary" onclick="restart()">Try again</button>&nbsp;<button class="btn" onclick="setChapter('all')">All topics</button></div>`;document.getElementById('actions').innerHTML='';if(autoRead)speak('Quiz complete! You scored '+pct+' percent. '+correct+' correct out of '+deck.length+' questions.')}
+initVoiceSelect();changeChapter();
+</script>
+</body>
+</html>
