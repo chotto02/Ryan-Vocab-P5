@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yuya · P3 Science Exam</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@500;600&display=swap');
+
+  :root {
+    --green: #2D6A4F;
+    --green-light: #D8F3DC;
+    --green-mid: #52B788;
+    --amber: #B5451B;
+    --amber-light: #FEE8D6;
+    --amber-mid: #E07A3A;
+    --blue: #1A4E8A;
+    --blue-light: #DBEAFE;
+    --blue-mid: #3B82C4;
+    --ink: #1C1C1E;
+    --ink-2: #3A3A3C;
+    --ink-3: #636366;
+    --rule: #E5E5EA;
+    --surface: #F9F9F7;
+    --white: #FFFFFF;
+    --danger: #9B1C1C;
+    --danger-bg: #FEF2F2;
+    --success: #155724;
+    --success-bg: #D1FAE5;
+    --warn-bg: #FFFBEB;
+    --warn: #92400E;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .page { max-width: 720px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+  /* ── HOME ── */
+  .home-title {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .home-sub { font-size: 13px; color: var(--ink-3); margin-bottom: 2rem; }
+
+  .set-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 2rem; }
+  @media(max-width:520px){ .set-grid { grid-template-columns: 1fr; } }
+
+  .set-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+  .set-card:hover { border-color: #aaa; transform: translateY(-1px); }
+  .set-card:active { transform: scale(0.98); }
+
+  .set-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .badge-a { background: var(--blue-light); color: var(--blue); }
+  .badge-b { background: var(--green-light); color: var(--green); }
+  .badge-c { background: var(--amber-light); color: var(--amber); }
+
+  .set-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: var(--ink); }
+  .set-desc { font-size: 12px; color: var(--ink-3); line-height: 1.4; }
+  .set-meta { font-size: 11px; color: #aaa; margin-top: 8px; }
+
+  .how-box {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+  .how-box strong { color: var(--ink); font-weight: 600; }
+
+  /* ── EXAM ── */
+  .exam-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+  }
+  .exam-label { font-size: 12px; color: var(--ink-3); }
+  .exam-qnum { font-size: 14px; font-weight: 500; color: var(--ink); margin-top: 2px; }
+
+  .timer-wrap { text-align: right; }
+  .timer { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); font-family: 'Inter', monospace; }
+  .timer.warn { color: var(--danger); }
+  .timer-label { font-size: 11px; color: var(--ink-3); }
+
+  .prog-track { height: 3px; background: var(--rule); border-radius: 2px; margin-bottom: 1.25rem; }
+  .prog-fill { height: 3px; background: var(--green-mid); border-radius: 2px; transition: width 0.3s; }
+
+  .q-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .q-topic {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .t-ch1 { background: var(--blue-light); color: var(--blue); }
+  .t-ch2 { background: var(--green-light); color: var(--green); }
+  .t-ch3 { background: var(--amber-light); color: var(--amber); }
+  .t-ch4 { background: #EDE9FE; color: #4C1D95; }
+
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+
+  .opts { display: flex; flex-direction: column; gap: 8px; }
+
+  .opt {
+    padding: 11px 16px;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    background: var(--surface);
+    color: var(--ink-2);
+    text-align: left;
+    transition: border-color 0.12s, background 0.12s;
+    font-family: inherit;
+    line-height: 1.4;
+  }
+  .opt:hover { border-color: #bbb; background: #F0F0EE; }
+  .opt.selected { background: var(--blue-light); border-color: var(--blue-mid); color: var(--blue); font-weight: 500; }
+
+  .exam-nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .exam-nav .spacer { flex: 1; }
+
+  .dot-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 1.5rem;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+  }
+  .dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    color: var(--ink-3);
+    transition: background 0.1s;
+  }
+  .dot:hover { border-color: #bbb; }
+  .dot.ans { background: var(--blue-light); border-color: var(--blue-mid); color: var(--blue); }
+  .dot.curr { border-color: var(--ink); color: var(--ink); font-weight: 600; }
+
+  button {
+    padding: 9px 18px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    background: var(--white);
+    color: var(--ink);
+    font-family: inherit;
+    transition: background 0.1s, border-color 0.1s;
+  }
+  button:hover { background: #F0F0EE; border-color: #bbb; }
+  button:active { transform: scale(0.98); }
+  button.primary {
+    background: var(--green);
+    border-color: var(--green);
+    color: var(--white);
+  }
+  button.primary:hover { background: var(--green-mid); border-color: var(--green-mid); }
+  button.danger-btn {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: var(--white);
+  }
+  button.danger-btn:hover { background: var(--amber-mid); border-color: var(--amber-mid); }
+
+  /* ── RESULTS ── */
+  .results-hero {
+    text-align: center;
+    padding: 2rem 0 1.5rem;
+  }
+  .score-num {
+    font-family: 'Lora', serif;
+    font-size: 64px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .score-denom { font-size: 20px; color: var(--ink-3); font-weight: 400; }
+  .grade-pill {
+    display: inline-block;
+    padding: 5px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  .grade-great { background: var(--success-bg); color: var(--success); }
+  .grade-good { background: var(--blue-light); color: var(--blue); }
+  .grade-ok { background: var(--amber-light); color: var(--amber); }
+  .grade-low { background: var(--danger-bg); color: var(--danger); }
+
+  .topic-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 1.5rem; }
+  @media(max-width:480px){ .topic-grid { grid-template-columns: 1fr; } }
+
+  .ts-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+  }
+  .ts-label { font-size: 11px; color: var(--ink-3); margin-bottom: 2px; }
+  .ts-score { font-size: 17px; font-weight: 600; color: var(--ink); }
+  .ts-bar { height: 3px; background: var(--rule); border-radius: 2px; margin-top: 6px; }
+  .ts-bar-fill { height: 3px; border-radius: 2px; }
+
+  .section-hdr {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 1.5rem 0 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .review-item {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 8px;
+  }
+  .review-item.missed { border-left: 3px solid var(--danger); border-radius: 0 12px 12px 0; }
+  .review-meta { font-size: 11px; color: var(--ink-3); margin-bottom: 6px; }
+  .review-q { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 8px; line-height: 1.4; }
+  .review-wrong { font-size: 13px; color: var(--danger); padding: 6px 10px; background: var(--danger-bg); border-radius: 6px; margin-bottom: 6px; }
+  .review-correct { font-size: 13px; color: var(--success); padding: 6px 10px; background: var(--success-bg); border-radius: 6px; margin-bottom: 6px; }
+  .review-exp { font-size: 13px; color: var(--ink-3); line-height: 1.5; }
+
+  .results-nav { display: flex; gap: 8px; margin-top: 1.5rem; flex-wrap: wrap; }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HOME -->
+  <div id="homeScreen">
+    <div style="margin-bottom:2rem">
+      <div class="home-title">P3 Science</div>
+      <div class="home-sub">Exam practice · 3 sets · 30 questions · 45 minutes each</div>
+    </div>
+    <div class="set-grid">
+      <div class="set-card" onclick="startExam(0)">
+        <div class="set-badge badge-a">Set A</div>
+        <div class="set-name">Exam Set A</div>
+        <div class="set-desc">Living things, Materials, Life cycles, Magnets</div>
+        <div class="set-meta">30 questions · 45 min</div>
+      </div>
+      <div class="set-card" onclick="startExam(1)">
+        <div class="set-badge badge-b">Set B</div>
+        <div class="set-name">Exam Set B</div>
+        <div class="set-desc">Mixed topics — harder variants</div>
+        <div class="set-meta">30 questions · 45 min</div>
+      </div>
+      <div class="set-card" onclick="startExam(2)">
+        <div class="set-badge badge-c">Set C</div>
+        <div class="set-name">Exam Set C</div>
+        <div class="set-desc">Mixed topics — exam challenge</div>
+        <div class="set-meta">30 questions · 45 min</div>
+      </div>
+    </div>
+    <div class="how-box">
+      <strong>How to use:</strong> Pick a set, answer all 30 questions, then submit. After submitting you'll see your score, an AL grade, and a full review of every question you missed with the correct answer and explanation. Questions are modelled on 2025 school exam papers from Maha Bodhi, Nanyang, and St Nicholas.
+    </div>
+  </div>
+
+  <!-- EXAM -->
+  <div id="examScreen" class="hidden">
+    <div class="exam-bar">
+      <div>
+        <div class="exam-label" id="setLabel">Exam Set A</div>
+        <div class="exam-qnum" id="qcount">Question 1 of 30</div>
+      </div>
+      <div class="timer-wrap">
+        <div class="timer" id="timer">45:00</div>
+        <div class="timer-label">remaining</div>
+      </div>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="pfill" style="width:0%"></div></div>
+    <div class="q-card" id="qcard"></div>
+    <div class="exam-nav">
+      <button onclick="goQ(-1)" id="prevBtn">← Prev</button>
+      <button onclick="goQ(1)" id="nextBtn">Next →</button>
+      <div class="spacer"></div>
+      <button class="danger-btn" onclick="confirmSubmit()">Submit exam</button>
+    </div>
+    <div class="dot-nav" id="dotNav"></div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="resultsScreen" class="hidden">
+    <div class="results-hero">
+      <div style="font-size:13px;color:var(--ink-3);margin-bottom:8px" id="rSetName"></div>
+      <div class="score-num" id="scoreBig"></div>
+      <div style="font-size:14px;color:var(--ink-3);margin-bottom:8px" id="scoreLabel"></div>
+      <div class="grade-pill" id="gradePill"></div>
+      <div style="font-size:13px;color:var(--ink-3);margin-top:10px" id="timeTaken"></div>
+    </div>
+    <div class="topic-grid" id="topicGrid"></div>
+    <div class="section-hdr">Missed questions — review</div>
+    <div id="reviewList"></div>
+    <div class="results-nav">
+      <button onclick="backHome()">← All sets</button>
+      <button class="primary" onclick="retryExam()">Retry this set</button>
+    </div>
+  </div>
+
+</div>
+<script>
+const ALL = {
+  A: [
+    {t:"ch1",q:"Which of the following has non-living things only?",o:["Carpet, ruler and magnet","Bread mould, kite and toy train","Plastic spoon, hamster and oven","Bird's nest fern, bacteria and durian tree"],a:0,e:"Carpet, ruler and magnet cannot grow, reproduce or respond to changes — all are non-living."},
+    {t:"ch1",q:"When Thomas touched the tortoise's head, it hid in its shell. This shows the tortoise is a living thing because it:",o:["Grows","Reproduces","Responds to changes","Needs water, food and air"],a:2,e:"Hiding when touched is a response to change — a key characteristic of living things."},
+    {t:"ch1",q:"Which of the following statements is/are true of all living things? A: They go through a life cycle. B: They need air, food and water.",o:["C only","D only","A and B only","A and D only"],a:2,e:"All living things go through a life cycle and need air, food and water — both A and B are true."},
+    {t:"ch1",q:"Which group does mushroom belong to?",o:["Plants","Animals","Fungi","Bacteria"],a:2,e:"Mushrooms are fungi. They reproduce by spores and cannot make their own food."},
+    {t:"ch1",q:"Fungi grow faster in warm, wet places because:",o:["They need sunlight","They need warmth and moisture","They need cold temperatures","They need a lot of soil"],a:1,e:"Fungi grow well in warm, moist conditions — that is why bread moulds faster in humid weather."},
+    {t:"ch1",q:"Which statement about bacteria is correct?",o:["Bacteria are found in food only","All bacteria are harmful","Bacteria are so small we need a microscope to see them","Bacteria can make their own food"],a:2,e:"Bacteria are microscopic — they cannot be seen with the naked eye."},
+    {t:"ch1",q:"Plant A can make its own food while a mushroom cannot. Why?",o:["Plant A has roots","Plant A has leaves to photosynthesise; mushroom has no chlorophyll","Mushroom lives on soil","Plant A grows faster"],a:1,e:"Flowering plants use their leaves to make food via photosynthesis. Mushrooms (fungi) have no chlorophyll and cannot do this."},
+    {t:"ch1",q:"Which shows the correct characteristics of flowering vs non-flowering plants?",o:["Flowering: make own food; Non-flowering: do not","Flowering: do not attract insects; Non-flowering: attract insects","Flowering: produce spores; Non-flowering: do not","Flowering: produce fruits; Non-flowering: do not"],a:3,e:"Flowering plants produce fruits and seeds. Non-flowering plants (like ferns) reproduce by spores and do not produce fruits."},
+    {t:"ch1",q:"What is the similarity between reptiles and birds?",o:["They have three body parts","They reproduce by laying eggs","Their young do not look like the adults","They have the same type of body covering"],a:1,e:"Both reptiles and birds reproduce by laying eggs — this is what they have in common."},
+    {t:"ch1",q:"The animal shown has more than 6 legs and two body parts. It is not an insect because:",o:["It cannot fly","It has six legs","It can live in water","It has two body parts — insects have three"],a:3,e:"Insects have three body parts and six legs. An animal with two body parts is not an insect."},
+    {t:"ch2",q:"Which material is used to make a drink can so it will not break easily?",o:["Fabric","Glass","Metal","Ceramic"],a:2,e:"Metal is strong and does not break easily — ideal for a drink can that may be dropped."},
+    {t:"ch2",q:"The strap of a face mask is made of rubber because it is:",o:["Light","Flexible","Transparent","Able to float"],a:1,e:"Rubber is flexible — it can bend and stretch without breaking, perfect for mask straps."},
+    {t:"ch2",q:"Q bends 9cm, R bends 2cm, S bends 5cm, T bends 7cm. Which material is most flexible?",o:["Q","R","S","T"],a:0,e:"Greater bending distance means greater flexibility. Q bends the most (9cm), so Q is the most flexible."},
+    {t:"ch2",q:"Strings W(5kg), X(7kg), Y(3kg), Z(10kg) show max mass before breaking. Which can support 6kg without breaking?",o:["Z only","W and Y only","X and Z only","W, X and Z only"],a:2,e:"Only strings that hold MORE than 6kg are safe: X (holds 7kg) and Z (holds 10kg). W only holds 5kg — it breaks."},
+    {t:"ch2",q:"Winnie wants to see her fish through the tank wall. Which property must the material have?",o:["Waterproof","Flexible","Transparent","Strong"],a:2,e:"The wall must be transparent so light passes through and the fish can be seen."},
+    {t:"ch2",q:"What does waterproof mean?",o:["The material sinks in water","The material does not allow water to pass through","The material floats on water","The material soaks up water"],a:1,e:"Waterproof materials do not allow water to pass through — this is why raincoats keep us dry."},
+    {t:"ch2",q:"X stains 2cm, Y stains 5cm, Z stains 0cm in a water absorption test. Which is best for a raincoat?",o:["X","Y","Z","All equally suitable"],a:2,e:"Z absorbed no water (0cm stained) — it is waterproof. A raincoat must not absorb water, so Z is best."},
+    {t:"ch2",q:"Metal and glass are used for different parts of a window. Which best describes their properties?",o:["Metal: strong; Glass: allows light through","Metal: flexible; Glass: opaque","Metal: waterproof; Glass: flexible","Metal: floats; Glass: waterproof"],a:0,e:"Metal must be strong (for the frame). Glass is transparent so light enters the room."},
+    {t:"ch2",q:"What property is tested when strips are dipped in coloured water and stained length is measured?",o:["Flexibility","Transparency","Absorbency","Strength"],a:2,e:"The test measures how much water the material soaks up — this is absorbency."},
+    {t:"ch2",q:"How do we conduct a fair test when comparing materials?",o:["Change all variables at once","Keep all variables the same except the one being tested","Use different sizes","Test at different temperatures"],a:1,e:"A fair test keeps all variables the same (size, thickness) and only changes the one being tested."},
+    {t:"ch3",q:"Which pair of living things has a 4-stage life cycle?",o:["Butterfly and mosquito","Mosquito and cockroach","Grasshopper and butterfly","Grasshopper and cockroach"],a:0,e:"Butterflies and mosquitoes both have 4 stages: egg → larva → pupa → adult."},
+    {t:"ch3",q:"What happens in the pupa stage of a 4-stage life cycle?",o:["The organism feeds and grows quickly","The organism changes into an adult","The organism reproduces and lays eggs","The organism hatches from eggs"],a:1,e:"In the pupa stage the organism does NOT eat. It transforms inside and becomes an adult."},
+    {t:"ch3",q:"Insect V: Egg=1day, Larva=3days, Pupa=6days, Adult=14days. How many days from eggs to becoming adult?",o:["10","12","14","26"],a:0,e:"Add egg + larva + pupa only: 1 + 3 + 6 = 10 days to reach adulthood."},
+    {t:"ch3",q:"Why do some animals lay many eggs at one time?",o:["To feed other animals","So that some survive even if others are eaten by predators","Because it is easy to lay many","To keep eggs warm"],a:1,e:"Laying many eggs ensures enough survive predation to hatch and continue the species."},
+    {t:"ch3",q:"How does higher temperature affect the mosquito life cycle?",o:["Cycle becomes longer","Cycle becomes shorter","No effect","Mosquito skips pupa stage"],a:1,e:"Higher temperatures make mosquitoes grow faster, shortening the life cycle."},
+    {t:"ch4",q:"Which two parts of a bar magnet will attract the greatest number of staples?",o:["A and B","A and D","B and C","C and D"],a:1,e:"Magnetic force is strongest at the poles (the two ends, A and D)."},
+    {t:"ch4",q:"How do you increase the strength of an electromagnet?",o:["Use a copper nail","Use fewer batteries","Use a bigger iron nail","Increase the number of coils of wire around the iron nail"],a:3,e:"More coils of wire around the iron core increases the magnetic strength of the electromagnet."},
+    {t:"ch4",q:"Which statement about magnets is true?",o:["All metals are magnetic materials","Like poles of magnets repel each other","Bar magnets are weaker than ring magnets","A freely suspended magnet points North-East"],a:1,e:"Like poles (N-N or S-S) repel each other. Unlike poles (N-S) attract."},
+    {t:"ch4",q:"A compass was placed below a bar magnet (S pole facing down). The compass needle points:",o:["Toward the S pole — upward","Toward North-East","Away from the magnet","East"],a:0,e:"The compass needle's North end is attracted to the S pole of the bar magnet, so it points upward."},
+    {t:"ch4",q:"Rod A moved when an electromagnet was switched on and pushed a ball. Rod A is:",o:["Non-magnetic","A magnetic material","A magnet","Cannot be determined"],a:1,e:"Rod A was attracted by the electromagnet, so it must be a magnetic material (like iron or steel)."},
+  ],
+  B: [
+    {t:"ch1",q:"James observed his dog: A) gave birth to puppies B) shivers when cold C) became too heavy to carry. Which show it is a living thing?",o:["A and B only","A and C only","B and C only","A, B and C"],a:0,e:"A (reproduces) and B (responds to cold) show characteristics of living things. Becoming heavier can also happen to non-living things."},
+    {t:"ch1",q:"An ambulance can move and make sounds but is non-living because it cannot:",o:["A: grow B: reproduce C: respond — A and B only","A and C only","B and C only","A, B and C"],a:3,e:"An ambulance cannot grow, reproduce or respond to changes on its own — all three apply."},
+    {t:"ch1",q:"Leslie placed Plant X near a window and Plant Y in a dark room, watering both equally. Plant Y died. What can Leslie conclude?",o:["Plants need water to stay alive","Plant Y does not grow well in soil","Plant Y does not respond to changes","Plants need sunlight to make food to survive"],a:3,e:"The only difference was sunlight. Since Plant Y died without sunlight, plants need sunlight to make food and survive."},
+    {t:"ch1",q:"Living things → X; Non-living things → Y. Which best represents X and Y?",o:["X=yeast, Y=water","X=ant, Y=yeast","X=water, Y=stone","X=stone, Y=ant"],a:0,e:"Yeast is living (grows, reproduces). Water is non-living."},
+    {t:"ch1",q:"Group A = chair, table. Group B = bird, plant. What are the correct headings?",o:["A: can grow; B: cannot grow","A: four legs; B: two legs","A: cannot make food; B: can make food","A: cannot respond to changes; B: can respond to changes"],a:3,e:"Chairs and tables (non-living) cannot respond to changes. Birds and plants (living) can respond to changes."},
+    {t:"ch1",q:"Hilda's healthy plant has had no fruits for many years. Possible explanations: A: reproduces by spores D: conditions not right to bear flowers.",o:["A only","A and D only","B and C only","B, C and D only"],a:1,e:"If it reproduces by spores (non-flowering plant) it won't produce fruits. If conditions prevent flowering, no fruits form."},
+    {t:"ch1",q:"Which of the following about moss and bracket fungi is/are true? C: Both reproduce by spores.",o:["A only","C only","A and B only","B and C only"],a:1,e:"Both moss and bracket fungi are non-flowering — they both reproduce by spores."},
+    {t:"ch1",q:"Which statement about amphibians is true?",o:["They live in water only","They have hard outer coverings","They give birth to their young alive","They can breathe through their lungs and moist skin"],a:3,e:"Amphibians breathe through both their lungs (on land) and their moist skin (in water). This is a key characteristic."},
+    {t:"ch1",q:"Monica counted mushrooms in a container weekly: the number increased each week. Which characteristic of living things does this show?",o:["Responding to changes","Needing air","Reproducing","Needing food"],a:2,e:"The mushrooms are increasing in number — this shows they are reproducing."},
+    {t:"ch1",q:"About bacteria and mould: A = only mould is a fungi. C = both can be harmful to humans.",o:["A and B only","A and C only","B and D only","C and D only"],a:1,e:"Mould is fungi (A correct). Both bacteria and mould can be harmful (C correct)."},
+    {t:"ch2",q:"W = pen, comb; X = balloon, bicycle tyre; Y = towel, bedsheet. What could W, X, Y be?",o:["W=metal, X=wood, Y=fabric","W=wood, X=glass, Y=plastic","W=plastic, X=rubber, Y=fabric","W=ceramic, X=rubber, Y=metal"],a:2,e:"Pen and comb are plastic. Balloon and bicycle tyre are rubber (flexible). Towel and bedsheet are fabric."},
+    {t:"ch2",q:"Group A: metal block, glass marble. Group B: balloon filled with air, styrofoam ball. How have objects been classified?",o:["A: flexible; B: not flexible","A: sink in water; B: float in water","A: break easily; B: do not","A: allow light; B: do not allow light"],a:1,e:"Metal block and glass marble are dense and sink. Balloon and styrofoam float. The grouping is sink vs float."},
+    {t:"ch2",q:"The glass part of a window lets you see outside. The metal frame holds it in place. Which describes their properties?",o:["Metal: strong; Glass: allows light through","Metal: flexible; Glass: opaque","Metal: waterproof; Glass: flexible","Metal: floats; Glass: waterproof"],a:0,e:"Metal must be strong to hold the window structure. Glass must be transparent so light passes through."},
+    {t:"ch2",q:"Ben dipped materials in 20ml water. Water left: P=6ml, Q=0ml, R=20ml, S=13ml. Which is best for a raincoat?",o:["P","Q","R","S"],a:2,e:"R left 20ml — it absorbed none at all. Completely waterproof. Best for a raincoat."},
+    {t:"ch2",q:"A flowchart: breaks when hit? Yes → allows light? Yes → S. What is object S?",o:["Metal hammer","Rubber band","Glass spectacle lens","Wooden spoon"],a:2,e:"Glass breaks when hit AND allows light to pass through — it lands at S in the flowchart."},
+    {t:"ch2",q:"Sandra wants a coin bank that does not break easily AND she can see the coins inside. Which material is best?",o:["Metal","Ceramic","Clear glass","Clear plastic"],a:3,e:"Clear plastic does not break easily (unlike glass) AND is transparent. Best choice."},
+    {t:"ch2",q:"What does absorbent mean?",o:["Sinks in water","Does not allow water to pass through","Soaks up water easily","Floats on water"],a:2,e:"Absorbent materials soak up water easily — like a sponge or paper towel."},
+    {t:"ch2",q:"K: does not break + does not allow light. L: sinks in water. M: does not break + sinks + does not allow light. What are K, L, M?",o:["K=wooden spoon, L=glass cup, M=iron nail","K=wooden toothpicks, L=iron nail, M=glass cup","K=iron nail, L=wooden toothpicks, M=ceramic plate","K=ceramic plate, L=glass cup, M=wooden spoon"],a:2,e:"Iron nail: strong and opaque (K). Wooden toothpicks: sinks and breakable (L). Ceramic plate: strong, sinks, opaque (M)."},
+    {t:"ch2",q:"Part X of a snorkelling mask must be waterproof AND allow light through. Which material in the flowchart (D = waterproof + allows light) is suitable?",o:["A","B","C","D"],a:3,e:"Material D is waterproof AND allows light to pass through — perfect for the see-through window of a snorkelling mask."},
+    {t:"ch2",q:"What variables must be kept the same in a fair material experiment?",o:["Temperature and time only","Size, thickness or length of the materials","Colour and smell","None — everything can vary"],a:1,e:"For a fair test, size, thickness or length of materials must all be kept the same."},
+    {t:"ch3",q:"P=adult plant, Q=seed, R=seedling, S=young plant. Which correctly shows the plant life cycle?",o:["P→S→Q→R","Q→R→S→P","R→S→P→Q","S→P→R→Q"],a:1,e:"A plant's life cycle: seed(Q) → seedling(R) → young plant(S) → adult plant(P) → produces seeds again."},
+    {t:"ch3",q:"Animal P: young resembles adult, 3 stages. Animal R: young doesn't resemble adult, 3 stages. What is a similarity?",o:["Both young resemble the adult","Both have the same number of stages","Both live in water when young","Both reproduce by laying eggs"],a:1,e:"Both P and R have 3 stages in their life cycles — that is their similarity."},
+    {t:"ch3",q:"Which is correct for BOTH the life cycle of a frog and a cockroach?",o:["Both young look like the adult","Both life cycles take place fully on land","Both life cycles have the same number of stages","All of the above"],a:2,e:"Both frogs and cockroaches have 3-stage life cycles. Frogs spend early stages in water; tadpoles don't look like adult frogs."},
+    {t:"ch3",q:"Vera placed seeds in dark (A) and under light (B), both with damp cotton wool. What is the aim?",o:["To find out if soil is needed for germination","To find out if light is needed for seed germination","To find out if water is needed","To find out how fast seeds grow"],a:1,e:"The only changed variable is light vs dark — so the aim is to find out if light is needed for seed germination."},
+    {t:"ch3",q:"The stages of a plant life cycle are:",o:["Egg → larva → pupa → adult","Seed → young plant → adult plant → seeds produced","Spore → young plant → adult","Birth → young → adult"],a:1,e:"A flowering plant's life cycle: seed → young plant → adult plant → seeds produced. The cycle repeats."},
+    {t:"ch3",q:"A banana plant has fruits. Which stage of the plant life cycle does it represent?",o:["Seed","Young plant","Adult plant","None"],a:2,e:"An adult plant produces fruits containing seeds. The banana plant is at the adult plant stage."},
+    {t:"ch4",q:"Heidi tested 3 magnets: Bar attracted thumbtack at 5cm, Ring at 1cm, U-shaped at 2cm. Which is strongest?",o:["Ring magnet","U-shaped magnet","Bar magnet","All equally strong"],a:2,e:"The bar magnet attracted the thumbtack from the greatest distance (5cm) — it is the strongest."},
+    {t:"ch4",q:"She removed one battery from the electromagnet. How does this affect the distance the ball travels?",o:["Distance increases","Distance decreases","Distance stays the same","Cannot be determined"],a:1,e:"Fewer batteries means less current, which means weaker magnetic force, which means the ball travels shorter."},
+    {t:"ch4",q:"Rahim stroked an iron nail with a magnet and placed it on wood in water. It pointed in a specific direction. What was he trying to do?",o:["Find the direction of wind","Find which direction was North","Find if wood floats","Find the strength of the nail"],a:1,e:"By making a compass (magnetised nail on floating wood), Rahim was trying to find which direction was North."},
+    {t:"ch4",q:"Which method can increase the magnetic strength of an electromagnet?",o:["Heating the iron rod","Hammering the iron rod","Increasing the number of batteries","Decreasing the number of coils"],a:2,e:"Adding more batteries increases electrical current, which increases magnetic strength of the electromagnet."},
+  ],
+  C: [
+    {t:"ch1",q:"Classification chart: Does it make its own food? Yes → Does it bear flowers? No → Q. What is Q?",o:["Moss","Mushroom","Hibiscus plant","Cat"],a:0,e:"It makes its own food (plant) but does not bear flowers — so it is a non-flowering plant like moss."},
+    {t:"ch1",q:"X (cockroach-like), Y (bee), Z (scorpion with claws). Which are insects?",o:["X and Y only","X and Z only","Y and Z only","X, Y and Z"],a:0,e:"Insects have 3 body parts, 6 legs and antennae. X and Y qualify. Z has claws and more than 6 legs — it is an arachnid."},
+    {t:"ch1",q:"Flowchart: Question A → Yes → Fish; Question B → Yes → Bird; No → Mammal. What are A and B?",o:["A: has gills? B: has hair?","A: has a tail? B: has wings?","A: has scales? B: has four legs?","A: has fins? B: has feathers?"],a:3,e:"Fish have fins. The next question separates birds (have feathers) from mammals (no feathers)."},
+    {t:"ch1",q:"True statements about bacteria: A = they are living things. C = they come in different shapes and sizes.",o:["A and B only","A and C only","B and D only","C and D only"],a:1,e:"Bacteria are living things (A) and come in many shapes/sizes (C). Not all are harmful, and they are too small to see with naked eye."},
+    {t:"ch1",q:"4 cookies: A = normal, B = moisture removed, C = refrigerator, D = sprinkled with water. Where would mould grow first?",o:["Set-up A","Set-up B","Set-up C","Set-up D"],a:3,e:"Mould (fungi) needs warmth and moisture. Set-up D has extra moisture at room temperature — ideal conditions."},
+    {t:"ch1",q:"W = can swim + has hair; X = has hair; Y = can swim + lays eggs; Z = lays eggs. Which best represents a dolphin?",o:["W","X","Y","Z"],a:0,e:"A dolphin can swim AND has hair (mammals have hair/fur). W matches: can swim + has hair."},
+    {t:"ch1",q:"Organism F: young live in water; young do not resemble adult. Which is organism F?",o:["Butterfly","Mosquito","Cockroach","Grasshopper"],a:1,e:"Mosquito larvae live in water and look nothing like adult mosquitoes. This matches the observations."},
+    {t:"ch1",q:"Animal X (penguin) swims and walks on land. Annie thinks it is an amphibian. Is she correct?",o:["Yes, it lives in water and land","No, it has feathers not moist skin","No, it cannot breathe underwater","Yes, it responds to changes"],a:1,e:"Amphibians have moist skin. Animal X (penguin) has feathers — it is a bird, not an amphibian."},
+    {t:"ch1",q:"4 plants: A grows in water; B grows in water + reproduces by seeds; C = nothing marked; D reproduces by seeds. Plant C's classification:",o:["Flowering, grows on land","Non-flowering, grows in water","Flowering, grows in water","Cannot be determined from data given"],a:3,e:"From the table, C has no ticks for either characteristic — we cannot determine the type from the given data."},
+    {t:"ch1",q:"Fish J (kitchen): bacteria 10→290 units. Fish K (freezer): bacteria 10→15 units. Which is better for keeping fish fresh?",o:["Kitchen — warmer helps","Freezer — bacteria grow far less","Both are the same","Neither keeps fish fresh"],a:1,e:"The freezer greatly slowed bacterial growth. Cold temperatures slow bacteria — freezer is much better for keeping fish fresh."},
+    {t:"ch2",q:"Ben dipped 4 materials in 20ml water. Water left: P=6ml, Q=0ml, R=20ml, S=13ml. Which absorbed the most water?",o:["P","Q","R","S"],a:1,e:"Q left 0ml — it absorbed all 20ml. Q is the most absorbent (worst for a raincoat)."},
+    {t:"ch2",q:"Flowchart: Is it waterproof? No → Is it flexible? No → A. What could material A be?",o:["Rubber","Plastic bag","Wooden plank","Glass"],a:2,e:"Material A is not waterproof AND not flexible. A wooden plank fits both conditions."},
+    {t:"ch2",q:"Jimmy stroked iron nail 10x=2 clips, 20x=9 clips, 30x=17 clips. What is the relationship between strokes and magnetic strength?",o:["More strokes, fewer clips","More strokes, more clips attracted","Number of strokes has no effect","Clips increase then decrease"],a:1,e:"As number of strokes increases, more steel clips are attracted — the nail becomes a stronger magnet."},
+    {t:"ch2",q:"What should Jimmy do to attract more than 17 clips without changing the nail or clips?",o:["Use a different magnet","Stroke the nail more than 30 times","Use a weaker magnet","Stop stroking"],a:1,e:"The data shows more strokes = stronger magnet. So stroking more than 30 times should attract more than 17 clips."},
+    {t:"ch2",q:"If Jimmy replaced the iron nail with a wooden nail and stroked it 30 times, how many clips would it attract?",o:["More than 17","Exactly 17","0 — wood cannot be magnetised","Depends on the magnet used"],a:2,e:"Wood is not a magnetic material. Stroking it with a magnet cannot magnetise it — it will attract 0 clips."},
+    {t:"ch2",q:"Part X of a snorkelling mask must allow the diver to see AND not let water in. Which properties must it have?",o:["Flexible and waterproof","Transparent and waterproof","Absorbent and strong","Opaque and flexible"],a:1,e:"The mask window must be transparent (to see through) and waterproof (to keep water out)."},
+    {t:"ch2",q:"Andy wanted to magnetise an iron nail using a bar magnet. How should he stroke it?",o:["Back and forth many times","In one direction only, lifting after each stroke","In circular motions","Press hard without stroking"],a:1,e:"The correct stroke method is in one direction only, lifting the magnet after each stroke. Back-and-forth strokes cancel out."},
+    {t:"ch2",q:"Andy: 20 strokes=4 pins, 40 strokes=10 pins, 60 strokes=19 pins. What is the relationship?",o:["As strokes increase, strength decreases","As strokes increase, strength increases","Strength stays the same","Strength increases then decreases"],a:1,e:"More strokes create a stronger temporary magnet — more steel pins are attracted as strokes increase."},
+    {t:"ch2",q:"Ryan moved magnet X (from 20cm) and magnet Y (from 10cm) towards iron nails. Both attracted 5 nails. Which magnet is stronger?",o:["Magnet Y","Magnet X","Both equal","Cannot determine"],a:1,e:"Magnet X attracted the same number of nails from a GREATER distance (20cm vs 10cm) — so Magnet X is stronger."},
+    {t:"ch2",q:"Group A: metal block, glass marble. Group B: balloon with air, styrofoam ball. Classification is based on:",o:["How they breathe","How they reproduce","Whether they sink or float","Their body covering"],a:2,e:"Metal and glass sink. Balloon and styrofoam float. The grouping is based on sinking vs floating."},
+    {t:"ch3",q:"Insect young at week 4: shed skin visible. Why did the insects shed their skin?",o:["They were sick","They needed to grow","To become waterproof","To attract mates"],a:1,e:"Insects moult (shed skin) because their hard exoskeleton does not grow with them. Shedding allows the body to grow."},
+    {t:"ch3",q:"At week 8, Ben found non-moving living things X in the container. What could X be?",o:["Eggs","Pupa","Adult beetle","Larva"],a:1,e:"At week 8 (between larva and adult), the non-moving living things are pupae — the transformation stage."},
+    {t:"ch3",q:"Bean-shaped objects appeared in the container at week 10 even though Ben didn't add them. What most likely happened?",o:["Mould grew on the food","The beetles reproduced and laid eggs","The container was contaminated","The pupae split open"],a:1,e:"The bean-shaped objects are eggs. The adult beetles reproduced and laid eggs — part of their life cycle."},
+    {t:"ch3",q:"Organism X: 10°C=47 days, 15°C=38 days, 25°C=22 days, 30°C=15 days. How many days at 20°C?",o:["Less than 22","Between 22 and 38","Between 38 and 47","More than 47"],a:1,e:"At 20°C (between 15°C and 25°C), the number of days would be between 38 and 22 — somewhere in that range."},
+    {t:"ch3",q:"Organism X lays many eggs at one time. Why?",o:["To fill up space in the container","So that some survive even if predators eat others","Because eggs are small","To produce more food"],a:1,e:"Animals lay many eggs so that even if predators eat some, enough will survive to complete the life cycle."},
+    {t:"ch4",q:"Four magnets hung on strings: EF attracted GHJ, KLM repelled. Which shows a possible arrangement?",o:["E=N,F=S facing G=S,H=N","G=S,H=N facing E=S,F=N","Like poles facing — repelling correctly","H=N,J=S facing K=S,L=N"],a:2,e:"EF attracts GHJ (unlike poles face each other). KLM repels (like poles face each other). Option 3 shows correct arrangement."},
+    {t:"ch4",q:"Viki tested electromagnets to find if number of coils affects magnetic strength. Which two set-ups should she compare?",o:["J and L","K and L","K and M","L and M"],a:3,e:"To test coils only, all other variables (batteries) must be the same. L and M have equal batteries but different coils."},
+    {t:"ch4",q:"Which is a common use of magnets in everyday life?",o:["Attracting plastic objects","Pouring water into a metal cup","A refrigerator door that stays shut","Heating food"],a:2,e:"Refrigerator doors use magnets in the door seal to stay tightly shut. Magnets do not attract plastic."},
+    {t:"ch4",q:"Jeslyn's toy: Part K floats above Part L. What are K and L made of?",o:["Wood and metal","Magnets with like poles repelling","Rubber and plastic","Glass and ceramic"],a:1,e:"When a magnet floats above another, like poles are facing each other and repelling. Both K and L are magnets."},
+    {t:"ch4",q:"A toy car with magnet M rolled toward magnet P on the wall and moved backwards. Why?",o:["The car was too heavy","Like poles of M and P faced each other, causing repulsion","The road was slippery","The battery ran out"],a:1,e:"The car moved backwards because like poles of magnets M and P were facing each other — like poles repel."},
+  ]
+};
+
+const TOPIC_NAMES = {ch1:"Living things",ch2:"Materials",ch3:"Life cycles",ch4:"Magnets"};
+const TOPIC_COLORS = {ch1:"var(--blue-mid)",ch2:"var(--green-mid)",ch3:"var(--amber-mid)",ch4:"#7C3AED"};
+const TOTAL_TIME = 45 * 60;
+
+let currentSet = null, setKey = null, answers = [], currentQ = 0;
+let timerInterval = null, startTime = null;
+
+function showScreen(id) {
+  ['homeScreen','examScreen','resultsScreen'].forEach(s => {
+    document.getElementById(s).classList.add('hidden');
+  });
+  document.getElementById(id).classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+
+function startExam(idx) {
+  const keys = ['A','B','C'];
+  setKey = keys[idx];
+  currentSet = ALL[setKey];
+  answers = new Array(30).fill(-1);
+  currentQ = 0;
+  document.getElementById('setLabel').textContent = 'Exam Set ' + setKey;
+  showScreen('examScreen');
+  startTime = Date.now();
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(tick, 1000);
+  renderQ();
+  renderDots();
+}
+
+function tick() {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const left = TOTAL_TIME - elapsed;
+  if (left <= 0) { clearInterval(timerInterval); submitExam(); return; }
+  const m = Math.floor(left / 60), s = left % 60;
+  const el = document.getElementById('timer');
+  el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  el.className = 'timer' + (left <= 300 ? ' warn' : '');
+}
+
+function renderQ() {
+  const q = currentSet[currentQ];
+  const total = currentSet.length;
+  document.getElementById('qcount').textContent = 'Question ' + (currentQ + 1) + ' of ' + total;
+  document.getElementById('pfill').style.width = Math.round((currentQ / total) * 100) + '%';
+  const sel = answers[currentQ];
+  document.getElementById('qcard').innerHTML = `
+    <div class="q-topic t-${q.t}">${TOPIC_NAMES[q.t]}</div>
+    <div class="q-text">Q${currentQ + 1}. ${q.q}</div>
+    <div class="opts">
+      ${q.o.map((o, i) => `<button class="opt${sel === i ? ' selected' : ''}" onclick="selectOpt(${i})">(${i+1}) ${o}</button>`).join('')}
+    </div>`;
+  document.getElementById('prevBtn').style.opacity = currentQ === 0 ? '0.4' : '1';
+  document.getElementById('nextBtn').textContent = currentQ === 29 ? 'Last question' : 'Next →';
+  renderDots();
+}
+
+function selectOpt(i) {
+  answers[currentQ] = i;
+  renderQ();
+}
+
+function goQ(dir) {
+  const next = currentQ + dir;
+  if (next < 0 || next >= 30) return;
+  currentQ = next;
+  renderQ();
+}
+
+function renderDots() {
+  document.getElementById('dotNav').innerHTML = Array.from({length:30},(_,i) => {
+    let cls = 'dot';
+    if (i === currentQ) cls += ' curr';
+    else if (answers[i] >= 0) cls += ' ans';
+    return `<div class="${cls}" onclick="jumpQ(${i})">${i+1}</div>`;
+  }).join('');
+}
+
+function jumpQ(i) { currentQ = i; renderQ(); }
+
+function confirmSubmit() {
+  const unanswered = answers.filter(a => a < 0).length;
+  if (unanswered > 0) {
+    if (!confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)) return;
+  }
+  submitExam();
+}
+
+function submitExam() {
+  clearInterval(timerInterval);
+  const totalElapsed = Math.floor((Date.now() - startTime) / 1000);
+  const m = Math.floor(totalElapsed / 60), s = totalElapsed % 60;
+  const timeTaken = m + 'm ' + (s < 10 ? '0' : '') + s + 's';
+
+  let correct = 0;
+  const ts = {ch1:{c:0,t:0},ch2:{c:0,t:0},ch3:{c:0,t:0},ch4:{c:0,t:0}};
+  currentSet.forEach((q, i) => {
+    ts[q.t].t++;
+    if (answers[i] === q.a) { correct++; ts[q.t].c++; }
+  });
+
+  const pct = Math.round(correct / 30 * 100);
+  const gradeInfo =
+    pct >= 90 ? {label:'AL1 — Excellent',cls:'grade-great'} :
+    pct >= 75 ? {label:'AL2 — Good',cls:'grade-good'} :
+    pct >= 60 ? {label:'AL3 — Satisfactory',cls:'grade-ok'} :
+    pct >= 50 ? {label:'AL4 — Needs revision',cls:'grade-ok'} :
+    {label:'Below AL4 — Keep practising',cls:'grade-low'};
+
+  document.getElementById('rSetName').textContent = 'Exam Set ' + setKey;
+  document.getElementById('scoreBig').textContent = correct + '/30';
+  document.getElementById('scoreLabel').textContent = pct + '%';
+  const pill = document.getElementById('gradePill');
+  pill.textContent = gradeInfo.label;
+  pill.className = 'grade-pill ' + gradeInfo.cls;
+  document.getElementById('timeTaken').textContent = timeTaken + ' of 45:00 used';
+
+  document.getElementById('topicGrid').innerHTML = Object.keys(ts).map(k => {
+    const sc = ts[k], p = sc.t > 0 ? Math.round(sc.c / sc.t * 100) : 0;
+    return `<div class="ts-card">
+      <div class="ts-label">${TOPIC_NAMES[k]}</div>
+      <div class="ts-score">${sc.c}/${sc.t} <span style="font-size:13px;color:var(--ink-3);font-weight:400">(${p}%)</span></div>
+      <div class="ts-bar"><div class="ts-bar-fill" style="width:${p}%;background:${TOPIC_COLORS[k]}"></div></div>
+    </div>`;
+  }).join('');
+
+  const missed = currentSet.map((q,i) => ({q,i,ans:answers[i]})).filter(x => x.ans !== x.q.a);
+  document.getElementById('reviewList').innerHTML = missed.length === 0
+    ? '<div style="color:var(--success);font-size:14px;padding:1rem 0;font-weight:500">Perfect score — all questions correct!</div>'
+    : missed.map(x => `
+      <div class="review-item missed">
+        <div class="review-meta">${TOPIC_NAMES[x.q.t]} · Q${x.i + 1}</div>
+        <div class="review-q">${x.q.q}</div>
+        <div class="review-wrong">Your answer: ${x.ans >= 0 ? '(' + (x.ans+1) + ') ' + x.q.o[x.ans] : 'Not answered'}</div>
+        <div class="review-correct">Correct answer: (${x.q.a+1}) ${x.q.o[x.q.a]}</div>
+        <div class="review-exp">${x.q.e}</div>
+      </div>`).join('');
+
+  showScreen('resultsScreen');
+}
+
+function retryExam() {
+  const idx = ['A','B','C'].indexOf(setKey);
+  startExam(idx);
+}
+
+function backHome() {
+  if (timerInterval) clearInterval(timerInterval);
+  showScreen('homeScreen');
+}
+</script>
+</body>
+</html>
