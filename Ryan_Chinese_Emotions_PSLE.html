@@ -1,91 +1,85 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ryan的华文情感词语 · PSLE 备考</title>
+<title>Ryan的华文情感词语 · PSLE</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap');
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#fdf6ee;--surface:#fff;--surface2:#faf5ee;--border:#e8ddd0;--border-strong:#d4c4b0;
   --text:#2c1810;--text-sec:#6b4c3b;--text-muted:#a08070;
   --red:#c0392b;--red-bg:#fef5f4;--red-border:#f5c6c2;
-  --orange:#d35400;--orange-bg:#fef9f4;--orange-border:#f5d5b8;
   --amber:#c77d0a;--amber-bg:#fefbf0;--amber-border:#f5e4b0;
   --green:#1a7a4a;--green-bg:#f0fdf6;--green-border:#b8f0d0;
   --blue:#1a5fa8;--blue-bg:#f0f6fe;--blue-border:#b8d4f5;
   --purple:#6b2fa0;--purple-bg:#f8f0fe;--purple-border:#d8b8f5;
   --teal:#0d7a6a;--teal-bg:#f0fdf9;--teal-border:#b8f0e8;
+  --orange:#d35400;--orange-bg:#fff7ed;--orange-border:#fed7aa;
   --pink:#b83280;--pink-bg:#fef0f8;--pink-border:#f5b8e0;
   --gold:#a07820;--gold-bg:#fffbf0;--gold-border:#f0dfa0;
-  --radius:10px;--shadow:0 2px 8px rgba(100,60,20,.10),0 1px 3px rgba(100,60,20,.08)
+  --radius:10px;--shadow:0 2px 8px rgba(100,60,20,.10)
 }
-body{font-family:'Noto Sans SC','Microsoft YaHei','PingFang SC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7}
+body{font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7}
 .page{max-width:820px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
-
-/* Hero */
 .hero{text-align:center;padding:1.5rem 1rem 1rem;margin-bottom:1.25rem}
 .hero-badge{display:inline-block;font-size:.75rem;font-weight:700;padding:4px 14px;border-radius:99px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);margin-bottom:.75rem}
 .hero h1{font-family:'Noto Serif SC',serif;font-size:1.75rem;font-weight:700;color:var(--text);margin-bottom:.25rem}
 .hero p{font-size:.875rem;color:var(--text-muted)}
 .hero-name{color:var(--red);font-weight:700}
 
-/* Voice debug panel */
-.voice-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:1.25rem;box-shadow:var(--shadow)}
-.voice-panel-title{font-size:.8rem;font-weight:700;color:var(--text-sec);margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.voice-status{font-size:.75rem;padding:4px 10px;border-radius:99px;font-weight:600}
-.voice-status.ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
-.voice-status.warn{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
-.voice-status.err{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
-.voice-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
-.voice-lbl{font-size:.75rem;color:var(--text-muted);white-space:nowrap}
-.voice-sel,.speed-sel{font-size:.8rem;font-family:inherit;padding:6px 10px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer}
-.voice-sel{flex:1;min-width:200px}
-.test-btn{padding:7px 16px;border-radius:var(--radius);border:1px solid var(--red-border);background:var(--red-bg);color:var(--red);font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap}
-.test-btn:hover{background:var(--red);color:#fff}
-.stop-all-btn{padding:7px 16px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface2);color:var(--text-sec);font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;white-space:nowrap}
+/* ── Voice debug box ── */
+.voice-box{background:var(--surface);border:2px solid var(--border);border-radius:12px;padding:16px;margin-bottom:1.25rem;box-shadow:var(--shadow)}
+.voice-box h3{font-size:.9rem;font-weight:700;color:var(--text-sec);margin-bottom:10px}
+#voiceList{font-size:.8rem;color:var(--text-sec);margin-bottom:10px;line-height:1.8;max-height:120px;overflow-y:auto;background:var(--surface2);padding:8px;border-radius:6px;border:1px solid var(--border)}
+.vrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.voice-sel{font-size:.8rem;font-family:inherit;padding:6px 10px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;flex:1;min-width:180px}
+.speed-sel{font-size:.8rem;font-family:inherit;padding:6px 8px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer}
+.test-btn{padding:8px 18px;border-radius:var(--radius);background:var(--red);color:#fff;border:none;font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer}
+.stop-btn{padding:8px 18px;border-radius:var(--radius);background:var(--surface2);color:var(--text-sec);border:1px solid var(--border-strong);font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer}
+.status-pill{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:99px}
+.s-ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.s-warn{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.s-err{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.install-guide{font-size:.75rem;color:var(--text-muted);line-height:1.8;margin-top:8px}
+.install-guide strong{color:var(--text-sec)}
 
-/* Speaking indicator */
+/* speaking pulse */
 .speaking-badge{display:none;align-items:center;gap:6px;font-size:.75rem;color:var(--red);font-weight:700;background:var(--red-bg);padding:5px 10px;border-radius:99px;border:1px solid var(--red-border)}
-.speaking-badge.show{display:flex}
+.speaking-badge.show{display:inline-flex}
 .bars{display:flex;gap:2px;align-items:center;height:14px}
 .bars span{width:3px;background:var(--red);border-radius:2px;animation:eq .8s infinite ease-in-out;display:block}
-.bars span:nth-child(1){height:5px;animation-delay:0s}.bars span:nth-child(2){height:10px;animation-delay:.1s}
+.bars span:nth-child(1){height:5px}.bars span:nth-child(2){height:10px;animation-delay:.1s}
 .bars span:nth-child(3){height:14px;animation-delay:.2s}.bars span:nth-child(4){height:10px;animation-delay:.3s}
 .bars span:nth-child(5){height:5px;animation-delay:.4s}
 @keyframes eq{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
 
-/* Tabs */
+/* tabs */
 .tab-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
 .tab-btn{padding:8px 16px;border-radius:99px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-sec);font-family:inherit;font-size:.8125rem;font-weight:700;cursor:pointer;transition:all .15s}
-.tab-btn:hover{background:var(--surface2)}
 .tab-btn.active{background:var(--red);color:#fff;border-color:var(--red)}
 .tab-section{display:none}.tab-section.active{display:block}
 
-/* Section heading */
+/* section head */
 .section-head{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;padding-bottom:10px;border-bottom:2px solid var(--border)}
 .section-icon{font-size:1.4rem}
 .section-title{font-family:'Noto Serif SC',serif;font-size:1.1rem;font-weight:700}
 .section-sub{font-size:.8rem;color:var(--text-muted);margin-left:auto}
 
-/* Card grid */
+/* card grid */
 .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px;margin-bottom:1.75rem}
-
-/* Phrase card */
-.phrase-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:1.1rem 1.1rem .9rem;box-shadow:var(--shadow);position:relative;transition:border-color .15s}
+.phrase-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:1.1rem;box-shadow:var(--shadow);position:relative;transition:border-color .15s}
 .phrase-card.active-card{border-color:var(--red);box-shadow:0 0 0 3px var(--red-border)}
 .phrase-num{position:absolute;top:10px;right:12px;font-size:.68rem;font-weight:700;color:var(--text-muted)}
 .emo-tag{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:99px;margin-bottom:7px}
-.phrase-chinese{font-family:'Noto Serif SC',serif;font-size:1.45rem;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:3px}
-.phrase-pinyin{font-size:.72rem;color:var(--text-muted);letter-spacing:.04em;margin-bottom:6px;font-style:italic}
+.phrase-chinese{font-family:'Noto Serif SC',serif;font-size:1.45rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.phrase-pinyin{font-size:.72rem;color:var(--text-muted);font-style:italic;margin-bottom:6px}
 .phrase-meaning{font-size:.8rem;color:var(--text-sec);background:var(--surface2);border-radius:6px;padding:5px 9px;margin-bottom:.7rem;border-left:3px solid var(--border-strong)}
 .phrase-example{font-size:.875rem;color:var(--text);line-height:1.8;border-top:1px solid var(--border);padding-top:.7rem}
-.card-speak-btn{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:700;padding:5px 12px;border-radius:99px;border:1.5px solid var(--red-border);background:var(--red-bg);color:var(--red);cursor:pointer;margin-top:9px;transition:all .15s;font-family:inherit}
-.card-speak-btn:hover,.card-speak-btn.on{background:var(--red);color:#fff;border-color:var(--red)}
+.speak-btn{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:700;padding:6px 14px;border-radius:99px;border:1.5px solid var(--red-border);background:var(--red-bg);color:var(--red);cursor:pointer;margin-top:9px;font-family:inherit;transition:all .15s}
+.speak-btn:hover,.speak-btn.on{background:var(--red);color:#fff;border-color:var(--red)}
 
-/* Category colours */
 .emo-anger{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
 .emo-fear{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-border)}
 .emo-nervous{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border)}
@@ -102,106 +96,86 @@ body{font-family:'Noto Sans SC','Microsoft YaHei','PingFang SC',sans-serif;backg
 .emo-jealous{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
 .emo-complex{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
 
-/* Play all */
 .play-all-wrap{display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap}
 .play-all-btn{display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--radius);border:1px solid var(--red-border);background:var(--red-bg);color:var(--red);font-family:inherit;font-size:.875rem;font-weight:700;cursor:pointer;transition:all .15s}
-.play-all-btn:hover{background:var(--red);color:#fff}
-.prog-bar{flex:1;height:5px;background:var(--border);border-radius:99px;overflow:hidden;min-width:80px}
-.prog-fill{height:100%;background:var(--red);border-radius:99px;transition:width .4s ease;width:0%}
-.prog-label{font-size:.72rem;color:var(--text-muted);white-space:nowrap}
+.play-all-btn:hover,.play-all-btn.on{background:var(--red);color:#fff}
+.prog-bar{flex:1;height:5px;background:var(--border);border-radius:99px;overflow:hidden;min-width:60px}
+.prog-fill{height:100%;background:var(--red);border-radius:99px;transition:width .4s;width:0%}
+.prog-lbl{font-size:.72rem;color:var(--text-muted);white-space:nowrap}
 
-/* Essay */
 .essay-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;box-shadow:var(--shadow)}
 .essay-title{font-family:'Noto Serif SC',serif;font-size:1.3rem;font-weight:700;color:var(--red);text-align:center;margin-bottom:.2rem}
 .essay-sub{font-size:.8rem;color:var(--text-muted);text-align:center;margin-bottom:1.25rem}
-.essay-para-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem .8rem;margin-bottom:10px;cursor:pointer;transition:border-color .15s}
-.essay-para-wrap:hover{border-color:var(--border-strong)}
+.essay-para-wrap{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:1rem 1.1rem .8rem;margin-bottom:10px;transition:border-color .15s}
 .essay-para-wrap.active-card{border-color:var(--red)}
 .para-meta{font-size:.68rem;font-weight:700;color:var(--text-muted);margin-bottom:6px}
 .essay-para{font-size:.9375rem;line-height:2;color:var(--text)}
 
-/* Quiz */
 .quiz-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;box-shadow:var(--shadow)}
 .q-meta{font-size:.72rem;font-weight:700;color:var(--text-muted);margin-bottom:.75rem}
-.q-text{font-family:'Noto Serif SC',serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:1.1rem;line-height:1.6}
+.q-text{font-family:'Noto Serif SC',serif;font-size:1.05rem;font-weight:700;margin-bottom:1.1rem;line-height:1.6}
 .q-opts{display:grid;gap:9px}
 .q-opt{width:100%;text-align:left;padding:11px 15px;border-radius:var(--radius);border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;font-size:.9rem;cursor:pointer;display:flex;gap:10px;align-items:center;transition:all .15s}
 .q-opt:hover:not(:disabled){background:var(--red-bg);border-color:var(--red-border)}
 .q-opt:disabled{cursor:default}
 .q-opt.correct{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:700}
 .q-opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);font-weight:700}
-.opt-label{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;color:var(--text-sec)}
+.opt-lbl{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0}
 .q-fb{display:none;margin-top:1rem;padding:10px 14px;border-radius:var(--radius);font-size:.875rem;line-height:1.6}
 .q-fb.show{display:block}
 .q-next{margin-top:1rem;padding:10px 22px;border-radius:var(--radius);background:var(--red);color:#fff;border:none;font-family:inherit;font-size:.875rem;font-weight:700;cursor:pointer}
 
-@media(max-width:540px){
-  .card-grid{grid-template-columns:1fr}
-  .page{padding:1rem .75rem 3rem}
-  .hero h1{font-size:1.35rem}
-  .voice-sel{min-width:140px}
-}
+@media(max-width:540px){.card-grid{grid-template-columns:1fr}.page{padding:1rem .75rem 3rem}.hero h1{font-size:1.35rem}}
 </style>
 </head>
 <body>
 <div class="page">
 
-<!-- Hero -->
 <div class="hero">
   <div class="hero-badge">PSLE 华文备考 2026</div>
   <h1>情感词语学习册</h1>
-  <p>为 <span class="hero-name">Ryan</span> 特别整理 · 88个必备情感词语 + 范文朗读</p>
+  <p>为 <span class="hero-name">Ryan</span> 特别整理 · 88个情感词语 + 范文朗读</p>
 </div>
 
-<!-- Voice control panel -->
-<div class="voice-panel">
-  <div class="voice-panel-title">
-    🔊 朗读设置
-    <span class="voice-status" id="voiceStatus">检测中…</span>
-    <div class="speaking-badge" id="speakBadge" style="margin-left:auto">
-      <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>朗读中…
-    </div>
-  </div>
-  <div class="voice-row">
-    <span class="voice-lbl">选择声音：</span>
-    <select class="voice-sel" id="voiceSel" onchange="onVoiceChange()">
-      <option value="">— 加载中 —</option>
+<!-- Voice setup box -->
+<div class="voice-box">
+  <h3>🔊 朗读设置 &nbsp;<span id="statusPill" class="status-pill s-warn">检测中…</span>&nbsp;<span class="speaking-badge" id="speakBadge"><div class="bars"><span></span><span></span><span></span><span></span><span></span></div>朗读中…</span></h3>
+  <div id="voiceList">正在检测声音…</div>
+  <div class="vrow">
+    <select class="voice-sel" id="voiceSel" onchange="pickVoice()">
+      <option>— 加载中 —</option>
     </select>
-    <span class="voice-lbl">语速：</span>
     <select class="speed-sel" id="speedSel">
-      <option value="0.6">慢 (0.6×)</option>
-      <option value="0.75" selected>正常 (0.75×)</option>
-      <option value="0.9">稍快 (0.9×)</option>
-      <option value="1.1">快 (1.1×)</option>
+      <option value="0.5">很慢</option>
+      <option value="0.7" selected>慢速</option>
+      <option value="0.85">正常</option>
+      <option value="1.0">快速</option>
     </select>
-    <button class="test-btn" onclick="testVoice()">🔊 测试朗读</button>
-    <button class="stop-all-btn" onclick="stopAll()">■ 停止</button>
+    <button class="test-btn" onclick="testSpeak()">🔊 测试</button>
+    <button class="stop-btn" onclick="stopAll()">■ 停止</button>
   </div>
-  <div id="voiceHint" style="font-size:.72rem;color:var(--text-muted);margin-top:8px;line-height:1.6"></div>
+  <div class="install-guide" id="installGuide"></div>
 </div>
 
-<!-- Tabs -->
 <div class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('phrases',this)">📚 情感词语（88个）</button>
   <button class="tab-btn" onclick="switchTab('essay',this)">📖 范文朗读</button>
   <button class="tab-btn" onclick="switchTab('quiz',this)">✏️ 快速测试</button>
 </div>
 
-<!-- TAB 1: PHRASES -->
 <div class="tab-section active" id="tab-phrases">
   <div class="play-all-wrap">
     <button class="play-all-btn" id="playAllBtn" onclick="togglePlayAll()">▶ 全部朗读</button>
     <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
-    <span class="prog-label" id="progLabel">0 / 88</span>
+    <span class="prog-lbl" id="progLbl">0 / 88</span>
   </div>
   <div id="phrase-sections"></div>
 </div>
 
-<!-- TAB 2: ESSAY -->
 <div class="tab-section" id="tab-essay">
   <div class="essay-wrap">
     <div class="essay-title">《沉迷手机惹的祸》</div>
-    <div class="essay-sub">钟老师范文 · 点击段落朗读</div>
+    <div class="essay-sub">钟老师范文 · 点击段落旁按钮朗读</div>
     <div class="play-all-wrap">
       <button class="play-all-btn" id="playEssayBtn" onclick="toggleEssayPlay()">▶ 朗读全文</button>
       <div class="prog-bar"><div class="prog-fill" id="essayProg"></div></div>
@@ -210,437 +184,397 @@ body{font-family:'Noto Sans SC','Microsoft YaHei','PingFang SC',sans-serif;backg
   </div>
 </div>
 
-<!-- TAB 3: QUIZ -->
 <div class="tab-section" id="tab-quiz">
   <div class="quiz-wrap" id="quizWrap"></div>
 </div>
 
-</div><!-- end page -->
+</div><!-- page -->
 
 <script>
-/* ══════════════════════════════════
-   SPEECH ENGINE — browser Web Speech API
-   with full voice detection + fallback
-══════════════════════════════════ */
-const synth = window.speechSynthesis;
-let voices = [];
+/* ═══════════════════════════════════════════════════
+   VOICE ENGINE
+   Three-layer fallback:
+   1. Web Speech API with detected Chinese voice
+   2. Web Speech API with lang=zh-CN (browser picks voice)
+   3. Show a clear install guide to the user
+═══════════════════════════════════════════════════ */
+const SY = window.speechSynthesis;
+let allVoices = [];
 let selectedVoice = null;
 let isSpeaking = false;
-let currentUtterance = null;
-let playAllActive = false;
-let playAllIdx = 0;
-let essayPlayActive = false;
-let essayPlayIdx = 0;
+let playAllActive = false, playAllIdx = 0;
+let essayActive = false,   essayIdx   = 0;
 
-function getRate() {
-  return parseFloat(document.getElementById('speedSel').value) || 0.75;
-}
-
-function initVoices() {
-  if (!synth) {
-    setStatus('err', '您的浏览器不支持朗读功能');
-    document.getElementById('voiceHint').textContent = '请使用 Chrome、Edge 或 Safari 浏览器打开此文件。';
+/* Load voices — retry because Chrome loads them async */
+function loadVoices() {
+  if (!SY) {
+    setStatus('err','浏览器不支持朗读');
+    document.getElementById('installGuide').innerHTML =
+      '<strong>请使用 Google Chrome 或 Microsoft Edge 打开此文件。</strong>';
     return;
   }
+  const raw = SY.getVoices();
 
-  function loadVoices() {
-    const all = synth.getVoices();
-    if (!all.length) return;
+  // Classify: zh first, then everything
+  const zh = raw.filter(v =>
+    v.lang.startsWith('zh') ||
+    /chinese|mandarin|普通|国语|meijia|tingting|sinji|huihui|yaoyao|kangkang/i.test(v.name)
+  );
+  allVoices = zh.length ? zh : raw;
 
-    // Priority: zh-TW, zh-CN, zh-HK, zh, then any
-    const zh = all.filter(v => v.lang.startsWith('zh'));
-    const tw = all.filter(v => v.lang === 'zh-TW' || v.lang === 'zh_TW');
-    const cn = all.filter(v => v.lang === 'zh-CN' || v.lang === 'zh_CN');
-    const hk = all.filter(v => v.lang === 'zh-HK' || v.lang === 'zh_HK');
+  // Populate dropdown
+  const sel = document.getElementById('voiceSel');
+  sel.innerHTML = '';
+  allVoices.forEach((v, i) => {
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = v.name + ' [' + v.lang + ']' + (v.localService ? ' ✓' : '');
+    sel.appendChild(o);
+  });
 
-    // Sort: put female / natural sounding first
-    const prefer = ['Meijia','Sinji','Tingting','Lekha','Sin-ji','Mei-Jia','Google 普通话','Microsoft Huihui','Microsoft Yaoyao','Microsoft Kangkang'];
-    zh.sort((a,b) => {
-      const ai = prefer.findIndex(p => a.name.includes(p));
-      const bi = prefer.findIndex(p => b.name.includes(p));
-      if(ai>=0&&bi<0) return -1;
-      if(bi>=0&&ai<0) return 1;
-      return ai-bi;
-    });
+  // Pick best voice
+  selectedVoice = (zh.length ? zh : raw)[0] || null;
 
-    voices = zh.length ? zh : all;
-    selectedVoice = voices[0] || null;
-
-    const sel = document.getElementById('voiceSel');
-    sel.innerHTML = '';
-    voices.forEach((v, i) => {
-      const o = document.createElement('option');
-      o.value = i;
-      o.textContent = v.name + ' (' + v.lang + ')' + (v.localService ? ' ✓' : ' ☁');
-      sel.appendChild(o);
-    });
-
-    if (zh.length) {
-      setStatus('ok', '✅ 找到 ' + zh.length + ' 个中文声音');
-      document.getElementById('voiceHint').textContent =
-        '✓ = 本地声音（离线可用）· ☁ = 在线声音。建议选择 ✓ 本地声音以确保稳定朗读。';
-    } else {
-      setStatus('warn', '⚠️ 未找到中文声音');
-      document.getElementById('voiceHint').innerHTML =
-        '未找到中文声音。请在系统设置中安装中文语音包，或使用 Chrome/Edge 浏览器。<br>' +
-        '<strong>Mac:</strong> 系统设置 → 辅助功能 → 朗读内容 → 系统声音 → 添加中文声音<br>' +
-        '<strong>Windows:</strong> 设置 → 时间和语言 → 语音 → 添加声音（中文普通话）';
-    }
+  // Status display
+  const listEl = document.getElementById('voiceList');
+  if (zh.length) {
+    setStatus('ok', '✅ 找到 ' + zh.length + ' 个中文声音');
+    listEl.innerHTML = zh.map(v =>
+      `<div>${v.localService?'✓':'☁'} <strong>${v.name}</strong> (${v.lang})</div>`
+    ).join('');
+    document.getElementById('installGuide').textContent =
+      '✓ = 本机声音（离线可用）· ☁ = 在线声音。请点击测试按钮确认声音正常。';
+  } else if (raw.length) {
+    setStatus('warn', '⚠️ 未找到中文声音，使用英文声音');
+    listEl.textContent = '找到 ' + raw.length + ' 个声音，但没有中文声音。请按以下指引安装。';
+    showInstallGuide();
+  } else {
+    setStatus('err', '❌ 没有任何声音');
+    listEl.textContent = '未找到任何朗读声音。';
+    showInstallGuide();
   }
-
-  loadVoices();
-  if (synth.onvoiceschanged !== undefined) {
-    synth.onvoiceschanged = loadVoices;
-  }
-  // Chrome needs a small delay
-  setTimeout(loadVoices, 200);
-  setTimeout(loadVoices, 800);
 }
 
-function onVoiceChange() {
-  const i = +document.getElementById('voiceSel').value;
-  selectedVoice = voices[i] || null;
+function showInstallGuide() {
+  document.getElementById('installGuide').innerHTML = `
+<strong>如何安装中文普通话声音：</strong><br>
+📱 <strong>iPad / iPhone：</strong>设置 → 辅助功能 → 朗读内容 → 声音 → 中文（中国大陆）→ 下载"普通话"声音 → 回到此页面刷新<br>
+💻 <strong>Mac：</strong>系统设置 → 辅助功能 → 朗读内容 → 系统声音 → 管理声音 → 选择"普通话 (Meijia)" → 下载<br>
+🖥️ <strong>Windows：</strong>设置 → 时间和语言 → 语音 → 管理声音 → 添加"中文（普通话，中国）" → 下载完成后刷新<br>
+安装后请刷新页面（F5）并重新点击测试按钮。`;
 }
 
 function setStatus(type, msg) {
-  const el = document.getElementById('voiceStatus');
-  el.className = 'voice-status ' + type;
+  const el = document.getElementById('statusPill');
+  el.className = 'status-pill s-' + type;
   el.textContent = msg;
 }
 
-function speak(text, onEnd) {
-  if (!synth) return;
-  synth.cancel();
-  isSpeaking = false;
+function pickVoice() {
+  const i = +document.getElementById('voiceSel').value;
+  selectedVoice = allVoices[i] || null;
+}
 
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = selectedVoice ? selectedVoice.lang : 'zh-CN';
-  utt.rate = getRate();
-  utt.pitch = 1;
-  utt.volume = 1;
-  if (selectedVoice) utt.voice = selectedVoice;
+function getRate() { return parseFloat(document.getElementById('speedSel').value) || 0.7; }
 
-  utt.onstart = () => {
-    isSpeaking = true;
-    document.getElementById('speakBadge').classList.add('show');
-  };
-  utt.onend = () => {
-    isSpeaking = false;
-    document.getElementById('speakBadge').classList.remove('show');
-    clearActiveCards();
-    if (onEnd) onEnd();
-  };
-  utt.onerror = (e) => {
-    isSpeaking = false;
-    document.getElementById('speakBadge').classList.remove('show');
-    clearActiveCards();
-    if (onEnd) onEnd();
-  };
+/* Core speak — Web Speech API with zh-CN fallback */
+function speak(text, onDone) {
+  if (!SY) { if (onDone) onDone(); return; }
+  SY.cancel();
 
-  currentUtterance = utt;
-  synth.speak(utt);
+  // Split at 150 chars on sentence boundary to avoid Chrome cutoff bug
+  const chunks = splitChunks(text, 150);
+  let i = 0;
 
-  // Chrome bug: speech sometimes pauses silently — keep it alive
-  const keepAlive = setInterval(() => {
-    if (!synth.speaking) { clearInterval(keepAlive); return; }
-    synth.pause();
-    synth.resume();
-  }, 8000);
+  function next() {
+    if (i >= chunks.length) {
+      setSpeaking(false);
+      clearHighlights();
+      if (onDone) onDone();
+      return;
+    }
+    const utt = new SpeechSynthesisUtterance(chunks[i++]);
+    // Always set lang to zh-CN — even if no zh voice, browser may pick one
+    utt.lang  = selectedVoice ? selectedVoice.lang : 'zh-CN';
+    utt.rate  = getRate();
+    utt.pitch = 1;
+    utt.volume = 1;
+    if (selectedVoice) utt.voice = selectedVoice;
+    utt.onend   = next;
+    utt.onerror = next;
+    SY.speak(utt);
+
+    // Chrome keepalive: pause/resume every 10s to prevent silent hang
+    const t = setInterval(() => {
+      if (!SY.speaking) { clearInterval(t); return; }
+      SY.pause(); SY.resume();
+    }, 10000);
+    utt.onend = () => { clearInterval(t); next(); };
+    utt.onerror = () => { clearInterval(t); next(); };
+  }
+
+  setSpeaking(true);
+  next();
+}
+
+function splitChunks(text, max) {
+  if (text.length <= max) return [text];
+  const res = [];
+  let s = text;
+  while (s.length > max) {
+    let cut = max;
+    for (let i = max - 1; i > max - 50; i--) {
+      if ('。！？，'.includes(s[i])) { cut = i + 1; break; }
+    }
+    res.push(s.slice(0, cut));
+    s = s.slice(cut);
+  }
+  if (s) res.push(s);
+  return res;
 }
 
 function stopAll() {
-  playAllActive = false;
-  essayPlayActive = false;
-  if (synth) synth.cancel();
-  isSpeaking = false;
-  document.getElementById('speakBadge').classList.remove('show');
-  clearActiveCards();
-  resetPlayAllBtn();
-  resetEssayBtn();
+  playAllActive = false; essayActive = false;
+  if (SY) SY.cancel();
+  setSpeaking(false);
+  clearHighlights();
+  resetPlayAllBtn(); resetEssayBtn();
 }
 
-function clearActiveCards() {
+function setSpeaking(v) {
+  isSpeaking = v;
+  document.getElementById('speakBadge').classList.toggle('show', v);
+}
+
+function clearHighlights() {
   document.querySelectorAll('.active-card').forEach(c => c.classList.remove('active-card'));
-  document.querySelectorAll('.card-speak-btn.on').forEach(b => { b.textContent = '🔊 朗读'; b.classList.remove('on'); });
-  document.querySelectorAll('[id^="eplaybtn-"].on').forEach(b => { b.textContent = '🔊 朗读此段'; b.classList.remove('on'); });
+  document.querySelectorAll('.speak-btn.on').forEach(b => { b.textContent = '🔊 朗读'; b.classList.remove('on'); });
+  document.querySelectorAll('[id^="epb-"].on').forEach(b => { b.textContent = '🔊 朗读此段'; b.classList.remove('on'); });
 }
 
-function testVoice() {
+function testSpeak() {
   stopAll();
-  speak('你好，Ryan！我们开始学习华文情感词语吧！加油！', null);
+  speak('你好！这是朗读测试。加油，Ryan！', null);
 }
 
-/* ══════════════════════════════════
-   PHRASES DATA
-══════════════════════════════════ */
+/* Init with retries */
+function initVoices() {
+  if (!SY) { setStatus('err','不支持朗读'); return; }
+  loadVoices();
+  SY.onvoiceschanged = loadVoices;
+  [100, 500, 1000, 2000].forEach(t => setTimeout(loadVoices, t));
+}
+
+/* ═══════════════════════════════════════
+   DATA
+═══════════════════════════════════════ */
 const SECTIONS = [
-  { id:'anger',   icon:'😡', title:'生气 · Anger',              count:9  },
-  { id:'fear',    icon:'😨', title:'害怕 · Fear',               count:8  },
-  { id:'nervous', icon:'😰', title:'紧张 · Nervous',            count:7  },
-  { id:'anxious', icon:'😟', title:'着急·担心 · Anxious & Worried', count:7 },
-  { id:'sad',     icon:'😢', title:'伤心·感动 · Sad & Touched', count:7  },
-  { id:'disappointed',icon:'😞',title:'失望 · Disappointed',   count:4  },
-  { id:'happy',   icon:'😄', title:'开心·兴奋 · Happy & Excited',count:9 },
-  { id:'proud',   icon:'😤', title:'骄傲·自信 · Proud & Confident',count:4},
-  { id:'ashamed', icon:'😳', title:'惭愧·难为情 · Ashamed & Embarrassed',count:6},
-  { id:'regret',  icon:'😔', title:'后悔 · Regretful',          count:4  },
-  { id:'shocked', icon:'😲', title:'吃惊 · Shocked',            count:5  },
-  { id:'relieved',icon:'😌', title:'松一口气·感激 · Relieved & Grateful',count:5},
-  { id:'wronged', icon:'😭', title:'委屈 · Wronged',            count:4  },
-  { id:'jealous', icon:'😒', title:'妒忌·羡慕 · Jealous & Envious',count:4},
-  { id:'complex', icon:'🌀', title:'复杂的心情 · Complex',       count:5  },
+  {id:'anger',   icon:'😡',t:'生气 · Anger'},
+  {id:'fear',    icon:'😨',t:'害怕 · Fear'},
+  {id:'nervous', icon:'😰',t:'紧张 · Nervous'},
+  {id:'anxious', icon:'😟',t:'着急·担心 · Anxious & Worried'},
+  {id:'sad',     icon:'😢',t:'伤心·感动 · Sad & Touched'},
+  {id:'disappointed',icon:'😞',t:'失望 · Disappointed'},
+  {id:'happy',   icon:'😄',t:'开心·兴奋 · Happy & Excited'},
+  {id:'proud',   icon:'😤',t:'骄傲·自信 · Proud & Confident'},
+  {id:'ashamed', icon:'😳',t:'惭愧·难为情 · Ashamed & Embarrassed'},
+  {id:'regret',  icon:'😔',t:'后悔 · Regretful'},
+  {id:'shocked', icon:'😲',t:'吃惊 · Shocked'},
+  {id:'relieved',icon:'😌',t:'松一口气·感激 · Relieved & Grateful'},
+  {id:'wronged', icon:'😭',t:'委屈 · Wronged'},
+  {id:'jealous', icon:'😒',t:'妒忌·羡慕 · Jealous & Envious'},
+  {id:'complex', icon:'🌀',t:'复杂的心情 · Complex Emotions'},
 ];
 
-const ALL_PHRASES = [
-  {id:1,cat:'anger',tag:'生气',zh:'火冒三丈',py:'huǒ mào sān zhàng',meaning:'非常生气或愤怒的样子',ex:'妹妹没把爸爸的杯子拿好，结果杯子碎落一地。爸爸气得火冒三丈，把粗心大意的妹妹训了一顿。'},
-  {id:2,cat:'anger',tag:'生气',zh:'大发雷霆',py:'dà fā léi tíng',meaning:'大发脾气，大声斥责',ex:'妈妈一听到我在考试中作弊，马上大发雷霆。她捏紧双拳，向我吼道："你怎么可以偷看！"'},
-  {id:3,cat:'anger',tag:'生气',zh:'气得七窍生烟',py:'qì dé qī qiào shēng yān',meaning:'气到眼耳鼻孔和口都冒烟',ex:'爸爸看到我的成绩单上鲜红的零分，气得七窍生烟。他狠狠地瞪着我，二话不说就抬起手来。'},
-  {id:4,cat:'anger',tag:'生气',zh:'狠狠地瞪着',py:'hěn hěn de dèng zhe',meaning:'怒视',ex:'他狠狠地瞪着我，二话不说就抬起手来，赏了我一记耳光。'},
-  {id:5,cat:'anger',tag:'生气',zh:'赏了一记耳光',py:'shǎng le yí jì ěr guāng',meaning:'给别人一巴掌',ex:'爸爸看到我的成绩单，气得七窍生烟，赏了我一记耳光。'},
-  {id:6,cat:'anger',tag:'生气',zh:'板着脸',py:'bǎn zhe liǎn',meaning:'为表示不满而面无表情',ex:'丽丽见到我进来，脸上的笑容一瞬间消失了。她板着脸，眉头皱得像反写的八字，睬都不睬我。'},
-  {id:7,cat:'anger',tag:'生气',zh:'皱眉头',py:'zhòu méi tóu',meaning:'生气时皱起眉头的表情',ex:'她眉头皱得像反写的八字，我和她打招呼时，她马上转过身，睬都不睬我。'},
-  {id:8,cat:'anger',tag:'生气',zh:'骂得狗血淋头',py:'mà dé gǒu xuè lín tóu',meaning:'骂得很凶',ex:'爸爸发现我和妹妹撒了谎，气得暴跳如雷，当场把我们骂得狗血淋头。'},
-  {id:9,cat:'anger',tag:'生气',zh:'暴跳如雷',py:'bào tiào rú léi',meaning:'生气得使劲跳脚，像打雷一样大声喊叫',ex:'爸爸发现我们撒谎，气得暴跳如雷，当场把我们骂得狗血淋头。'},
-  {id:10,cat:'fear',tag:'害怕',zh:'冷汗直流',py:'lěng hàn zhí liú',meaning:'害怕到不断冒冷汗',ex:'路边突然有一头凶猛的野狗出现，我吓得冷汗直流，动也不敢动。'},
-  {id:11,cat:'fear',tag:'害怕',zh:'脸青唇白',py:'liǎn qīng chún bái',meaning:'害怕到脸色发青、嘴唇变白',ex:'电梯门关上后，男子亮出一把尖利的刀子。我顿时吓得脸青唇白，慌忙地举起双手。'},
-  {id:12,cat:'fear',tag:'害怕',zh:'缩成一团',py:'suō chéng yì tuán',meaning:'因非常害怕而紧抱自己的身体',ex:'恩恩吓得缩成一团，全身发抖，连大气也不敢喘一口。'},
-  {id:13,cat:'fear',tag:'害怕',zh:'全身发抖',py:'quán shēn fā dǒu',meaning:'身体因害怕而抖动',ex:'恩恩吓得缩成一团，全身发抖，连大气也不敢喘一口。'},
-  {id:14,cat:'fear',tag:'害怕',zh:'连大气也不敢喘一口',py:'lián dà qì yě bù gǎn chuǎn yì kǒu',meaning:'害怕到不敢呼吸',ex:'门外传来激烈的敲门声，恩恩连大气也不敢喘一口。'},
-  {id:15,cat:'fear',tag:'害怕',zh:'拔腿就跑',py:'bá tuǐ jiù pǎo',meaning:'迅速跑开',ex:'野狗越逼越近，明诚吓得拔腿就跑。'},
-  {id:16,cat:'fear',tag:'害怕',zh:'战战兢兢',py:'zhàn zhàn jīng jīng',meaning:'因害怕而发抖或特别小心的样子',ex:'当老师反复质问美文时，她终于战战兢兢地承认钱包是她偷的。'},
-  {id:17,cat:'fear',tag:'害怕',zh:'不知所措',py:'bù zhī suǒ cuò',meaning:'不知道做什么才好',ex:'我望着眼前那条大蛇，吓得不知所措，只能站在原地颤抖。'},
-  {id:18,cat:'nervous',tag:'紧张',zh:'七上八下',py:'qī shàng bā xià',meaning:'烦乱不安',ex:'当老师捧着考试卷子踏入课室时，大家的心都像十五个吊水桶般，七上八下。'},
-  {id:19,cat:'nervous',tag:'紧张',zh:'忐忑不安',py:'tǎn tè bù ān',meaning:'非常不安，做事没把握',ex:'考试前一晚，我总会感到忐忑不安。到底自己的准备是否充足呢？'},
-  {id:20,cat:'nervous',tag:'紧张',zh:'冒出串串汗珠',py:'mào chū chuàn chuàn hàn zhū',meaning:'紧张得一直流汗',ex:'一想到即将登台演出，我的额头和手心就不断冒出串串汗珠。'},
-  {id:21,cat:'nervous',tag:'紧张',zh:'心里像揣着小兔一样',py:'xīn lǐ xiàng chuāi zhe xiǎo tù yí yàng',meaning:'心里害怕、慌乱',ex:'当时，我的心里就像是揣着一只小兔一样，怦怦直跳。'},
-  {id:22,cat:'nervous',tag:'紧张',zh:'怦怦跳',py:'pēng pēng tiào',meaning:'心跳得很快的声音',ex:'我的心里像揣着小兔一样，怦怦直跳，紧张极了。'},
-  {id:23,cat:'nervous',tag:'紧张',zh:'结结巴巴',py:'jiē jiē bā bā',meaning:'说话一直重复，不流利',ex:'我紧握麦克风，咽了咽口水，结结巴巴地说："大-大家下-下午好。"'},
-  {id:24,cat:'nervous',tag:'紧张',zh:'咽了咽口水',py:'yàn le yàn kǒu shuǐ',meaning:'吞了吞口水，紧张的动作',ex:'我望着台下的观众，咽了咽口水，结结巴巴地开口说话。'},
-  {id:25,cat:'anxious',tag:'着急',zh:'急得像热锅上的蚂蚁',py:'jí dé xiàng rè guō shàng de mǎ yǐ',meaning:'非常着急',ex:'考官提醒大家还剩五分钟。立明急得像热锅上的蚂蚁，慌忙地咬着笔，不知道要写什么才好。'},
-  {id:26,cat:'anxious',tag:'着急',zh:'坐立不安',py:'zuò lì bù ān',meaning:'心神不定，烦躁不安',ex:'弟弟被推进手术室后，我们一家坐立不安地在手术室外等待着医生的消息。'},
-  {id:27,cat:'anxious',tag:'着急',zh:'心急如焚',py:'xīn jí rú fén',meaning:'心里急得像火烧一样',ex:'天开始黑了，可爸爸还没来接我回家。我心急如焚，是爸爸忘了接我，还是他出了什么事？'},
-  {id:28,cat:'anxious',tag:'担心',zh:'捏一把冷汗',py:'niē yì bǎ lěng hàn',meaning:'因情况危险而冒汗，非常担心的样子',ex:'看到妹妹学骑脚车时东摇西晃的样子，我不禁为她捏了一把冷汗。'},
-  {id:29,cat:'anxious',tag:'担心',zh:'操心',py:'cāo xīn',meaning:'担心',ex:'妈妈见品品越来越沉迷于电子游戏，天天为此而操心，头发白了不少，人也消瘦了许多。'},
-  {id:30,cat:'anxious',tag:'担心',zh:'愁眉苦脸',py:'chóu méi kǔ liǎn',meaning:'紧皱着眉头，满脸苦相',ex:'最近，美如老是愁眉苦脸的，一副心事重重的样子。'},
-  {id:31,cat:'anxious',tag:'担心',zh:'心事重重',py:'xīn shì chóng chóng',meaning:'内心充满担忧',ex:'最近，美如老是愁眉苦脸的，一副心事重重的样子。'},
-  {id:32,cat:'sad',tag:'伤心',zh:'泪如雨下',py:'lèi rú yǔ xià',meaning:'非常悲痛，眼泪像雨一样落下',ex:'毕业典礼上，大家紧紧相拥，有的泪如雨下，有的强忍着泪水，我也忍不住红了眼眶。'},
-  {id:33,cat:'sad',tag:'伤心',zh:'强忍着泪水',py:'qiáng rěn zhe lèi shuǐ',meaning:'努力不哭',ex:'毕业典礼上，同学们一起回顾着校园生活，大家强忍着泪水，依依不舍。'},
-  {id:34,cat:'sad',tag:'感动',zh:'红了眼眶',py:'hóng le yǎn kuàng',meaning:'因强烈的情感而要哭的样子',ex:'看到妈妈一大早为我准备早餐，我忍不住红了眼眶，心里非常感动。'},
-  {id:35,cat:'sad',tag:'伤心',zh:'心如刀割',py:'xīn rú dāo gē',meaning:'心像被刀割一样伤心痛苦',ex:'一想起慧慧说的话，我便心如刀割。我们十年的友情，难道就此结束？'},
-  {id:36,cat:'sad',tag:'感动',zh:'的心微微一震',py:'de xīn wēi wēi yí zhèn',meaning:'看到或听到一件事时被打动的感受',ex:'我转身一看，只见爷爷吃力地朝我走来，手里拿着我忘了带的作业本。我的心微微一震……'},
-  {id:37,cat:'sad',tag:'感动',zh:'鼻子一酸',py:'bí zi yì suān',meaning:'哭前鼻子所有的感觉',ex:'想到妈妈每天晚上都在打工来补贴家用，我的鼻子一酸，泪水夺眶而出……'},
-  {id:38,cat:'sad',tag:'感动',zh:'泪水夺眶而出',py:'lèi shuǐ duó kuàng ér chū',meaning:'泪水流了出来',ex:'想到这里，我的鼻子一酸，泪水夺眶而出，心中充满了感激。'},
-  {id:39,cat:'disappointed',tag:'失望',zh:'心灰意冷',py:'xīn huī yì lěng',meaning:'失去信心',ex:'面对一连串的失败，成光心灰意冷，不禁想要放弃做运动员的梦想。'},
-  {id:40,cat:'disappointed',tag:'失望',zh:'拖着沉重的脚步',py:'tuō zhe chén zhòng de jiǎo bù',meaning:'走得很慢，心情沉重',ex:'教练没有选中我参加比赛。我低着头，拖着沉重的脚步离开了操场。'},
-  {id:41,cat:'disappointed',tag:'失望',zh:'垂头丧气',py:'chuí tóu sàng qì',meaning:'情绪低落，心情沮丧',ex:'小光看到自己的考试成绩后，垂头丧气地走出课室，失望极了。'},
-  {id:42,cat:'disappointed',tag:'失望',zh:'无精打采',py:'wú jīng dǎ cǎi',meaning:'情绪低落，打不起精神',ex:'他失望极了，回到家后，一整天都无精打采的，什么事都提不起劲来。'},
-  {id:43,cat:'happy',tag:'开心',zh:'手舞足蹈',py:'shǒu wǔ zú dǎo',meaning:'两手舞动，两脚跳动，高兴极了',ex:'爸爸说要带我们全家到日本游玩，我和弟弟都高兴得手舞足蹈，笑得眼睛都眯成一条缝。'},
-  {id:44,cat:'happy',tag:'开心',zh:'笑得眼睛都眯成一条缝',py:'xiào dé yǎn jīng dōu mī chéng yì tiáo fèng',meaning:'笑得很开心',ex:'我和弟弟都高兴得手舞足蹈，笑得眼睛都眯成一条缝。'},
-  {id:45,cat:'happy',tag:'开心',zh:'眉开眼笑',py:'méi kāi yǎn xiào',meaning:'眉头舒展，眼带笑意，非常高兴',ex:'哥哥上台领取奖杯时，眉开眼笑地说："谢谢大家的肯定，我会再接再厉的！"'},
-  {id:46,cat:'happy',tag:'兴奋',zh:'喜出望外',py:'xǐ chū wàng wài',meaning:'遇到出乎意料的好事而特别高兴',ex:'没想到，帮妈妈大扫除时，我竟然找回她失去的项链。妈妈喜出望外，立刻把它戴上。'},
-  {id:47,cat:'happy',tag:'开心',zh:'心里甜滋滋的',py:'xīn lǐ tián zī zī de',meaning:'非常愉快',ex:'老师在全班面前夸奖丽珍手脚勤快，做事认真。丽珍听了，心里甜滋滋的，像是吃了蜜糖一样。'},
-  {id:48,cat:'happy',tag:'兴奋',zh:'齐声欢呼',py:'qí shēng huān hū',meaning:'一起呼叫、高兴',ex:'当营火亮起时，我们齐声欢呼，兴高采烈地唱着歌、跳着舞。'},
-  {id:49,cat:'happy',tag:'兴奋',zh:'兴致勃勃',py:'xìng zhì bó bó',meaning:'兴趣浓厚，情绪很高',ex:'到了营地，大家兴致勃勃地为当晚的营火会做准备。'},
-  {id:50,cat:'happy',tag:'兴奋',zh:'兴高采烈',py:'xìng gāo cǎi liè',meaning:'神采飞扬、兴奋',ex:'我们围绕着营火，兴高采烈地唱着歌、跳着舞，玩得不亦乐乎。'},
-  {id:51,cat:'happy',tag:'开心',zh:'捧腹大笑',py:'pěng fù dà xiào',meaning:'大笑时用手捧住肚子，笑得无法控制',ex:'叔叔风趣幽默，他说的笑话总会把我逗得捧腹大笑。'},
-  {id:52,cat:'proud',tag:'骄傲',zh:'瞧不起',py:'qiáo bù qǐ',meaning:'看不起',ex:'尽管别人瞧不起自己，国华仍然自信满满地走上台，发挥出最好的水平。'},
-  {id:53,cat:'proud',tag:'自信',zh:'自信满满',py:'zì xìn mǎn mǎn',meaning:'对自己充满信心',ex:'尽管别人瞧不起自己，国华仍然自信满满地走上台，发挥出最好的水平。'},
-  {id:54,cat:'proud',tag:'骄傲',zh:'洋洋得意',py:'yáng yáng dé yì',meaning:'神气十足，非常得意',ex:'国华看到自己得了满分，洋洋得意地笑了。这次他没什么准备就能考到好成绩。'},
-  {id:55,cat:'proud',tag:'骄傲',zh:'得意忘形',py:'dé yì wàng xíng',meaning:'高兴到失去常态，因一时成功而过于骄傲',ex:'日子久了，他开始得意忘形，不再努力学习了。不知不觉中，他的成绩退步了。'},
-  {id:56,cat:'ashamed',tag:'惭愧',zh:'惭愧',py:'cán kuì',meaning:'因自己的行为而感到羞耻愧疚',ex:'谎言被拆穿时，我惭愧地低下了头，恨不得找个裂缝钻进去。'},
-  {id:57,cat:'ashamed',tag:'难为情',zh:'脸上一阵火辣',py:'liǎn shàng yí zhèn huǒ là',meaning:'因难为情而感到脸烧烧的',ex:'谎言被拆穿时，我的脸上一阵火辣。我惭愧地低下了头。'},
-  {id:58,cat:'ashamed',tag:'难为情',zh:'恨不得找个裂缝钻进去',py:'hèn bú dé zhǎo gè liè fèng zuān jìn qù',meaning:'很想马上消失，非常难为情',ex:'我惭愧地低下了头，恨不得找个裂缝钻进去，真的太难为情了。'},
-  {id:59,cat:'ashamed',tag:'惭愧',zh:'无地自容',py:'wú dì zì róng',meaning:'羞愧极了',ex:'当同学们开始嘲笑我时，我感到无地自容，脸红得像番茄一样。'},
-  {id:60,cat:'ashamed',tag:'难为情',zh:'脸红得像番茄',py:'liǎn hóng dé xiàng fān qié',meaning:'脸很红，因感到难为情或惭愧',ex:'我感到无地自容，脸红得像番茄一样，匆匆地跑出课室。'},
-  {id:61,cat:'ashamed',tag:'惭愧',zh:'面红耳赤',py:'miàn hóng ěr chì',meaning:'脸和耳朵都红了，也用来形容生气',ex:'听了校长的话，我羞愧得面红耳赤，连声道歉。'},
-  {id:62,cat:'regret',tag:'后悔',zh:'悔不当初',py:'huǐ bù dāng chū',meaning:'后悔开始时所做（或没做）的一切',ex:'我坐在秋千上，回想起自己对妈妈说的谎话。我真是悔不当初，只能把这次的经验当成一次痛苦的教训。'},
-  {id:63,cat:'regret',tag:'后悔',zh:'改过自新',py:'gǎi guò zì xīn',meaning:'改正过失或错误，重新做起',ex:'我下定决心改过自新，做个诚实的孩子，再也不撒谎了。'},
-  {id:64,cat:'regret',tag:'后悔',zh:'内疚',py:'nèi jiù',meaning:'因做错事而心情不安',ex:'医生说弟弟一辈子需要坐轮椅了。听到这里，我真是内疚。我多希望时光能倒流……'},
-  {id:65,cat:'regret',tag:'后悔',zh:'后悔莫及',py:'hòu huǐ mò jí',meaning:'事后后悔，已来不及了',ex:'我真是后悔莫及，当初为何没听从妈妈的劝告，把自己的财物保管好呢？'},
-  {id:66,cat:'shocked',tag:'吃惊',zh:'惊呆了',py:'jīng dāi le',meaning:'非常吃惊，无法反应过来',ex:'当新来的杰克开口做自我介绍时，大家都惊呆了。意想不到的是，这个金发的插班生能说一口流利的华语！'},
-  {id:67,cat:'shocked',tag:'吃惊',zh:'意想不到',py:'yì xiǎng bù dào',meaning:'事情或情况超出人们的想象',ex:'意想不到的是，这个金发的插班生能说一口流利的华语，说得比我们还标准呢！'},
-  {id:68,cat:'shocked',tag:'吃惊',zh:'大吃一惊',py:'dà chī yì jīng',meaning:'对事情感到非常惊讶',ex:'看到班长欺负低年级的同学时，我大吃一惊，完全没有想到他会这样做。'},
-  {id:69,cat:'shocked',tag:'吃惊',zh:'目瞪口呆',py:'mù dèng kǒu dāi',meaning:'瞪着眼说不出话来，吃惊、害怕或发愣',ex:'走进厨房时，我被眼前这一幕惊得目瞪口呆。只见一只猴子在桌上，手里拿着我吃剩的月饼……'},
-  {id:70,cat:'shocked',tag:'吃惊',zh:'大跌眼镜',py:'dà diē yǎn jìng',meaning:'对事情感到非常惊讶',ex:'班长平时成绩优秀，这次科科却不及格，真令人大跌眼镜。'},
-  {id:71,cat:'relieved',tag:'松一口气',zh:'松了一口气',py:'sōng le yì kǒu qì',meaning:'不再紧张或担忧',ex:'当贝贝点头表示原谅我时，我顿时松了一口气，终于放下心中的大石。'},
-  {id:72,cat:'relieved',tag:'松一口气',zh:'放下心中的大石',py:'fàng xià xīn zhōng de dà shí',meaning:'不再压力、焦虑或担忧，感到轻松',ex:'当贝贝点头表示原谅我时，我终于放下心中的大石，感到轻松多了。'},
-  {id:73,cat:'relieved',tag:'松一口气',zh:'如释重负',py:'rú shì zhòng fù',meaning:'好像放下重担，少了负担后心情愉快',ex:'会考终于结束了，我有种如释重负的轻快感，心情格外开朗。'},
-  {id:74,cat:'relieved',tag:'感激',zh:'欣慰',py:'xīn wèi',meaning:'对好消息、好的发展等感到放心和满足',ex:'妈妈见我变得更加懂事了，感到无比欣慰，脸上露出了满意的笑容。'},
-  {id:75,cat:'relieved',tag:'感激',zh:'感激不尽',py:'gǎn jī bù jìn',meaning:'对别人的帮助表示深深的感激',ex:'医生和护士无微不至的照顾让王伯伯重获新生，他对医疗人员感激不尽。'},
-  {id:76,cat:'wronged',tag:'委屈',zh:'不分青红皂白',py:'bù fēn qīng hóng zào bái',meaning:'没弄清是非情由就做起事来',ex:'妈妈见到厨房乱七八糟的，不分青红皂白地把我训了一顿。这明明就是姐姐干的！'},
-  {id:77,cat:'wronged',tag:'委屈',zh:'委屈',py:'wěi qū',meaning:'受到不公平的对待或指责而心中难受',ex:'被冤枉的感觉真难受。我感到委屈极了，泪水不由自主地落了下来……'},
-  {id:78,cat:'wronged',tag:'委屈',zh:'冤枉',py:'yuān wǎng',meaning:'受到不公平的待遇',ex:'妈妈没查清楚就骂我，这明明就是姐姐干的，被冤枉的感觉真难受。'},
-  {id:79,cat:'wronged',tag:'委屈',zh:'不由自主',py:'bù yóu zì zhǔ',meaning:'无法控制',ex:'我感到委屈极了，泪水不由自主地落了下来……'},
-  {id:80,cat:'jealous',tag:'妒忌',zh:'妒忌',py:'dù jì',meaning:'因别人好过自己而心怀怨恨',ex:'看到志强笑眯眯地站在台上领奖，我妒忌不已，心里很不是滋味。'},
-  {id:81,cat:'jealous',tag:'妒忌',zh:'心里很不是滋味',py:'xīn lǐ hěn bú shì zī wèi',meaning:'内心不好受',ex:'看到志强在台上领奖，我妒忌不已，心里很不是滋味，恨不得那个人是我。'},
-  {id:82,cat:'jealous',tag:'羡慕',zh:'羡慕',py:'xiàn mù',meaning:'希望自己能和别人一样好或得到别人所有的',ex:'当我看到丽丽的新手机时，用羡慕的眼神看着她，多希望自己也能拥有。'},
-  {id:83,cat:'jealous',tag:'羡慕',zh:'渴望',py:'kě wàng',meaning:'非常希望',ex:'我多么渴望自己也能拥有这台手机，要是妈妈有能力买给我，那该多好啊！'},
-  {id:84,cat:'complex',tag:'复杂',zh:'破涕为笑',py:'pò tì wéi xiào',meaning:'从哭变成笑，转悲为喜',ex:'当我把弟弟的玩具修好时，他立刻破涕为笑，眼泪还挂在脸上就笑了起来。'},
-  {id:85,cat:'complex',tag:'复杂',zh:'百感交集',py:'bǎi gǎn jiāo jí',meaning:'很多不同的感触，心情很复杂',ex:'毕业典礼上，我感到百感交集，自豪、激动、依依不舍一块儿涌上心头……'},
-  {id:86,cat:'complex',tag:'复杂',zh:'心里像是打翻了五味瓶',py:'xīn lǐ xiàng shì dǎ fān le wǔ wèi píng',meaning:'心情复杂、感到矛盾、混乱或不知所措',ex:'此时，我的心里就像是打翻了五味瓶，说不出是什么滋味。'},
-  {id:87,cat:'complex',tag:'复杂',zh:'非笔墨所能形容',py:'fēi bǐ mò suǒ néng xíng róng',meaning:'难用文字来表达，用于独特或强烈的情感',ex:'越过终点线的那一刻，当时的心情是非笔墨所能形容的，我过了自己心里那一关！'},
-  {id:88,cat:'complex',tag:'复杂',zh:'难以言喻',py:'nán yǐ yán yù',meaning:'很难用适当的词语形容',ex:'望着眼前的这一幕，我的心中有种难以言喻的感动。原来，这世界上还有那么多好心人……'},
+const P=[
+  {n:1,c:'anger',tag:'生气',zh:'火冒三丈',py:'huǒ mào sān zhàng',m:'非常生气或愤怒的样子',e:'妹妹没把爸爸的杯子拿好，结果杯子碎落一地。爸爸气得火冒三丈，把粗心大意的妹妹训了一顿。'},
+  {n:2,c:'anger',tag:'生气',zh:'大发雷霆',py:'dà fā léi tíng',m:'大发脾气，大声斥责',e:'妈妈一听到我在考试中作弊，马上大发雷霆。她捏紧双拳，向我吼道："你怎么可以偷看！"'},
+  {n:3,c:'anger',tag:'生气',zh:'气得七窍生烟',py:'qì dé qī qiào shēng yān',m:'气到眼耳鼻孔和口都冒烟',e:'爸爸看到我的成绩单上鲜红的零分，气得七窍生烟，狠狠地瞪着我。'},
+  {n:4,c:'anger',tag:'生气',zh:'狠狠地瞪着',py:'hěn hěn de dèng zhe',m:'怒视',e:'他狠狠地瞪着我，二话不说就抬起手来，赏了我一记耳光。'},
+  {n:5,c:'anger',tag:'生气',zh:'赏了一记耳光',py:'shǎng le yí jì ěr guāng',m:'给别人一巴掌',e:'爸爸看到我的成绩单，气得七窍生烟，赏了我一记耳光。'},
+  {n:6,c:'anger',tag:'生气',zh:'板着脸',py:'bǎn zhe liǎn',m:'为表示不满而面无表情',e:'丽丽见到我进来，脸上的笑容一瞬间消失了。她板着脸，眉头皱得像反写的八字，睬都不睬我。'},
+  {n:7,c:'anger',tag:'生气',zh:'皱眉头',py:'zhòu méi tóu',m:'生气时皱起眉头的表情',e:'她眉头皱得像反写的八字，马上转过身，睬都不睬我。'},
+  {n:8,c:'anger',tag:'生气',zh:'骂得狗血淋头',py:'mà dé gǒu xuè lín tóu',m:'骂得很凶',e:'爸爸发现我和妹妹撒了谎，气得暴跳如雷，当场把我们骂得狗血淋头。'},
+  {n:9,c:'anger',tag:'生气',zh:'暴跳如雷',py:'bào tiào rú léi',m:'生气得使劲跳脚，像打雷一样大声喊叫',e:'爸爸发现我们撒谎，气得暴跳如雷，当场把我们骂得狗血淋头。'},
+  {n:10,c:'fear',tag:'害怕',zh:'冷汗直流',py:'lěng hàn zhí liú',m:'害怕到不断冒冷汗',e:'路边突然有一头凶猛的野狗出现，我吓得冷汗直流，动也不敢动。'},
+  {n:11,c:'fear',tag:'害怕',zh:'脸青唇白',py:'liǎn qīng chún bái',m:'害怕到脸色发青、嘴唇变白',e:'电梯门关上后，男子亮出一把尖利的刀子。我顿时吓得脸青唇白，慌忙举起双手。'},
+  {n:12,c:'fear',tag:'害怕',zh:'缩成一团',py:'suō chéng yì tuán',m:'因非常害怕而紧抱自己的身体',e:'恩恩吓得缩成一团，全身发抖，连大气也不敢喘一口。'},
+  {n:13,c:'fear',tag:'害怕',zh:'全身发抖',py:'quán shēn fā dǒu',m:'身体因害怕而抖动',e:'恩恩吓得缩成一团，全身发抖，连大气也不敢喘一口。'},
+  {n:14,c:'fear',tag:'害怕',zh:'连大气也不敢喘一口',py:'lián dà qì yě bù gǎn chuǎn yì kǒu',m:'害怕到不敢呼吸',e:'门外传来激烈的敲门声，恩恩连大气也不敢喘一口。'},
+  {n:15,c:'fear',tag:'害怕',zh:'拔腿就跑',py:'bá tuǐ jiù pǎo',m:'迅速跑开',e:'野狗越逼越近，明诚吓得拔腿就跑。'},
+  {n:16,c:'fear',tag:'害怕',zh:'战战兢兢',py:'zhàn zhàn jīng jīng',m:'因害怕而发抖或特别小心的样子',e:'当老师反复质问美文时，她终于战战兢兢地承认钱包是她偷的。'},
+  {n:17,c:'fear',tag:'害怕',zh:'不知所措',py:'bù zhī suǒ cuò',m:'不知道做什么才好',e:'我望着眼前那条大蛇，吓得不知所措，只能站在原地颤抖。'},
+  {n:18,c:'nervous',tag:'紧张',zh:'七上八下',py:'qī shàng bā xià',m:'烦乱不安',e:'当老师捧着考试卷子踏入课室时，大家的心都像十五个吊水桶般，七上八下。'},
+  {n:19,c:'nervous',tag:'紧张',zh:'忐忑不安',py:'tǎn tè bù ān',m:'非常不安，做事没把握',e:'考试前一晚，我总会感到忐忑不安。到底自己的准备是否充足呢？'},
+  {n:20,c:'nervous',tag:'紧张',zh:'冒出串串汗珠',py:'mào chū chuàn chuàn hàn zhū',m:'紧张得一直流汗',e:'一想到即将登台演出，我的额头和手心就不断冒出串串汗珠。'},
+  {n:21,c:'nervous',tag:'紧张',zh:'心里像揣着小兔一样',py:'xīn lǐ xiàng chuāi zhe xiǎo tù yí yàng',m:'心里害怕、慌乱',e:'当时，我的心里就像是揣着一只小兔一样，怦怦直跳。'},
+  {n:22,c:'nervous',tag:'紧张',zh:'怦怦跳',py:'pēng pēng tiào',m:'心跳得很快的声音',e:'我的心里像揣着小兔一样，怦怦直跳，紧张极了。'},
+  {n:23,c:'nervous',tag:'紧张',zh:'结结巴巴',py:'jiē jiē bā bā',m:'说话一直重复，不流利',e:'我紧握麦克风，咽了咽口水，结结巴巴地说："大-大家下-下午好。"'},
+  {n:24,c:'nervous',tag:'紧张',zh:'咽了咽口水',py:'yàn le yàn kǒu shuǐ',m:'吞了吞口水',e:'我望着台下的观众，咽了咽口水，结结巴巴地开口说话。'},
+  {n:25,c:'anxious',tag:'着急',zh:'急得像热锅上的蚂蚁',py:'jí dé xiàng rè guō shàng de mǎ yǐ',m:'非常着急',e:'考官提醒大家还剩五分钟。立明急得像热锅上的蚂蚁，慌忙地咬着笔，不知道要写什么才好。'},
+  {n:26,c:'anxious',tag:'着急',zh:'坐立不安',py:'zuò lì bù ān',m:'心神不定，烦躁不安',e:'弟弟被推进手术室后，我们一家坐立不安地在手术室外等待着医生的消息。'},
+  {n:27,c:'anxious',tag:'着急',zh:'心急如焚',py:'xīn jí rú fén',m:'心里急得像火烧一样',e:'天开始黑了，可爸爸还没来接我回家。我心急如焚，是爸爸忘了接我，还是他出了什么事？'},
+  {n:28,c:'anxious',tag:'担心',zh:'捏一把冷汗',py:'niē yì bǎ lěng hàn',m:'因情况危险而冒汗，非常担心的样子',e:'看到妹妹学骑脚车时东摇西晃的样子，我不禁为她捏了一把冷汗。'},
+  {n:29,c:'anxious',tag:'担心',zh:'操心',py:'cāo xīn',m:'担心',e:'妈妈见品品越来越沉迷于电子游戏，天天为此而操心，头发白了不少，人也消瘦了许多。'},
+  {n:30,c:'anxious',tag:'担心',zh:'愁眉苦脸',py:'chóu méi kǔ liǎn',m:'紧皱着眉头，满脸苦相',e:'最近，美如老是愁眉苦脸的，一副心事重重的样子。'},
+  {n:31,c:'anxious',tag:'担心',zh:'心事重重',py:'xīn shì chóng chóng',m:'内心充满担忧',e:'最近，美如老是愁眉苦脸的，一副心事重重的样子。'},
+  {n:32,c:'sad',tag:'伤心',zh:'泪如雨下',py:'lèi rú yǔ xià',m:'非常悲痛，眼泪像雨一样落下',e:'毕业典礼上，大家紧紧相拥，有的泪如雨下，有的强忍着泪水，我也忍不住红了眼眶。'},
+  {n:33,c:'sad',tag:'伤心',zh:'强忍着泪水',py:'qiáng rěn zhe lèi shuǐ',m:'努力不哭',e:'同学们一起回顾着校园生活，大家强忍着泪水，依依不舍。'},
+  {n:34,c:'sad',tag:'感动',zh:'红了眼眶',py:'hóng le yǎn kuàng',m:'因强烈的情感而要哭的样子',e:'看到妈妈一大早为我准备早餐，我忍不住红了眼眶，心里非常感动。'},
+  {n:35,c:'sad',tag:'伤心',zh:'心如刀割',py:'xīn rú dāo gē',m:'心像被刀割一样伤心痛苦',e:'一想起慧慧说的话，我便心如刀割。我们十年的友情，难道就此结束？'},
+  {n:36,c:'sad',tag:'感动',zh:'的心微微一震',py:'de xīn wēi wēi yí zhèn',m:'听到一件事时被打动的感受',e:'我转身一看，只见爷爷吃力地朝我走来，手里拿着我忘了带的作业本。我的心微微一震……'},
+  {n:37,c:'sad',tag:'感动',zh:'鼻子一酸',py:'bí zi yì suān',m:'哭前鼻子的感觉',e:'想到妈妈每天晚上都在打工来补贴家用，我的鼻子一酸，泪水夺眶而出……'},
+  {n:38,c:'sad',tag:'感动',zh:'泪水夺眶而出',py:'lèi shuǐ duó kuàng ér chū',m:'泪水流了出来',e:'想到这里，我的鼻子一酸，泪水夺眶而出，心中充满了感激。'},
+  {n:39,c:'disappointed',tag:'失望',zh:'心灰意冷',py:'xīn huī yì lěng',m:'失去信心',e:'面对一连串的失败，成光心灰意冷，不禁想要放弃做运动员的梦想。'},
+  {n:40,c:'disappointed',tag:'失望',zh:'拖着沉重的脚步',py:'tuō zhe chén zhòng de jiǎo bù',m:'走得很慢，心情沉重',e:'教练没有选中我参加比赛。我低着头，拖着沉重的脚步离开了操场。'},
+  {n:41,c:'disappointed',tag:'失望',zh:'垂头丧气',py:'chuí tóu sàng qì',m:'情绪低落，心情沮丧',e:'小光看到自己的考试成绩后，垂头丧气地走出课室，失望极了。'},
+  {n:42,c:'disappointed',tag:'失望',zh:'无精打采',py:'wú jīng dǎ cǎi',m:'情绪低落，打不起精神',e:'他失望极了，回到家后，一整天都无精打采的，什么事都提不起劲来。'},
+  {n:43,c:'happy',tag:'开心',zh:'手舞足蹈',py:'shǒu wǔ zú dǎo',m:'两手舞动，两脚跳动，高兴极了',e:'爸爸说要带我们全家到日本游玩，我和弟弟都高兴得手舞足蹈，笑得眼睛都眯成一条缝。'},
+  {n:44,c:'happy',tag:'开心',zh:'笑得眼睛都眯成一条缝',py:'xiào dé yǎn jīng dōu mī chéng yì tiáo fèng',m:'笑得很开心',e:'我和弟弟都高兴得手舞足蹈，笑得眼睛都眯成一条缝。'},
+  {n:45,c:'happy',tag:'开心',zh:'眉开眼笑',py:'méi kāi yǎn xiào',m:'眉头舒展，眼带笑意，非常高兴',e:'哥哥上台领取奖杯时，眉开眼笑地说："谢谢大家的肯定，我会再接再厉的！"'},
+  {n:46,c:'happy',tag:'兴奋',zh:'喜出望外',py:'xǐ chū wàng wài',m:'遇到出乎意料的好事而特别高兴',e:'没想到帮妈妈大扫除时，我竟然找回她失去的项链。妈妈喜出望外，立刻把它戴上。'},
+  {n:47,c:'happy',tag:'开心',zh:'心里甜滋滋的',py:'xīn lǐ tián zī zī de',m:'非常愉快',e:'老师在全班面前夸奖丽珍手脚勤快，做事认真。丽珍听了，心里甜滋滋的，像是吃了蜜糖一样。'},
+  {n:48,c:'happy',tag:'兴奋',zh:'齐声欢呼',py:'qí shēng huān hū',m:'一起呼叫、高兴',e:'当营火亮起时，我们齐声欢呼，兴高采烈地唱着歌、跳着舞。'},
+  {n:49,c:'happy',tag:'兴奋',zh:'兴致勃勃',py:'xìng zhì bó bó',m:'兴趣浓厚，情绪很高',e:'到了营地，大家兴致勃勃地为当晚的营火会做准备。'},
+  {n:50,c:'happy',tag:'兴奋',zh:'兴高采烈',py:'xìng gāo cǎi liè',m:'神采飞扬、兴奋',e:'我们围绕着营火，兴高采烈地唱着歌、跳着舞，玩得不亦乐乎。'},
+  {n:51,c:'happy',tag:'开心',zh:'捧腹大笑',py:'pěng fù dà xiào',m:'大笑时用手捧住肚子，笑得无法控制',e:'叔叔风趣幽默，他说的笑话总会把我逗得捧腹大笑。'},
+  {n:52,c:'proud',tag:'骄傲',zh:'瞧不起',py:'qiáo bù qǐ',m:'看不起',e:'尽管别人瞧不起自己，国华仍然自信满满地走上台，发挥出最好的水平。'},
+  {n:53,c:'proud',tag:'自信',zh:'自信满满',py:'zì xìn mǎn mǎn',m:'对自己充满信心',e:'尽管别人瞧不起自己，国华仍然自信满满地走上台，发挥出最好的水平。'},
+  {n:54,c:'proud',tag:'骄傲',zh:'洋洋得意',py:'yáng yáng dé yì',m:'神气十足，非常得意',e:'国华看到自己得了满分，洋洋得意地笑了。这次他没什么准备就能考到好成绩。'},
+  {n:55,c:'proud',tag:'骄傲',zh:'得意忘形',py:'dé yì wàng xíng',m:'因一时成功而过于骄傲，失去常态',e:'日子久了，他开始得意忘形，不再努力学习了。不知不觉中，他的成绩退步了。'},
+  {n:56,c:'ashamed',tag:'惭愧',zh:'惭愧',py:'cán kuì',m:'因自己的行为而感到羞耻愧疚',e:'谎言被拆穿时，我惭愧地低下了头，恨不得找个裂缝钻进去。'},
+  {n:57,c:'ashamed',tag:'难为情',zh:'脸上一阵火辣',py:'liǎn shàng yí zhèn huǒ là',m:'因难为情而感到脸烧烧的',e:'谎言被拆穿时，我的脸上一阵火辣。我惭愧地低下了头。'},
+  {n:58,c:'ashamed',tag:'难为情',zh:'恨不得找个裂缝钻进去',py:'hèn bú dé zhǎo gè liè fèng zuān jìn qù',m:'很想马上消失，非常难为情',e:'我惭愧地低下了头，恨不得找个裂缝钻进去，真的太难为情了。'},
+  {n:59,c:'ashamed',tag:'惭愧',zh:'无地自容',py:'wú dì zì róng',m:'羞愧极了',e:'当同学们开始嘲笑我时，我感到无地自容，脸红得像番茄一样。'},
+  {n:60,c:'ashamed',tag:'难为情',zh:'脸红得像番茄',py:'liǎn hóng dé xiàng fān qié',m:'脸很红，因感到难为情或惭愧',e:'我感到无地自容，脸红得像番茄一样，匆匆地跑出课室。'},
+  {n:61,c:'ashamed',tag:'惭愧',zh:'面红耳赤',py:'miàn hóng ěr chì',m:'脸和耳朵都红了，也用来形容生气',e:'听了校长的话，我羞愧得面红耳赤，连声道歉。'},
+  {n:62,c:'regret',tag:'后悔',zh:'悔不当初',py:'huǐ bù dāng chū',m:'后悔开始时所做的一切',e:'我坐在秋千上，回想起自己对妈妈说的谎话。我真是悔不当初，只能把这次的经验当成痛苦的教训。'},
+  {n:63,c:'regret',tag:'后悔',zh:'改过自新',py:'gǎi guò zì xīn',m:'改正过失或错误，重新做起',e:'我下定决心改过自新，做个诚实的孩子，再也不撒谎了。'},
+  {n:64,c:'regret',tag:'后悔',zh:'内疚',py:'nèi jiù',m:'因做错事而心情不安',e:'医生说弟弟一辈子需要坐轮椅了。听到这里，我真是内疚。我多希望时光能倒流……'},
+  {n:65,c:'regret',tag:'后悔',zh:'后悔莫及',py:'hòu huǐ mò jí',m:'事后后悔，已来不及了',e:'我真是后悔莫及，当初为何没听从妈妈的劝告，把自己的财物保管好呢？'},
+  {n:66,c:'shocked',tag:'吃惊',zh:'惊呆了',py:'jīng dāi le',m:'非常吃惊，无法反应过来',e:'当新来的杰克开口做自我介绍时，大家都惊呆了。意想不到的是，他能说一口流利的华语！'},
+  {n:67,c:'shocked',tag:'吃惊',zh:'意想不到',py:'yì xiǎng bù dào',m:'事情或情况超出人们的想象',e:'意想不到的是，这个金发的插班生能说一口流利的华语，说得比我们还标准呢！'},
+  {n:68,c:'shocked',tag:'吃惊',zh:'大吃一惊',py:'dà chī yì jīng',m:'对事情感到非常惊讶',e:'看到班长欺负低年级的同学时，我大吃一惊，完全没有想到他会这样做。'},
+  {n:69,c:'shocked',tag:'吃惊',zh:'目瞪口呆',py:'mù dèng kǒu dāi',m:'瞪着眼说不出话来，吃惊或发愣',e:'走进厨房时，我被眼前这一幕惊得目瞪口呆。只见一只猴子在桌上，手里拿着我吃剩的月饼……'},
+  {n:70,c:'shocked',tag:'吃惊',zh:'大跌眼镜',py:'dà diē yǎn jìng',m:'对事情感到非常惊讶',e:'班长平时成绩优秀，这次科科却不及格，真令人大跌眼镜。'},
+  {n:71,c:'relieved',tag:'松一口气',zh:'松了一口气',py:'sōng le yì kǒu qì',m:'不再紧张或担忧',e:'当贝贝点头表示原谅我时，我顿时松了一口气，终于放下心中的大石。'},
+  {n:72,c:'relieved',tag:'松一口气',zh:'放下心中的大石',py:'fàng xià xīn zhōng de dà shí',m:'不再压力、焦虑或担忧，感到轻松',e:'当贝贝点头表示原谅我时，我终于放下心中的大石，感到轻松多了。'},
+  {n:73,c:'relieved',tag:'松一口气',zh:'如释重负',py:'rú shì zhòng fù',m:'好像放下重担，心情愉快',e:'会考终于结束了，我有种如释重负的轻快感，心情格外开朗。'},
+  {n:74,c:'relieved',tag:'感激',zh:'欣慰',py:'xīn wèi',m:'对好消息感到放心和满足',e:'妈妈见我变得更加懂事了，感到无比欣慰，脸上露出了满意的笑容。'},
+  {n:75,c:'relieved',tag:'感激',zh:'感激不尽',py:'gǎn jī bù jìn',m:'对别人的帮助表示深深的感激',e:'医生和护士无微不至的照顾让王伯伯重获新生，他对医疗人员感激不尽。'},
+  {n:76,c:'wronged',tag:'委屈',zh:'不分青红皂白',py:'bù fēn qīng hóng zào bái',m:'没弄清是非情由就做起事来',e:'妈妈见到厨房乱七八糟的，不分青红皂白地把我训了一顿。这明明就是姐姐干的！'},
+  {n:77,c:'wronged',tag:'委屈',zh:'委屈',py:'wěi qū',m:'受到不公平的对待或指责而心中难受',e:'被冤枉的感觉真难受。我感到委屈极了，泪水不由自主地落了下来……'},
+  {n:78,c:'wronged',tag:'委屈',zh:'冤枉',py:'yuān wǎng',m:'受到不公平的待遇',e:'妈妈没查清楚就骂我，这明明就是姐姐干的，被冤枉的感觉真难受。'},
+  {n:79,c:'wronged',tag:'委屈',zh:'不由自主',py:'bù yóu zì zhǔ',m:'无法控制',e:'我感到委屈极了，泪水不由自主地落了下来……'},
+  {n:80,c:'jealous',tag:'妒忌',zh:'妒忌',py:'dù jì',m:'因别人好过自己而心怀怨恨',e:'看到志强笑眯眯地站在台上领奖，我妒忌不已，心里很不是滋味。'},
+  {n:81,c:'jealous',tag:'妒忌',zh:'心里很不是滋味',py:'xīn lǐ hěn bú shì zī wèi',m:'内心不好受',e:'看到志强在台上领奖，我妒忌不已，心里很不是滋味。'},
+  {n:82,c:'jealous',tag:'羡慕',zh:'羡慕',py:'xiàn mù',m:'希望自己能和别人一样好',e:'当我看到丽丽的新手机时，用羡慕的眼神看着她，多希望自己也能拥有。'},
+  {n:83,c:'jealous',tag:'羡慕',zh:'渴望',py:'kě wàng',m:'非常希望',e:'我多么渴望自己也能拥有这台手机，要是妈妈有能力买给我，那该多好啊！'},
+  {n:84,c:'complex',tag:'复杂',zh:'破涕为笑',py:'pò tì wéi xiào',m:'从哭变成笑，转悲为喜',e:'当我把弟弟的玩具修好时，他立刻破涕为笑，眼泪还挂在脸上就笑了起来。'},
+  {n:85,c:'complex',tag:'复杂',zh:'百感交集',py:'bǎi gǎn jiāo jí',m:'很多不同的感触，心情很复杂',e:'毕业典礼上，我感到百感交集，自豪、激动、依依不舍一块儿涌上心头……'},
+  {n:86,c:'complex',tag:'复杂',zh:'心里像是打翻了五味瓶',py:'xīn lǐ xiàng shì dǎ fān le wǔ wèi píng',m:'心情复杂、感到矛盾、混乱',e:'此时，我的心里就像是打翻了五味瓶，说不出是什么滋味。'},
+  {n:87,c:'complex',tag:'复杂',zh:'非笔墨所能形容',py:'fēi bǐ mò suǒ néng xíng róng',m:'难用文字来表达，用于独特或强烈的情感',e:'越过终点线的那一刻，当时的心情是非笔墨所能形容的，我过了自己心里那一关！'},
+  {n:88,c:'complex',tag:'复杂',zh:'难以言喻',py:'nán yǐ yán yù',m:'很难用适当的词语形容',e:'望着眼前的这一幕，我的心中有种难以言喻的感动。原来，这世界上还有那么多好心人……'},
 ];
 
-const CAT_CLASS = {anger:'emo-anger',fear:'emo-fear',nervous:'emo-nervous',anxious:'emo-anxious',sad:'emo-sad',disappointed:'emo-disappointed',happy:'emo-happy',proud:'emo-proud',ashamed:'emo-ashamed',regret:'emo-regret',shocked:'emo-shocked',relieved:'emo-relieved',wronged:'emo-wronged',jealous:'emo-jealous',complex:'emo-complex'};
+const CC={anger:'emo-anger',fear:'emo-fear',nervous:'emo-nervous',anxious:'emo-anxious',sad:'emo-sad',disappointed:'emo-disappointed',happy:'emo-happy',proud:'emo-proud',ashamed:'emo-ashamed',regret:'emo-regret',shocked:'emo-shocked',relieved:'emo-relieved',wronged:'emo-wronged',jealous:'emo-jealous',complex:'emo-complex'};
 
-/* ── Build phrase cards ── */
-function buildPhrases() {
-  const container = document.getElementById('phrase-sections');
-  SECTIONS.forEach(sec => {
-    const phrases = ALL_PHRASES.filter(p => p.cat === sec.id);
-    const secDiv = document.createElement('div');
-    secDiv.innerHTML = `<div class="section-head"><span class="section-icon">${sec.icon}</span><span class="section-title">${sec.title}</span><span class="section-sub">${phrases.length} 个词语</span></div>`;
-    const grid = document.createElement('div');
-    grid.className = 'card-grid';
-    phrases.forEach((p, localIdx) => {
-      const globalIdx = ALL_PHRASES.indexOf(p);
-      const card = document.createElement('div');
-      card.className = 'phrase-card';
-      card.id = 'card-' + globalIdx;
-      card.innerHTML = `
-        <span class="phrase-num">${p.id}</span>
-        <span class="emo-tag ${CAT_CLASS[p.cat]}">${p.tag}</span>
+/* build cards */
+function buildPhrases(){
+  const con=document.getElementById('phrase-sections');
+  SECTIONS.forEach(sec=>{
+    const phrases=P.filter(p=>p.c===sec.id);
+    const wrap=document.createElement('div');
+    wrap.innerHTML=`<div class="section-head"><span class="section-icon">${sec.icon}</span><span class="section-title">${sec.t}</span><span class="section-sub">${phrases.length} 个词语</span></div>`;
+    const grid=document.createElement('div');grid.className='card-grid';
+    phrases.forEach(p=>{
+      const gi=P.indexOf(p);
+      const d=document.createElement('div');d.className='phrase-card';d.id='c'+gi;
+      d.innerHTML=`<span class="phrase-num">${p.n}</span>
+        <span class="emo-tag ${CC[p.c]}">${p.tag}</span>
         <div class="phrase-chinese">${p.zh}</div>
         <div class="phrase-pinyin">${p.py}</div>
-        <div class="phrase-meaning">意思：${p.meaning}</div>
-        <div class="phrase-example">${p.ex}</div>
-        <button class="card-speak-btn" id="csb-${globalIdx}" onclick="speakCard(${globalIdx})">🔊 朗读</button>`;
-      grid.appendChild(card);
+        <div class="phrase-meaning">意思：${p.m}</div>
+        <div class="phrase-example">${p.e}</div>
+        <button class="speak-btn" id="sb${gi}" onclick="speakCard(${gi})">🔊 朗读</button>`;
+      grid.appendChild(d);
     });
-    secDiv.appendChild(grid);
-    container.appendChild(secDiv);
+    wrap.appendChild(grid);con.appendChild(wrap);
   });
 }
 
-function speakCard(i) {
-  const p = ALL_PHRASES[i];
-  const btn = document.getElementById('csb-' + i);
-  const card = document.getElementById('card-' + i);
-
-  // If already speaking this card, stop it
-  if (isSpeaking && card && card.classList.contains('active-card')) {
-    stopAll();
-    return;
-  }
-
-  stopAll();
-
-  // Highlight this card
-  clearActiveCards();
-  if (card) card.classList.add('active-card');
-  if (btn) { btn.textContent = '■ 停止'; btn.classList.add('on'); }
-
-  // Update progress bar
-  const pct = Math.round(((i + 1) / ALL_PHRASES.length) * 100);
-  document.getElementById('progFill').style.width = pct + '%';
-  document.getElementById('progLabel').textContent = (i + 1) + ' / ' + ALL_PHRASES.length;
-
-  // Scroll card into view
-  if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-  const text = p.zh + '。' + p.py + '。意思是：' + p.meaning + '。例句：' + p.ex;
-  speak(text, () => {
-    if (card) card.classList.remove('active-card');
-    if (btn) { btn.textContent = '🔊 朗读'; btn.classList.remove('on'); }
-    if (playAllActive) {
-      playAllIdx = i + 1;
-      if (playAllIdx < ALL_PHRASES.length) {
-        setTimeout(() => speakCard(playAllIdx), 700);
-      } else {
-        playAllActive = false;
-        resetPlayAllBtn();
-      }
+function speakCard(i){
+  const p=P[i],card=document.getElementById('c'+i),btn=document.getElementById('sb'+i);
+  if(isSpeaking&&card&&card.classList.contains('active-card')){stopAll();return;}
+  stopAll();clearHighlights();
+  if(card){card.classList.add('active-card');card.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  if(btn){btn.textContent='■ 停止';btn.classList.add('on');}
+  const pct=Math.round(((i+1)/P.length)*100);
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progLbl').textContent=(i+1)+' / '+P.length;
+  speak(p.zh+'。意思是：'+p.m+'。例句：'+p.e,()=>{
+    if(card)card.classList.remove('active-card');
+    if(btn){btn.textContent='🔊 朗读';btn.classList.remove('on');}
+    if(playAllActive){
+      playAllIdx=i+1;
+      if(playAllIdx<P.length)setTimeout(()=>speakCard(playAllIdx),800);
+      else{playAllActive=false;resetPlayAllBtn();}
     }
   });
 }
-
-function togglePlayAll() {
-  if (playAllActive) {
-    playAllActive = false;
-    stopAll();
-    resetPlayAllBtn();
-    return;
-  }
-  playAllActive = true;
-  playAllIdx = 0;
-  const btn = document.getElementById('playAllBtn');
-  btn.textContent = '■ 停止全部';
-  btn.style.background = 'var(--red)';
-  btn.style.color = '#fff';
+function togglePlayAll(){
+  if(playAllActive){playAllActive=false;stopAll();return;}
+  playAllActive=true;playAllIdx=0;
+  const b=document.getElementById('playAllBtn');b.textContent='■ 停止全部';b.classList.add('on');
   speakCard(0);
 }
+function resetPlayAllBtn(){const b=document.getElementById('playAllBtn');if(b){b.textContent='▶ 全部朗读';b.classList.remove('on');}}
 
-function resetPlayAllBtn() {
-  const btn = document.getElementById('playAllBtn');
-  if (btn) { btn.textContent = '▶ 全部朗读'; btn.style.background = ''; btn.style.color = ''; }
-}
-
-/* ── Essay ── */
-const ESSAY = [
+/* essay */
+const ESSAY=[
   '"弟弟，不要再玩了！快去复习！"妈妈唠叨着。"别再玩手机了！你要好好看着弟弟，不要让他闯祸。"妈妈再三吩咐着哥哥看好弟弟。"哦！"坐在沙发上的哥哥盯着手机屏幕，心不在焉地点了点头。话音刚落，妈妈便出门了。',
-  '妈妈出门后，哥哥不但没有放下手机，反而坐在沙发上继续玩。弟弟见哥哥没有理会自己，便趁着妈妈不在，从厨房拿来几个锅子和杯子。他把它们摆在客厅的地板上，当作赛车道上的障碍物。他心想："妈妈不在家，我终于可以玩赛车游戏了！"他握着遥控器，小心翼翼地控制遥控汽车绕过一个又一个障碍物，玩得不亦乐乎。',
-  '过了一会儿，弟弟看到电视屏幕上正在播放着田径赛。他灵机一动，想让遥控汽车飞得更高，甚至飞到电视屏幕的跑道上。他猛地推动遥控杆，汽车顿时像离弦的箭一般飞了出去。"砰！"遥控汽车不偏不倚地撞上了电视屏幕。电视屏幕上立刻出现了像一道道蜘蛛网一样的裂痕。',
+  '妈妈出门后，哥哥不但没有放下手机，反而坐在沙发上继续玩。弟弟见哥哥没有理会自己，便趁着妈妈不在，从厨房拿来几个锅子和杯子，把它们摆在客厅的地板上，当作赛车道上的障碍物。他心想："妈妈不在家，我终于可以玩赛车游戏了！"他握着遥控器，小心翼翼地控制遥控汽车绕过一个又一个障碍物，玩得不亦乐乎。',
+  '过了一会儿，弟弟看到电视屏幕上正在播放着田径赛。他灵机一动，想让遥控汽车飞得更高，甚至飞到电视屏幕的跑道上。他猛地推动遥控杆，汽车顿时像离弦的箭一般飞了出去。"砰！"遥控汽车不偏不倚地撞上了电视屏幕，屏幕上立刻出现了像一道道蜘蛛网一样的裂痕。',
   '弟弟没有察觉自己闯了祸，反而兴奋得手舞足蹈，大声欢呼："太好了！我成功了！"哥哥听见巨响，吓得抬起头来。当他看见裂开的电视屏幕时，顿时目瞪口呆，心想："糟糕！妈妈回来后一定会大发雷霆！"',
-  '哥哥急得像热锅上的蚂蚁。他灵机一动，想到了一个好办法。他赶紧搬来一个大花盆，想用茂密的叶子遮住电视屏幕上的裂痕。弟弟看见哥哥慌张的样子，才发现自己好像又闯祸了。',
+  '哥哥急得像热锅上的蚂蚁。他灵机一动，赶紧搬来一个大花盆，想用茂密的叶子遮住电视屏幕上的裂痕。弟弟看见哥哥慌张的样子，才发现自己好像又闯祸了。',
   '不久，妈妈回来了。她一踏进屋就发现花盆被移动了，觉得不对劲。哥哥和弟弟这时已经躲到房间里不敢出来。她走近一看，立刻发现了电视屏幕上的裂痕。妈妈板着脸，严厉地问："这到底是谁做的？"',
-  '弟弟知道事情再也瞒不住了，便鼓起勇气从房间里走了出来。他一五一十地把事情的经过告诉了妈妈。他吞吞吐吐地说："妈……妈，对……不……起，是我让遥控汽车撞上电视的。"',
+  '弟弟知道事情再也瞒不住了，便鼓起勇气从房间里走了出来。他一五一十地把事情的经过告诉了妈妈，吞吞吐吐地说："妈……妈，对……不……起，是我让遥控汽车撞上电视的。"',
   '哥哥也惭愧地从房间里走了出来。他低着头，主动承认错误："妈妈，对不起。您叫我照顾弟弟，可是我只顾着玩手机。电视被撞坏后，我还想用花盆遮住裂痕，想逃避责任。我以后再也不会这样了。"',
   '妈妈语重心长地说："犯错并不可怕，可怕的是不肯承担责任。你们以后一定要知错能改，也不能再沉迷手机了。"兄弟俩认真地点了点头。',
   '经一事，长一智。经过这件事，他们终于明白：答应别人的事情就要认真做到，犯了错误也应该诚实面对。',
 ];
-
-function buildEssay() {
-  const c = document.getElementById('essay-content');
-  ESSAY.forEach((para, i) => {
-    const div = document.createElement('div');
-    div.className = 'essay-para-wrap';
-    div.id = 'ep-' + i;
-    div.innerHTML = `<div class="para-meta">第 ${i+1} 段</div>
-      <p class="essay-para">${para}</p>
-      <button class="card-speak-btn" id="eplaybtn-${i}" onclick="speakEssayPara(${i})">🔊 朗读此段</button>`;
-    c.appendChild(div);
+function buildEssay(){
+  const c=document.getElementById('essay-content');
+  ESSAY.forEach((para,i)=>{
+    const d=document.createElement('div');d.className='essay-para-wrap';d.id='ep'+i;
+    d.innerHTML=`<div class="para-meta">第 ${i+1} 段</div><p class="essay-para">${para}</p>
+      <button class="speak-btn" id="epb-${i}" onclick="speakEssayPara(${i})">🔊 朗读此段</button>`;
+    c.appendChild(d);
   });
 }
-
-function speakEssayPara(i) {
-  const card = document.getElementById('ep-' + i);
-  const btn = document.getElementById('eplaybtn-' + i);
-  if (isSpeaking && card && card.classList.contains('active-card')) { stopAll(); return; }
-  stopAll();
-  clearActiveCards();
-  essayPlayIdx = i;
-  if (card) card.classList.add('active-card');
-  if (btn) { btn.textContent = '■ 停止'; btn.classList.add('on'); }
-  document.getElementById('essayProg').style.width = Math.round(((i+1)/ESSAY.length)*100) + '%';
-  if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  speak(ESSAY[i], () => {
-    if (card) card.classList.remove('active-card');
-    if (btn) { btn.textContent = '🔊 朗读此段'; btn.classList.remove('on'); }
-    if (essayPlayActive) {
-      essayPlayIdx = i + 1;
-      if (essayPlayIdx < ESSAY.length) setTimeout(() => speakEssayPara(essayPlayIdx), 600);
-      else { essayPlayActive = false; resetEssayBtn(); }
-    }
+function speakEssayPara(i){
+  const card=document.getElementById('ep'+i),btn=document.getElementById('epb-'+i);
+  if(isSpeaking&&card&&card.classList.contains('active-card')){stopAll();return;}
+  stopAll();clearHighlights();essayIdx=i;
+  if(card){card.classList.add('active-card');card.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  if(btn){btn.textContent='■ 停止';btn.classList.add('on');}
+  document.getElementById('essayProg').style.width=Math.round(((i+1)/ESSAY.length)*100)+'%';
+  speak(ESSAY[i],()=>{
+    if(card)card.classList.remove('active-card');
+    if(btn){btn.textContent='🔊 朗读此段';btn.classList.remove('on');}
+    if(essayActive){essayIdx=i+1;if(essayIdx<ESSAY.length)setTimeout(()=>speakEssayPara(essayIdx),600);else{essayActive=false;resetEssayBtn();}}
   });
 }
-
-function toggleEssayPlay() {
-  if (essayPlayActive) { essayPlayActive = false; stopAll(); resetEssayBtn(); return; }
-  essayPlayActive = true;
-  essayPlayIdx = 0;
-  const btn = document.getElementById('playEssayBtn');
-  btn.textContent = '■ 停止朗读'; btn.style.background='var(--red)'; btn.style.color='#fff';
+function toggleEssayPlay(){
+  if(essayActive){essayActive=false;stopAll();return;}
+  essayActive=true;essayIdx=0;
+  const b=document.getElementById('playEssayBtn');b.textContent='■ 停止朗读';b.classList.add('on');
   speakEssayPara(0);
 }
+function resetEssayBtn(){const b=document.getElementById('playEssayBtn');if(b){b.textContent='▶ 朗读全文';b.classList.remove('on');}}
 
-function resetEssayBtn() {
-  const btn = document.getElementById('playEssayBtn');
-  if (btn) { btn.textContent = '▶ 朗读全文'; btn.style.background=''; btn.style.color=''; }
-}
-
-/* ── Quiz ── */
-const QUIZ = [
+/* quiz */
+const QUIZ=[
   {q:'哪个词语的意思是"非常生气或愤怒的样子"？',opts:['火冒三丈','如释重负','百感交集','心灰意冷'],ans:0},
   {q:'用哪个词语形容心跳得很快？',opts:['泪如雨下','怦怦跳','破涕为笑','洋洋得意'],ans:1},
   {q:'"急得像热锅上的蚂蚁"是形容什么心情？',opts:['害怕','后悔','着急','开心'],ans:2},
@@ -652,86 +586,57 @@ const QUIZ = [
   {q:'"垂头丧气"是形容什么心情？',opts:['开心兴奋','骄傲自信','情绪低落心情沮丧','紧张不安'],ans:2},
   {q:'哪个词语的意思是"因别人好过自己而心怀怨恨"？',opts:['羡慕','渴望','妒忌','委屈'],ans:2},
   {q:'"手舞足蹈"形容的是什么情绪？',opts:['害怕','开心极了','生气','后悔'],ans:1},
-  {q:'"忐忑不安"是什么意思？',opts:['非常生气','非常着急','非常不安，做事没把握','非常开心'],ans:2},
-  {q:'哪个词语形容"笑得很开心"？',opts:['垂头丧气','笑得眼睛都眯成一条缝','愁眉苦脸','心灰意冷'],ans:1},
+  {q:'"忐忑不安"是什么意思？',opts:['非常生气','非常着急','非常不安做事没把握','非常开心'],ans:2},
+  {q:'哪个词语形容笑得很开心？',opts:['垂头丧气','笑得眼睛都眯成一条缝','愁眉苦脸','心灰意冷'],ans:1},
   {q:'"脸青唇白"是形容什么心情？',opts:['惭愧','害怕到脸色发青','开心极了','生气'],ans:1},
   {q:'哪个词语的意思是"没弄清是非情由就做起事来"？',opts:['不由自主','冤枉','委屈','不分青红皂白'],ans:3},
 ];
-
-let qDeck=[], qIdx=0, qCorrect=0, qWrong=0;
-
-function buildQuiz() {
-  qDeck = [...QUIZ].sort(() => Math.random() - .5);
-  qIdx = 0; qCorrect = 0; qWrong = 0;
-  renderQuiz();
-}
-
-function renderQuiz() {
-  const wrap = document.getElementById('quizWrap');
-  if (qIdx >= qDeck.length) {
-    const pct = Math.round((qCorrect / qDeck.length) * 100);
-    wrap.innerHTML = `<div style="text-align:center;padding:2rem 1rem">
-      <div style="font-size:3.5rem;margin-bottom:.5rem">${pct>=80?'🌟🌟🌟':pct>=60?'⭐⭐':'⭐'}</div>
-      <div style="font-family:'Noto Serif SC',serif;font-size:1.6rem;font-weight:700;color:var(--red);margin-bottom:.5rem">${pct}%</div>
-      <div style="font-size:1rem;color:var(--text-sec);margin-bottom:.5rem">${qCorrect} 对 / ${qDeck.length} 题</div>
-      <div style="font-size:.9rem;color:var(--text-muted);margin-bottom:2rem">${pct>=80?'太棒了！Ryan加油！💪':pct>=60?'不错！继续练习！':'再来一次，你可以的！'}</div>
-      <button onclick="buildQuiz()" style="padding:11px 28px;border-radius:var(--radius);background:var(--red);color:#fff;border:none;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer">🔄 再来一次</button>
-    </div>`;
+let qDeck=[],qIdx=0,qCorrect=0,qWrong=0;
+function buildQuiz(){qDeck=[...QUIZ].sort(()=>Math.random()-.5);qIdx=0;qCorrect=0;qWrong=0;renderQuiz();}
+function renderQuiz(){
+  const w=document.getElementById('quizWrap');
+  if(qIdx>=qDeck.length){
+    const pct=Math.round((qCorrect/qDeck.length)*100);
+    w.innerHTML=`<div style="text-align:center;padding:2rem"><div style="font-size:3rem">${pct>=80?'🌟🌟🌟':pct>=60?'⭐⭐':'⭐'}</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:1.6rem;font-weight:700;color:var(--red);margin:.5rem 0">${pct}%</div>
+      <div style="color:var(--text-sec);margin-bottom:.5rem">${qCorrect} 对 / ${qDeck.length} 题</div>
+      <div style="color:var(--text-muted);margin-bottom:2rem">${pct>=80?'太棒了！Ryan加油！💪':pct>=60?'不错！继续练习！':'再来一次，你可以的！'}</div>
+      <button onclick="buildQuiz()" style="padding:11px 28px;border-radius:var(--radius);background:var(--red);color:#fff;border:none;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer">🔄 再来一次</button></div>`;
+    speak(pct>=80?'太棒了！'+qCorrect+'题答对。':'你答对了'+qCorrect+'题。继续加油！',null);
     return;
   }
-  const q = qDeck[qIdx];
-  wrap.innerHTML = `
-    <div class="q-meta">第 ${qIdx+1} 题 / 共 ${qDeck.length} 题 &nbsp;·&nbsp; ✅ ${qCorrect} 对 &nbsp; ❌ ${qWrong} 错</div>
+  const q=qDeck[qIdx];
+  w.innerHTML=`<div class="q-meta">第 ${qIdx+1} 题 / 共 ${qDeck.length} 题 · ✅ ${qCorrect} 对 ❌ ${qWrong} 错</div>
     <div class="q-text">${q.q}</div>
-    <div class="q-opts">
-      ${q.opts.map((o,i)=>`<button class="q-opt" id="qo${i}" onclick="pickQuiz(${i})">
-        <span class="opt-label">${['A','B','C','D'][i]}</span>${o}</button>`).join('')}
-    </div>
-    <div class="q-fb" id="qfb"></div>
-    <div id="qnext"></div>`;
-  speak(q.q, null);
+    <div class="q-opts">${q.opts.map((o,i)=>`<button class="q-opt" id="qo${i}" onclick="pickQuiz(${i})"><span class="opt-lbl">${['A','B','C','D'][i]}</span>${o}</button>`).join('')}</div>
+    <div class="q-fb" id="qfb"></div><div id="qnext"></div>`;
+  speak(q.q,null);
+}
+function pickQuiz(i){
+  const q=qDeck[qIdx];
+  [0,1,2,3].forEach(j=>{const b=document.getElementById('qo'+j);if(b)b.disabled=true;});
+  const cb=document.getElementById('qo'+q.ans),pb=document.getElementById('qo'+i);
+  if(cb)cb.classList.add('correct');
+  if(i!==q.ans&&pb)pb.classList.add('wrong');
+  const ok=i===q.ans;
+  if(ok)qCorrect++;else qWrong++;
+  const fb=document.getElementById('qfb');fb.classList.add('show');
+  fb.style.cssText='display:block;background:'+(ok?'var(--green-bg)':'var(--red-bg)')+';border-left:3px solid '+(ok?'var(--green)':'var(--red)')+';padding:10px 14px;border-radius:var(--radius);margin-top:1rem;font-size:.875rem';
+  fb.innerHTML=ok?'✅ 答对了！很棒，Ryan！':'❌ 答错了。正确答案是：<strong style="color:var(--green)">'+q.opts[q.ans]+'</strong>';
+  speak(ok?'答对了！很棒！':'答错了。正确答案是：'+q.opts[q.ans],null);
+  document.getElementById('qnext').innerHTML=`<button class="q-next" onclick="qIdx++;renderQuiz()">${qIdx+1>=qDeck.length?'查看成绩 🎉':'下一题 →'}</button>`;
 }
 
-function pickQuiz(i) {
-  const q = qDeck[qIdx];
-  ['A','B','C','D'].forEach((_,j) => {
-    const b = document.getElementById('qo'+j);
-    if (b) b.disabled = true;
-  });
-  const correct = document.getElementById('qo' + q.ans);
-  const picked = document.getElementById('qo' + i);
-  if (correct) correct.classList.add('correct');
-  if (i !== q.ans && picked) picked.classList.add('wrong');
-
-  const isOk = i === q.ans;
-  if (isOk) qCorrect++; else qWrong++;
-
-  const fb = document.getElementById('qfb');
-  fb.classList.add('show');
-  fb.style.background = isOk ? 'var(--green-bg)' : 'var(--red-bg)';
-  fb.style.borderLeft = '3px solid ' + (isOk ? 'var(--green)' : 'var(--red)');
-  fb.style.color = 'var(--text-sec)';
-  fb.innerHTML = isOk
-    ? '✅ 答对了！很棒，Ryan！'
-    : '❌ 答错了。正确答案是：<strong style="color:var(--green)">' + q.opts[q.ans] + '</strong>';
-
-  speak(isOk ? '答对了！' : '答错了，正确答案是' + q.opts[q.ans], null);
-
-  document.getElementById('qnext').innerHTML =
-    `<button class="q-next" onclick="qIdx++;renderQuiz()">${qIdx+1>=qDeck.length?'查看成绩 🎉':'下一题 →'}</button>`;
-}
-
-/* ── Tabs ── */
-function switchTab(name, btn) {
+function switchTab(name,btn){
   stopAll();
-  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  if (btn) btn.classList.add('active');
-  if (name === 'quiz' && qDeck.length === 0) buildQuiz();
+  document.querySelectorAll('.tab-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(name==='quiz'&&qDeck.length===0)buildQuiz();
 }
 
-/* ── Boot ── */
+/* boot */
 initVoices();
 buildPhrases();
 buildEssay();
