@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P6 Science Flashcard MCQ — 2026 PSLE Prelims</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+  :root {
+    --surface-0: #f1efe8;
+    --surface-1: #f7f6f3;
+    --surface-2: #ffffff;
+    --text-primary: #1a1a18;
+    --text-secondary: #5f5e5a;
+    --text-muted: #888780;
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.18);
+    --bg-accent: #e6f1fb;
+    --text-accent: #185fa5;
+    --border-accent: #85b7eb;
+    --fill-accent: #378add;
+    --on-accent: #ffffff;
+    --bg-success: #eaf3de;
+    --text-success: #3b6d11;
+    --border-success: #97c459;
+    --bg-danger: #fcebeb;
+    --text-danger: #a32d2d;
+    --border-danger: #f09595;
+    --bg-warning: #faeeda;
+    --text-warning: #854f0b;
+    --bg-pro: #eeedfe;
+    --text-pro: #534ab7;
+    --border-pro: #afa9ec;
+    --radius: 8px;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface-0: #1c1c1a;
+      --surface-1: #222220;
+      --surface-2: #2a2a28;
+      --text-primary: #f0ede8;
+      --text-secondary: #a8a6a0;
+      --text-muted: #666460;
+      --border: rgba(255,255,255,0.1);
+      --border-strong: rgba(255,255,255,0.18);
+      --bg-accent: #0c447c;
+      --text-accent: #85b7eb;
+      --border-accent: #185fa5;
+      --fill-accent: #378add;
+      --on-accent: #ffffff;
+      --bg-success: #27500a;
+      --text-success: #97c459;
+      --border-success: #3b6d11;
+      --bg-danger: #791f1f;
+      --text-danger: #f09595;
+      --border-danger: #a32d2d;
+      --bg-warning: #633806;
+      --text-warning: #ef9f27;
+      --bg-pro: #3c3489;
+      --text-pro: #afa9ec;
+      --border-pro: #534ab7;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--surface-0);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 1.5rem 1rem 3rem;
+  }
+  #app {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .site-title { font-size: 18px; font-weight: 500; }
+  .site-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pill {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 500;
+    display: inline-block;
+  }
+  .pill-topic { background: var(--bg-pro); color: var(--text-pro); }
+  .pill-num   { background: var(--bg-accent); color: var(--text-accent); }
+  .pill-streak{ background: var(--bg-success); color: var(--text-success); }
+  .pbar-wrap {
+    height: 5px;
+    border-radius: 3px;
+    background: var(--surface-1);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+  .pbar {
+    height: 5px;
+    border-radius: 3px;
+    background: var(--fill-accent);
+    transition: width .4s;
+  }
+  .card-scene {
+    perspective: 900px;
+    margin-bottom: 1.25rem;
+    cursor: pointer;
+  }
+  .card-scene:focus-visible {
+    outline: 2px solid var(--border-accent);
+    border-radius: 12px;
+  }
+  .card-3d {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .55s cubic-bezier(.4,0,.2,1);
+    border-radius: 12px;
+  }
+  .card-3d.flipped { transform: rotateY(180deg); }
+  .face {
+    backface-visibility: hidden;
+    border-radius: 12px;
+    border: 0.5px solid var(--border);
+    background: var(--surface-2);
+    padding: 1.5rem 1.25rem;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .face-back {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    transform: rotateY(180deg);
+    min-height: 160px;
+  }
+  .face-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: .75rem;
+  }
+  .face-topic {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: .5rem;
+    letter-spacing: .5px;
+  }
+  .face-q {
+    font-size: 15px;
+    color: var(--text-primary);
+    line-height: 1.65;
+  }
+  .face-hint {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: .75rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .face-back-inner {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .opts {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 1rem;
+  }
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    background: var(--surface-2);
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 1.5;
+    text-align: left;
+    width: 100%;
+    transition: background .12s, border-color .12s;
+    font-family: var(--font-sans);
+  }
+  .opt:hover:not(:disabled) {
+    background: var(--surface-1);
+    border-color: var(--border-strong);
+  }
+  .opt:disabled { cursor: default; }
+  .opt.sel    { border-color: var(--border-accent); background: var(--bg-accent); }
+  .opt.correct{ border-color: var(--border-success); background: var(--bg-success); }
+  .opt.wrong  { border-color: var(--border-danger);  background: var(--bg-danger); }
+  .opt-lbl { font-weight: 500; min-width: 20px; color: var(--text-secondary); }
+  .opt.sel     .opt-lbl { color: var(--text-accent); }
+  .opt.correct .opt-lbl { color: var(--text-success); }
+  .opt.wrong   .opt-lbl { color: var(--text-danger); }
+  .exp-box {
+    padding: .75rem 1rem;
+    background: var(--surface-1);
+    border-left: 3px solid var(--border-accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  button {
+    padding: 8px 18px;
+    border-radius: var(--radius);
+    border: 0.5px solid var(--border-strong);
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: background .12s;
+  }
+  button:hover { background: var(--surface-1); }
+  .btn-primary {
+    background: var(--fill-accent);
+    color: var(--on-accent);
+    border-color: var(--fill-accent);
+  }
+  .btn-primary:hover { opacity: .88; background: var(--fill-accent); }
+  .result-card {
+    background: var(--surface-2);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem 1.5rem;
+    text-align: center;
+  }
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 1.25rem 0;
+  }
+  .rcard {
+    background: var(--surface-1);
+    border-radius: var(--radius);
+    padding: .75rem;
+  }
+  .rnum { font-size: 22px; font-weight: 500; }
+  .rlbl { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+  .topic-rows { margin-top: 1.25rem; text-align: left; }
+  .tr { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; font-size: 13px; }
+  .tr-name { min-width: 130px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tr-track { flex: 1; height: 7px; background: var(--surface-0); border-radius: 4px; overflow: hidden; }
+  .tr-fill { height: 7px; border-radius: 4px; background: var(--fill-accent); }
+  .tr-pct { min-width: 32px; text-align: right; font-size: 12px; color: var(--text-secondary); }
+  .mode-row { display: flex; gap: 8px; margin-bottom: 1.25rem; }
+  .mode-btn {
+    flex: 1;
+    padding: 9px;
+    border-radius: var(--radius);
+    border: 0.5px solid var(--border-strong);
+    background: transparent;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    color: var(--text-secondary);
+  }
+  .mode-btn.on {
+    background: var(--bg-pro);
+    color: var(--text-pro);
+    border-color: var(--border-pro);
+  }
+  .filter-wrap { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .ftag {
+    padding: 4px 11px;
+    border-radius: 12px;
+    border: 0.5px solid var(--border-strong);
+    background: transparent;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+  }
+  .ftag.on {
+    background: var(--bg-accent);
+    color: var(--text-accent);
+    border-color: var(--border-accent);
+  }
+  .err-msg { font-size: 13px; color: var(--text-danger); margin-bottom: .75rem; }
+  .home-card {
+    background: var(--surface-2);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .home-info {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    padding: 1rem;
+    background: var(--surface-1);
+    border-radius: var(--radius);
+    margin-top: 1rem;
+  }
+  .section-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: .5rem;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="site-header">
+    <div>
+      <div class="site-title">P6 Science Flashcard MCQ</div>
+      <div class="site-sub">2026 PSLE Prelims — Singapore</div>
+    </div>
+    <div style="display:flex;gap:6px">
+      <span class="pill pill-num">60 cards</span>
+      <span class="pill pill-topic">AL1 prep</span>
+    </div>
+  </div>
+  <div id="content"></div>
+</div>
+
+<script>
+const QS=[
+  {t:"Energy in Food",q:"What is respiration?",a:"Food (glucose) + oxygen → carbon dioxide + water + energy.",opts:["Carbon dioxide + water → food + oxygen","Food (glucose) + oxygen → carbon dioxide + water + energy","Food + light energy → glucose + oxygen","Oxygen + glucose → food + water"]},
+  {t:"Energy in Food",q:"Where does the energy in food originally come from?",a:"Energy in food originates from the Sun.",opts:["The soil","The water","The Sun","The air"]},
+  {t:"Energy in Food",q:"What is photosynthesis?",a:"Carbon dioxide + water → food (glucose) + oxygen, using light energy.",opts:["Glucose + oxygen → CO₂ + water + energy","CO₂ + water → food (glucose) + oxygen using light energy","Food + water → oxygen + CO₂","Light energy → heat energy + sound energy"]},
+  {t:"Energy in Food",q:"Why are plants called producers?",a:"Plants make their own food by photosynthesis.",opts:["Plants produce oxygen only","Plants make their own food by photosynthesis","Plants give food to animals","Plants absorb energy from the soil"]},
+  {t:"Energy in Food",q:"Why is energy lost at each level in a food chain?",a:"Energy is used for life processes and lost as heat.",opts:["Energy is stored permanently in each organism","Energy is used for life processes and lost as heat","Energy is created at each level","Animals waste energy by moving too much"]},
+  {t:"Energy in Food",q:"How are photosynthesis and respiration related?",a:"Photosynthesis produces food and oxygen; respiration produces carbon dioxide used in photosynthesis.",opts:["They are completely unrelated processes","Photosynthesis produces food and oxygen; respiration produces CO₂ used in photosynthesis","Both processes produce the same products","Respiration produces food; photosynthesis produces energy"]},
+  {t:"Energy in Food",q:"Why does respiration increase during exercise?",a:"More energy is needed for muscle movement.",opts:["The body needs to cool down faster","More energy is needed for muscle movement","Less oxygen is available during exercise","The heart pumps less blood during exercise"]},
+  {t:"Energy in Food",q:"What is a food chain?",a:"A food chain shows energy transfer from one organism to another.",opts:["A list of all animals in a habitat","A food chain shows energy transfer from one organism to another","A diagram showing where animals sleep","A chart of an animal's diet over time"]},
+  {t:"8 Forms of Energy",q:"What are the eight forms of energy?",a:"Heat, light, sound, electrical, kinetic, chemical potential, elastic potential, gravitational potential.",opts:["Heat, light, sound, wind, kinetic, chemical, elastic, gravity","Heat, light, sound, electrical, kinetic, chemical potential, elastic potential, gravitational potential","Fire, light, noise, electrical, motion, fuel, springs, height","Heat, light, sound, nuclear, kinetic, magnetic, elastic, gravitational"]},
+  {t:"8 Forms of Energy",q:"What is gravitational potential energy?",a:"Gravitational potential energy is stored energy due to height above the ground.",opts:["Energy of a moving object","Stored energy due to height above the ground","Energy stored in food and fuel","Energy transferred from hot to cold objects"]},
+  {t:"8 Forms of Energy",q:"What factors affect gravitational potential energy?",a:"Gravitational potential energy increases with greater mass and greater height.",opts:["Only speed and shape","Greater mass and greater height","Only height, not mass","Temperature and surface area"]},
+  {t:"8 Forms of Energy",q:"What is elastic potential energy?",a:"Elastic potential energy is stored energy in stretched or compressed objects such as springs or rubber bands.",opts:["Energy of objects in motion","Energy stored in food and batteries","Stored energy in stretched or compressed objects","Energy carried by electric charges"]},
+  {t:"8 Forms of Energy",q:"What energy conversion occurs in a torch?",a:"Chemical potential energy converts to electrical energy then to light and heat energy.",opts:["Light → electrical → chemical → heat","Chemical potential → electrical → light and heat","Kinetic → chemical → electrical → light","Heat → electrical → light → kinetic"]},
+  {t:"8 Forms of Energy",q:"What happens to gravitational potential energy when an object falls?",a:"Gravitational potential energy converts to kinetic energy as the object moves downward.",opts:["GPE converts to heat energy directly","GPE converts to kinetic energy as object moves downward","GPE stays the same during falling","GPE converts to electrical energy"]},
+  {t:"8 Forms of Energy",q:"What happens to kinetic energy when an object slows down?",a:"Kinetic energy is converted to heat and sound due to friction.",opts:["Kinetic energy disappears","KE is stored as elastic potential energy","KE converts to heat and sound due to friction","KE converts to light energy"]},
+  {t:"8 Forms of Energy",q:"What is chemical potential energy?",a:"Chemical potential energy is stored energy in substances such as food, fuel and batteries.",opts:["Energy of moving electric charges","Energy produced by vibrating objects","Stored energy in substances such as food, fuel and batteries","Energy transferred from a hotter to cooler object"]},
+  {t:"Forces",q:"What is a force?",a:"A force is a push or pull acting on an object.",opts:["A form of energy stored in objects","A push or pull acting on an object","The weight of an object","A property of magnetic materials"]},
+  {t:"Forces",q:"What are the effects of force on an object?",a:"A force can start or stop motion, change speed, change direction, or change shape.",opts:["Force only changes the speed of objects","Force can start/stop motion, change speed, direction, or shape","Force only acts on moving objects","Force only changes the shape of objects"]},
+  {t:"Forces",q:"What is frictional force?",a:"Frictional force is a force between two surfaces in contact that opposes motion.",opts:["A force that pulls objects towards Earth","A force between two surfaces in contact that opposes motion","A force that repels magnets","A force that stores energy in springs"]},
+  {t:"Forces",q:"How does friction increase?",a:"Friction increases with rougher surfaces and greater mass of the object.",opts:["Friction increases with smoother surfaces","Friction increases with rougher surfaces and greater mass","Friction decreases when mass increases","Friction is not affected by surface type"]},
+  {t:"Forces",q:"What is gravitational force?",a:"Gravitational force is the force of attraction between objects with mass.",opts:["A force between magnets","A force that repels all objects","The force of attraction between objects with mass","A force only between Earth and the Moon"]},
+  {t:"Forces",q:"What forces act on an object falling through air?",a:"Gravitational force pulls the object downward while air resistance opposes the motion.",opts:["Only gravity acts downward","Gravity pulls down and air resistance opposes motion","Only air resistance acts on falling objects","Friction and magnetic force act on falling objects"]},
+  {t:"Forces",q:"What is magnetic force?",a:"Magnetic force is a force of attraction or repulsion between magnets or magnetic materials.",opts:["A force only between two identical magnets","A force of attraction or repulsion between magnets or magnetic materials","A force that only attracts iron filings","A force that works only underwater"]},
+  {t:"Forces",q:"How do magnetic poles interact?",a:"Unlike poles attract while like poles repel.",opts:["Like poles attract, unlike poles repel","Unlike poles attract while like poles repel","All poles attract each other","All poles repel each other"]},
+  {t:"Forces",q:"What is the relationship between load and spring extension?",a:"Greater load causes greater extension or compression of the spring.",opts:["Heavier load causes less extension","Greater load causes greater extension of the spring","Load has no effect on spring length","Only compressed springs are affected by load"]},
+  {t:"Living Together",q:"What is a habitat?",a:"A habitat is the natural environment where an organism lives.",opts:["A group of organisms of the same species","The natural environment where an organism lives","A relationship between predator and prey","A food chain in an ecosystem"]},
+  {t:"Living Together",q:"What is a community?",a:"A community is different populations living together in the same habitat.",opts:["All organisms of the same species in a habitat","Different populations living together in the same habitat","A single population of producers","A group of predators in a food web"]},
+  {t:"Living Together",q:"How does prey population affect predator population?",a:"More prey increases predator population; less prey decreases predator population.",opts:["More prey decreases predator population","Prey population has no effect on predators","More prey increases predator population; less prey decreases it","Predator population always stays constant"]},
+  {t:"Living Together",q:"Why are decomposers important?",a:"Decomposers return mineral salts and nutrients to the soil for plant growth.",opts:["They produce oxygen for animals to breathe","They return mineral salts and nutrients to the soil for plant growth","They pollinate flowers for reproduction","They provide shelter for small organisms"]},
+  {t:"Living Together",q:"How does competition affect populations?",a:"Competition for food, water, space or light decreases population size.",opts:["Competition always increases population size","Competition for food, water, space or light decreases population size","Competition only affects predators","Competition has no effect on producers"]},
+  {t:"Living Together",q:"What is interdependence?",a:"Interdependence means organisms depend on one another for survival.",opts:["Organisms living separately in different habitats","Organisms depending on one another for survival","A type of food chain relationship only","The competition between organisms for resources"]},
+  {t:"Living Together",q:"What is decomposition?",a:"Decomposition is the breakdown of dead organisms into simpler substances.",opts:["The process of photosynthesis in plants","The breakdown of dead organisms into simpler substances","The digestion of food in animals","The evaporation of water from leaves"]},
+  {t:"People and Environment",q:"How does burning fossil fuels cause global warming?",a:"Burning fossil fuels releases carbon dioxide which traps heat causing global warming.",opts:["Fossil fuels release oxygen which warms the air","Burning fossil fuels releases CO₂ which traps heat causing global warming","Burning fuel creates haze that cools the Earth","Fossil fuels reduce carbon dioxide in the air"]},
+  {t:"People and Environment",q:"How does deforestation cause soil erosion?",a:"Without roots holding soil, soil is easily washed away by rain.",opts:["Trees increase rainfall which erodes soil","Without roots, soil is easily washed away by rain","Deforestation causes drought which hardens soil","Soil erosion only happens near rivers"]},
+  {t:"People and Environment",q:"How does global warming affect sea levels?",a:"Global warming melts ice caps causing sea level rise and flooding.",opts:["Global warming reduces rainfall, lowering sea levels","Global warming melts ice caps causing sea level rise and flooding","Global warming causes oceans to shrink","Sea levels are not affected by temperature"]},
+  {t:"People and Environment",q:"How do renewable energy sources benefit the environment?",a:"Renewable energy reduces pollution and does not run out.",opts:["Renewable energy is more expensive and harder to use","Renewable energy reduces pollution and does not run out","Renewable energy produces more CO₂ than fossil fuels","Renewable energy only works in sunny countries"]},
+  {t:"People and Environment",q:"How does pollution cause death of aquatic organisms?",a:"Pollutants reduce oxygen or block photosynthesis causing organisms to die.",opts:["Pollution makes the water too warm for organisms","Pollutants reduce oxygen or block photosynthesis causing organisms to die","Pollution increases mineral salts helping organisms grow","Pollution only affects land animals"]},
+  {t:"People and Environment",q:"How does deforestation cause global warming?",a:"Cutting trees reduces carbon dioxide absorption and increases carbon dioxide trapping heat.",opts:["Trees release CO₂ so removing them helps","Cutting trees reduces CO₂ absorption and increases CO₂ trapping heat","Forests produce methane which causes warming","Deforestation has no effect on global warming"]},
+  {t:"Living Things",q:"What are the four stages of complete metamorphosis?",a:"Egg → larva → pupa → adult (complete metamorphosis).",opts:["Egg → nymph → adult","Egg → larva → pupa → adult","Egg → pupa → larva → adult","Larva → egg → pupa → adult"]},
+  {t:"Living Things",q:"What is the function of the stigma in a flower?",a:"The stigma receives pollen grains during pollination.",opts:["The stigma produces pollen grains","The stigma receives pollen grains during pollination","The stigma stores seeds after fertilisation","The stigma supports the anther"]},
+  {t:"Living Things",q:"What is the function of the anther?",a:"The anther produces male reproductive cells (pollen grains).",opts:["The anther receives pollen grains","The anther produces male reproductive cells (pollen)","The anther stores female reproductive cells","The anther supports the stigma"]},
+  {t:"Living Things",q:"What adaptation helps a fish breathe underwater?",a:"Fish have gills that take in dissolved oxygen from water.",opts:["Fish have lungs to breathe air underwater","Fish have gills that take in dissolved oxygen from water","Fish absorb oxygen through their scales","Fish hold their breath for a long time"]},
+  {t:"Living Things",q:"What adaptation helps aquatic plants float?",a:"Aquatic plants have air spaces in their leaf stalks which allow them to float.",opts:["They have needle-shaped leaves to reduce weight","They have air spaces in leaf stalks which allow them to float","They have waxy leaves to repel water","They have deep roots to anchor them"]},
+  {t:"Human Body",q:"What is respiration (in terms of the human body)?",a:"Respiration is the process in which energy is released from food.",opts:["Respiration is the process of breathing air in and out","Respiration is the process in which energy is released from food","Respiration is the movement of blood in the body","Respiration is the process of making food using sunlight"]},
+  {t:"Human Body",q:"Name the parts of the respiratory system.",a:"Nose, windpipe (trachea), and lungs.",opts:["Heart, lungs, and arteries","Nose, windpipe, and lungs","Mouth, stomach, and lungs","Brain, heart, and lungs"]},
+  {t:"Human Body",q:"Why does heart rate increase during exercise?",a:"Muscles need more oxygen and food; blood must be pumped faster to supply them and remove CO₂.",opts:["The heart beats faster to cool the body","Muscles need more oxygen and food; heart pumps faster to supply them and remove CO₂","Exercise causes the heart to grow larger","The lungs shrink during exercise so the heart must work harder"]},
+  {t:"Plants",q:"What do plants need for photosynthesis?",a:"Plants need carbon dioxide, water, and light energy (chlorophyll in leaves).",opts:["Oxygen, water, and darkness","Carbon dioxide, water, and light energy (with chlorophyll)","Glucose, oxygen, and sunlight","Soil, water, and food"]},
+  {t:"Plants",q:"What gas is released during photosynthesis?",a:"Oxygen is released during photosynthesis.",opts:["Carbon dioxide","Nitrogen","Oxygen","Water vapour"]},
+  {t:"Plants",q:"What is the role of stomata in leaves?",a:"Stomata allow carbon dioxide to enter and oxygen and water vapour to exit the leaf.",opts:["Stomata absorb sunlight for photosynthesis","Stomata allow CO₂ in and O₂ and water vapour out","Stomata produce chlorophyll","Stomata transport water from roots to leaves"]},
+  {t:"Plants",q:"Why do seeds need to be dispersed away from the parent plant?",a:"To reduce overcrowding and competition with the parent plant for sunlight, water, mineral salts, and space.",opts:["Seeds need sunlight to germinate immediately","To reduce overcrowding and competition with the parent plant for resources","Seeds must be eaten by animals to germinate","Seeds only grow when far from any other plant"]},
+  {t:"Heat",q:"What happens to most materials when heated?",a:"Materials expand (increase in size) when heated.",opts:["Materials contract when heated","Materials expand when heated","Materials change colour when heated","Materials become magnetic when heated"]},
+  {t:"Heat",q:"What is evaporation?",a:"Evaporation is when liquid water gains heat energy and changes into water vapour (gas).",opts:["Water vapour loses heat and becomes liquid","Liquid water gains heat and changes into water vapour","Ice melts into liquid water","Water vapour cools and forms rain"]},
+  {t:"Heat",q:"What is condensation?",a:"Condensation is when water vapour loses heat and changes into liquid water.",opts:["Liquid water gains heat and becomes vapour","Water vapour loses heat and changes into liquid water","Ice melts into liquid water","Liquid water freezes into ice"]},
+  {t:"Heat",q:"In which direction does heat travel?",a:"Heat travels from a hotter object to a cooler object.",opts:["Heat travels from cold to hot","Heat travels from hot to cold","Heat travels in all directions equally","Heat only travels upward"]},
+  {t:"Electricity",q:"What is an electrical conductor?",a:"An electrical conductor is a material that allows electricity to flow through it (e.g. metals).",opts:["A material that stops electricity from flowing","A material that allows electricity to flow through it","A material that stores electrical energy","A material that produces electricity"]},
+  {t:"Electricity",q:"What is an electrical insulator?",a:"An electrical insulator is a material that does not allow electricity to flow through it (e.g. plastic, rubber).",opts:["A material that conducts electricity well","A material that does not allow electricity to flow","A material that creates a magnetic field","A material that stores heat energy"]},
+  {t:"Light",q:"What property of light does a shadow demonstrate?",a:"A shadow shows that light travels in a straight line.",opts:["Light bends around objects","Light travels in a straight line (shown by shadow formation)","Light travels in waves","Light can travel through all materials"]},
+  {t:"Light",q:"What is reflection of light?",a:"Reflection is when light bounces off a surface.",opts:["Light bending as it passes through a material","Light bouncing off a surface","Light being absorbed by a dark object","Light splitting into colours"]},
+  {t:"Magnets",q:"How do you make a temporary magnet by stroking?",a:"Stroke a magnetic material repeatedly in one direction with one pole of a permanent magnet.",opts:["Rub both poles alternately on the material","Stroke a magnetic material in one direction with one pole of a permanent magnet","Heat the material to make it magnetic","Wrap wire around the material"]},
+  {t:"Magnets",q:"What materials are attracted to magnets?",a:"Magnetic materials: iron, steel, nickel, cobalt.",opts:["All metals including aluminium, copper, and gold","Iron, steel, nickel, and cobalt only","Only iron and steel","All dark-coloured materials"]},
+  {t:"Materials",q:"What property makes a material suitable for making a raincoat?",a:"The material must be waterproof.",opts:["The material must be absorbent","The material must be waterproof","The material must be transparent","The material must be magnetic"]},
+  {t:"Materials",q:"What is the strength of a material?",a:"Strength is the ability of a material to withstand a force without breaking.",opts:["The ability to stretch without breaking","The ability to withstand a force without breaking","The ability to conduct electricity","The ability to float on water"]},
+  {t:"Air and Matter",q:"Why can more air be pumped into an already inflated basketball?",a:"Air (gas) can be compressed — its particles can be pushed closer together.",opts:["Air has no mass so it fits anywhere","Gas particles can be compressed — pushed closer together","Air is a liquid so it fills any space","Air particles disappear when compressed"]},
+  {t:"Air and Matter",q:"What are the properties of a gas?",a:"A gas has no definite shape or volume; it fills and takes the shape of its container.",opts:["A gas has definite shape but no volume","A gas has no definite shape or volume; fills its container","A gas has definite volume but no shape","A gas cannot be compressed"]}
+];
+
+const TOPICS=[...new Set(QS.map(q=>q.t))];
+
+function shuffle(a){return[...a].sort(()=>Math.random()-.5)}
+
+let S={
+  mode:"home",filter:"All",deck:[],idx:0,
+  flipped:false,picked:null,checked:false,
+  score:0,topicScore:{},streak:0,bestStreak:0,
+  done:false,cardMode:"flip",showErr:false,
+  currentOpts:[]
+};
+
+function startDeck(){
+  let pool=S.filter==="All"?QS:QS.filter(q=>q.t===S.filter);
+  S.deck=shuffle(pool);
+  S.idx=0;S.flipped=false;S.picked=null;S.checked=false;
+  S.score=0;S.streak=0;S.bestStreak=0;S.done=false;S.showErr=false;
+  S.topicScore={};
+  TOPICS.forEach(t=>{S.topicScore[t]={c:0,n:0}});
+  S.mode="quiz";
+  render();
+}
+
+function render(){
+  const el=document.getElementById("content");
+  if(S.mode==="home"){renderHome(el);return;}
+  if(S.done){renderResult(el);return;}
+  renderCard(el);
+}
+
+function renderHome(el){
+  el.innerHTML=`
+<div class="home-card">
+  <div class="section-label" style="margin-bottom:.75rem">Study mode</div>
+  <div class="mode-row">
+    <button class="mode-btn${S.cardMode==="flip"?" on":""}" onclick="S.cardMode='flip';toggleMode(this)">
+      <i class="ti ti-cards" style="font-size:16px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i>Flip + MCQ
+    </button>
+    <button class="mode-btn${S.cardMode==="mcq"?" on":""}" onclick="S.cardMode='mcq';toggleMode(this)">
+      <i class="ti ti-list-check" style="font-size:16px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i>MCQ only
+    </button>
+  </div>
+  <div class="section-label">Filter by topic</div>
+  <div class="filter-wrap" style="margin-top:.5rem">
+    ${["All",...TOPICS].map(t=>`<button class="ftag${S.filter===t?" on":""}" onclick="setFilter('${t}')">${t}</button>`).join("")}
+  </div>
+  <div style="margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <span style="font-size:13px;color:var(--text-secondary)">${S.filter==="All"?QS.length:QS.filter(q=>q.t===S.filter).length} cards in deck</span>
+    <button class="btn-primary" onclick="startDeck()" style="padding:9px 22px;border-radius:var(--radius);border:none;background:var(--fill-accent);color:var(--on-accent);font-size:14px;cursor:pointer;font-family:var(--font-sans)">
+      Start deck <i class="ti ti-arrow-right" style="font-size:14px;vertical-align:-2px" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+<div class="home-info">
+  <strong style="color:var(--text-primary)">Flip + MCQ:</strong> Click the card to see the answer on the back, then pick from 4 options.<br>
+  <strong style="color:var(--text-primary)">MCQ only:</strong> Go straight to answering without flipping.<br><br>
+  60 cards from ACS Junior, St Nicholas, and 9 other 2026 prelim papers, plus Elixir Academy AL1 recitation tables.
+</div>`;
+}
+
+function toggleMode(btn){
+  document.querySelectorAll(".mode-btn").forEach(b=>b.classList.remove("on"));
+  btn.classList.add("on");
+}
+
+function setFilter(t){
+  S.filter=t;
+  document.querySelectorAll(".ftag").forEach(b=>b.classList.toggle("on",b.textContent===t));
+  document.querySelector(".home-card span[style*='color:var']").textContent=(t==="All"?QS.length:QS.filter(q=>q.t===t).length)+" cards in deck";
+}
+
+function renderCard(el){
+  const q=S.deck[S.idx];
+  const pct=Math.round((S.idx/S.deck.length)*100);
+  if(!S.checked||S.currentOpts.length===0){
+    S.currentOpts=shuffle([q.a,...q.opts.filter(o=>o!==q.a)]).slice(0,4);
+  }
+  const opts=S.currentOpts;
+  const isFlip=S.cardMode==="flip";
+
+  const optsHTML=`<div class="opts">${opts.map((o,i)=>{
+    let cls="opt";
+    if(S.checked){
+      if(o===q.a)cls+=" correct";
+      else if(o===S.picked&&S.picked!==q.a)cls+=" wrong";
+    } else if(o===S.picked) cls+=" sel";
+    const lbl=String.fromCharCode(65+i);
+    return `<button class="${cls}" onclick="pickOpt(${i})" ${S.checked?"disabled":""}><span class="opt-lbl">${lbl}.</span><span>${o}</span></button>`;
+  }).join("")}</div>`;
+
+  const expHTML=S.checked?`<div class="exp-box">
+    <strong style="color:${S.picked===q.a?"var(--text-success)":"var(--text-danger)}">${S.picked===q.a?"Correct!":"Incorrect."}</strong>
+    ${q.a}
+  </div>`:"";
+
+  const errHTML=S.showErr?`<div class="err-msg">Select an answer first.</div>`:"";
+
+  let actionHTML="";
+  if(!S.checked&&(!isFlip||S.flipped)){
+    actionHTML=`<button class="btn-primary" onclick="checkAns()" style="padding:8px 18px;border-radius:var(--radius);border:none;background:var(--fill-accent);color:var(--on-accent);font-size:14px;cursor:pointer;font-family:var(--font-sans)">Check answer</button>`;
+  }
+  if(S.checked){
+    actionHTML=`<button class="btn-primary" onclick="nextCard()" style="padding:8px 18px;border-radius:var(--radius);border:none;background:var(--fill-accent);color:var(--on-accent);font-size:14px;cursor:pointer;font-family:var(--font-sans)">${S.idx+1>=S.deck.length?"See results →":"Next card →"}</button>`;
+  }
+
+  el.innerHTML=`
+<div class="topbar">
+  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+    <span class="pill pill-topic">${q.t}</span>
+    <span class="pill pill-num">${S.idx+1}/${S.deck.length}</span>
+    ${S.streak>1?`<span class="pill pill-streak"><i class="ti ti-flame" style="font-size:12px;vertical-align:-1px" aria-hidden="true"></i> ${S.streak}</span>`:""}
+  </div>
+  <span style="font-size:13px;color:var(--text-secondary)">Score: ${S.score}/${S.idx}</span>
+</div>
+<div class="pbar-wrap"><div class="pbar" style="width:${pct}%"></div></div>
+${isFlip?`
+<div class="card-scene" onclick="flipCard()" tabindex="0" role="button" aria-label="Flip card to reveal answer" onkeydown="if(event.key==='Enter'||event.key===' ')flipCard()">
+  <div class="card-3d${S.flipped?" flipped":""}" id="c3d">
+    <div class="face">
+      <div class="face-topic">${q.t}</div>
+      <div class="face-q">${q.q}</div>
+      ${!S.flipped?`<div class="face-hint"><i class="ti ti-refresh" style="font-size:14px" aria-hidden="true"></i> Click to reveal answer</div>`:""}
+    </div>
+    <div class="face face-back">
+      <div class="face-label">Answer</div>
+      <div class="face-back-inner">${q.a}</div>
+    </div>
+  </div>
+</div>
+${S.flipped?optsHTML:""}`
+:`<div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1.25rem">
+  <div class="face-topic">${q.t}</div>
+  <div class="face-q" style="margin-bottom:1rem">${q.q}</div>
+</div>
+${optsHTML}`}
+${errHTML}${expHTML}
+<div class="actions">
+  ${actionHTML}
+  <button onclick="backHome()">
+    <i class="ti ti-arrow-left" style="font-size:14px;vertical-align:-2px" aria-hidden="true"></i> Back
+  </button>
+</div>`;
+}
+
+function flipCard(){
+  if(S.checked)return;
+  S.flipped=!S.flipped;
+  const c=document.getElementById("c3d");
+  if(c) c.classList.toggle("flipped",S.flipped);
+  if(S.flipped) render();
+}
+
+function pickOpt(i){
+  if(S.checked)return;
+  S.picked=S.currentOpts[i];
+  S.showErr=false;
+  render();
+}
+
+function checkAns(){
+  if(S.picked===null){S.showErr=true;render();return;}
+  const q=S.deck[S.idx];
+  S.checked=true;S.showErr=false;
+  if(S.picked===q.a){
+    S.score++;S.streak++;
+    if(S.streak>S.bestStreak)S.bestStreak=S.streak;
+    S.topicScore[q.t].c++;
+  } else {
+    S.streak=0;
+  }
+  S.topicScore[q.t].n++;
+  render();
+}
+
+function nextCard(){
+  if(S.idx+1>=S.deck.length){S.done=true;render();return;}
+  S.idx++;S.flipped=false;S.picked=null;S.checked=false;S.showErr=false;S.currentOpts=[];
+  render();
+}
+
+function backHome(){S.mode="home";render();}
+
+function renderResult(el){
+  const total=S.deck.length;
+  const pct=Math.round((S.score/total)*100);
+  const grade=pct>=85?"AL1":pct>=70?"AL2":pct>=55?"AL3":pct>=45?"AL4":"Below AL4";
+  const gc=pct>=85?"var(--text-success)":pct>=70?"var(--text-accent)":pct>=55?"var(--text-warning)":"var(--text-danger)";
+  const rows=Object.entries(S.topicScore).filter(([,v])=>v.n>0).map(([t,v])=>{
+    const p=Math.round((v.c/v.n)*100);
+    return `<div class="tr">
+      <span class="tr-name">${t}</span>
+      <div class="tr-track"><div class="tr-fill" style="width:${p}%"></div></div>
+      <span class="tr-pct">${p}%</span>
+    </div>`;
+  }).join("");
+
+  el.innerHTML=`
+<div class="result-card">
+  <div style="font-size:13px;color:var(--text-muted);margin-bottom:.5rem">Deck complete</div>
+  <div style="font-size:52px;font-weight:500;color:var(--text-primary);line-height:1">${S.score}<span style="font-size:24px;color:var(--text-secondary)">/${total}</span></div>
+  <div style="font-size:15px;color:var(--text-secondary);margin:.5rem 0 1.25rem">${pct}% — <span style="color:${gc};font-weight:500">${grade}</span></div>
+  <div class="result-grid">
+    <div class="rcard"><div class="rnum" style="color:var(--text-success)">${S.score}</div><div class="rlbl">Correct</div></div>
+    <div class="rcard"><div class="rnum" style="color:var(--text-danger)">${total-S.score}</div><div class="rlbl">Wrong</div></div>
+    <div class="rcard"><div class="rnum">${S.bestStreak}</div><div class="rlbl">Best streak</div></div>
+  </div>
+  ${rows?`<div class="topic-rows">${rows}</div>`:""}
+  <div style="display:flex;gap:8px;justify-content:center;margin-top:1.5rem;flex-wrap:wrap">
+    <button onclick="startDeck()" style="padding:9px 22px;border-radius:var(--radius);border:none;background:var(--fill-accent);color:var(--on-accent);font-size:14px;cursor:pointer;font-family:var(--font-sans)">
+      Retry deck <i class="ti ti-refresh" style="font-size:14px;vertical-align:-2px" aria-hidden="true"></i>
+    </button>
+    <button onclick="backHome()">Change filter</button>
+  </div>
+</div>`;
+}
+
+render();
+</script>
+</body>
+</html>
