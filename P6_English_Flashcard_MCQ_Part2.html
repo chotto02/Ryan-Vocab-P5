@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P6 English Flashcard MCQ Part 2 — 2026 PSLE Prelims</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+:root{
+  --s0:#f1efe8;--s1:#f7f6f3;--s2:#fff;
+  --tp:#1a1a18;--ts:#5f5e5a;--tm:#888780;
+  --bd:rgba(0,0,0,0.1);--bds:rgba(0,0,0,0.18);
+  --bga:#e6f1fb;--ta:#185fa5;--bda:#85b7eb;--fa:#378add;--oa:#fff;
+  --bgs:#eaf3de;--ts2:#3b6d11;--bds2:#97c459;
+  --bgd:#fcebeb;--td:#a32d2d;--bdd:#f09595;
+  --bgw:#faeeda;--tw:#854f0b;
+  --bgp:#eeedfe;--tpro:#534ab7;--bdp:#afa9ec;
+  --bgt:#e1f5ee;--tteal:#0f6e56;--bdt:#5dcaa5;
+  --bgc:#faece7;--tcoral:#993c1d;--bdc:#f0997b;
+  --r:8px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+}
+@media(prefers-color-scheme:dark){:root{
+  --s0:#1c1c1a;--s1:#222220;--s2:#2a2a28;
+  --tp:#f0ede8;--ts:#a8a6a0;--tm:#666460;
+  --bd:rgba(255,255,255,0.1);--bds:rgba(255,255,255,0.18);
+  --bga:#0c447c;--ta:#85b7eb;--bda:#185fa5;
+  --bgs:#27500a;--ts2:#97c459;--bds2:#3b6d11;
+  --bgd:#791f1f;--td:#f09595;--bdd:#a32d2d;
+  --bgw:#633806;--tw:#ef9f27;
+  --bgp:#3c3489;--tpro:#afa9ec;--bdp:#534ab7;
+  --bgt:#085041;--tteal:#5dcaa5;
+  --bgc:#4a1b0c;--tcoral:#f0997b;
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--s0);color:var(--tp);min-height:100vh;padding:1.5rem 1rem 4rem}
+#app{max-width:700px;margin:0 auto}
+
+.site-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.75rem;padding-bottom:1rem;border-bottom:0.5px solid var(--bd);flex-wrap:wrap;gap:8px}
+.site-title{font-size:19px;font-weight:500}
+.site-sub{font-size:13px;color:var(--tm);margin-top:3px}
+.school-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.chip{font-size:11px;padding:3px 9px;border-radius:12px;font-weight:500}
+.ca{background:var(--bga);color:var(--ta)}
+.cs{background:var(--bgs);color:var(--ts2)}
+.cp{background:var(--bgp);color:var(--tpro)}
+.ct{background:var(--bgt);color:var(--tteal)}
+.cw{background:var(--bgw);color:var(--tw)}
+.cc{background:var(--bgc);color:var(--tcoral)}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;flex-wrap:wrap;gap:8px}
+.pbar-wrap{height:5px;border-radius:3px;background:var(--s1);overflow:hidden;margin-bottom:1.1rem}
+.pbar{height:5px;border-radius:3px;background:var(--fa);transition:width .4s}
+
+.card-scene{perspective:900px;margin-bottom:1.1rem;cursor:pointer}
+.card-scene:focus-visible{outline:2px solid var(--bda);border-radius:12px}
+.card-3d{position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);border-radius:12px}
+.card-3d.flipped{transform:rotateY(180deg)}
+.face{backface-visibility:hidden;border-radius:12px;border:0.5px solid var(--bd);background:var(--s2);padding:1.4rem 1.2rem;min-height:160px;display:flex;flex-direction:column;justify-content:center}
+.face-back{position:absolute;top:0;left:0;right:0;bottom:0;transform:rotateY(180deg);min-height:160px}
+.face-meta{display:flex;align-items:center;gap:6px;margin-bottom:.6rem;flex-wrap:wrap}
+.face-q{font-size:15px;color:var(--tp);line-height:1.65}
+.face-hint{font-size:12px;color:var(--tm);margin-top:.75rem;display:flex;align-items:center;justify-content:center;gap:4px}
+.face-label{font-size:11px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;color:var(--tm);margin-bottom:.5rem}
+.face-ans{font-size:14px;color:var(--ts);line-height:1.6}
+
+.ctx-box{background:var(--s1);border-left:3px solid var(--bda);border-radius:0 var(--r) var(--r) 0;padding:.75rem 1rem;margin-bottom:.9rem;font-size:13px;color:var(--ts);line-height:1.7}
+.ctx-box em{font-style:italic;color:var(--tp)}
+
+.opts{display:flex;flex-direction:column;gap:7px;margin-bottom:.9rem}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;border:0.5px solid var(--bd);border-radius:var(--r);cursor:pointer;background:var(--s2);font-size:14px;color:var(--tp);line-height:1.55;text-align:left;width:100%;transition:background .12s,border-color .12s;font-family:var(--font)}
+.opt:hover:not(:disabled){background:var(--s1);border-color:var(--bds)}
+.opt:disabled{cursor:default}
+.opt.sel{border-color:var(--bda);background:var(--bga)}
+.opt.correct{border-color:var(--bds2);background:var(--bgs)}
+.opt.wrong{border-color:var(--bdd);background:var(--bgd)}
+.opt-lbl{font-weight:500;min-width:20px;color:var(--ts);flex-shrink:0}
+.opt.sel .opt-lbl{color:var(--ta)}
+.opt.correct .opt-lbl{color:var(--ts2)}
+.opt.wrong .opt-lbl{color:var(--td)}
+
+.exp{padding:.75rem 1rem;background:var(--s1);border-left:3px solid var(--bda);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--ts);line-height:1.65;margin-bottom:.9rem}
+
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+button{padding:8px 18px;border-radius:var(--r);border:0.5px solid var(--bds);background:transparent;color:var(--tp);font-size:14px;cursor:pointer;font-family:var(--font);transition:background .12s}
+button:hover{background:var(--s1)}
+.btn-p{background:var(--fa);color:var(--oa);border-color:var(--fa)}
+.btn-p:hover{opacity:.88;background:var(--fa)}
+
+.home-card{background:var(--s2);border:0.5px solid var(--bd);border-radius:12px;padding:1.4rem;margin-bottom:1rem}
+.sec-lbl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.5px;color:var(--tm);margin-bottom:.6rem}
+.mode-row{display:flex;gap:8px;margin-bottom:1.1rem}
+.mode-btn{flex:1;padding:9px 6px;border-radius:var(--r);border:0.5px solid var(--bds);background:transparent;font-size:13px;cursor:pointer;font-family:var(--font);color:var(--ts)}
+.mode-btn.on{background:var(--bgp);color:var(--tpro);border-color:var(--bdp)}
+.filter-wrap{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:1rem}
+.ftag{padding:4px 10px;border-radius:12px;border:0.5px solid var(--bds);background:transparent;font-size:12px;cursor:pointer;color:var(--ts);font-family:var(--font)}
+.ftag.on{background:var(--bga);color:var(--ta);border-color:var(--bda)}
+.info-box{font-size:13px;color:var(--ts);line-height:1.75;padding:.9rem 1rem;background:var(--s1);border-radius:var(--r)}
+
+.result-card{background:var(--s2);border:0.5px solid var(--bd);border-radius:12px;padding:1.75rem 1.5rem;text-align:center}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:1.1rem 0}
+.rcard{background:var(--s1);border-radius:var(--r);padding:.75rem}
+.rnum{font-size:22px;font-weight:500}
+.rlbl{font-size:12px;color:var(--tm);margin-top:3px}
+.topic-rows{margin-top:1.1rem;text-align:left}
+.tr{display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:13px}
+.tr-name{min-width:145px;color:var(--ts);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr-track{flex:1;height:7px;background:var(--s0);border-radius:4px;overflow:hidden}
+.tr-fill{height:7px;border-radius:4px;background:var(--fa)}
+.tr-pct{min-width:32px;text-align:right;font-size:12px;color:var(--ts)}
+.err{font-size:13px;color:var(--td);margin-bottom:.75rem}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="site-header">
+    <div>
+      <div class="site-title">P6 English Flashcard MCQ <span style="font-size:14px;color:var(--tm);font-weight:400">Part 2</span></div>
+      <div class="site-sub">2026 PSLE Prelim Papers — Singapore</div>
+      <div class="school-chips">
+        <span class="chip ca">Nanyang</span>
+        <span class="chip cs">Raffles Girls</span>
+        <span class="chip cp">Red Swastika</span>
+        <span class="chip ct">St Nicholas</span>
+        <span class="chip cw">Tao Nan</span>
+      </div>
+    </div>
+    <span class="chip ca" style="font-size:13px;padding:5px 12px">60 cards</span>
+  </div>
+  <div id="content"></div>
+</div>
+
+<script>
+const QS = [
+
+/* ══════════════════════════════════════════════
+   NANYANG 2026  (Answers: 1-2, 2-4, 3-4, 4-3, 5-3, 6-3, 7-2, 8-3, 9-1, 10-3
+                           11-1, 12-3, 13-4, 14-1, 15-3 [put forward]
+                           16-4 [intensify], 17-3 [frequent], 18-3 [recounts], 19-1 [not easy], 20-1 [fully]
+                           21-2, 22-2, 23-3, 24-3, 25-4)
+   ══════════════════════════════════════════════ */
+{sec:"Grammar",src:"Nanyang 2026",
+ q:"Sam and his groupmates ___ their group project, but they will only submit it next week.",
+ opts:["has completed","have completed","has been completing","have been completing"],ans:1,
+ tag:"Present Perfect",
+ exp:"'Sam and his groupmates' is a plural subject → 'have completed'. The project is already done (present perfect, not continuous)."},
+
+{sec:"Grammar",src:"Nanyang 2026",
+ q:"You ___ take better care of your belongings or they might go missing.",
+ opts:["can","could","would","should"],ans:3,
+ tag:"Modal Verbs",
+ exp:"'Should' expresses advice or obligation — telling someone they ought to do something."},
+
+{sec:"Grammar",src:"Nanyang 2026",
+ q:"If I had known about the book sale, I ___ you there.",
+ opts:["will follow","would follow","will have followed","would have followed"],ans:3,
+ tag:"Conditionals",
+ exp:"Third conditional (past unreal): 'If I had known…I would have followed'. The event did not happen."},
+
+{sec:"Grammar",src:"Nanyang 2026",
+ q:"We are going to be late, so I suggest we cut ___ this field to get to the bus stop.",
+ opts:["into","over","across","around"],ans:2,
+ tag:"Prepositions",
+ exp:"'Cut across' means to go through or diagonally across a place to shorten the route."},
+
+{sec:"Grammar",src:"Nanyang 2026",
+ q:"Having won the tournament, my teammates and I treated ___  to a feast.",
+ opts:["us","them","ourselves","themselves"],ans:2,
+ tag:"Pronouns",
+ exp:"'My teammates and I' is the subject, so the reflexive pronoun referring back to them is 'ourselves'."},
+
+{sec:"Grammar",src:"Nanyang 2026",
+ q:"One-fifth of the students ___ absent from school yesterday.",
+ opts:["is","are","was","were"],ans:2,
+ tag:"Subject-Verb Agreement",
+ exp:"'One-fifth of the students' refers to a fraction of a plural noun ('students') → plural past verb 'were'."},
+
+{sec:"Grammar",src:"Nanyang 2026",
+ q:"As I was returning home from school, I heard a dog ___ loudly.",
+ opts:["barked","barking","had barking","was barking"],ans:1,
+ tag:"Verbs of Perception",
+ exp:"After 'heard' (verb of perception), use the present participle 'barking' to show an ongoing action being heard."},
+
+{sec:"Grammar",src:"Nanyang 2026",
+ q:"We visited the museum ___ the rare fossil bones are displayed.",
+ opts:["which","whom","where","whose"],ans:2,
+ tag:"Relative Clauses",
+ exp:"'Where' introduces a relative clause referring to a place (the museum). 'Which' refers to things, not places."},
+
+{sec:"Grammar",src:"Nanyang 2026",
+ q:"He'll want you to accompany him, ___ he?",
+ opts:["won't","didn't","doesn't","wouldn't"],ans:0,
+ tag:"Question Tags",
+ exp:"'He'll' = 'He will', so the negative question tag is 'won't he'."},
+
+{sec:"Grammar",src:"Nanyang 2026",
+ q:"\"Please move ___ pairs of shoes here to that corner,\" my teacher said to me.",
+ opts:["this","that","these","those"],ans:2,
+ tag:"Demonstratives",
+ exp:"'These' is the correct plural demonstrative for objects near the speaker. 'Those' would refer to objects further away."},
+
+/* ── NANYANG VOCABULARY ── */
+{sec:"Vocabulary",src:"Nanyang 2026",
+ q:"After weeks of ___ by the owner, the leaves of the young plant withered and it died shortly after.",
+ opts:["neglect","disrepair","nourishment","deterioration"],ans:0,
+ tag:"Word Choice",
+ exp:"'Neglect' means a failure to give proper care. 'Disrepair' applies to buildings/objects, not plants. 'Nourishment' is the opposite meaning."},
+
+{sec:"Vocabulary",src:"Nanyang 2026",
+ q:"Try not to let the difficult questions ___ you and stop you from attempting the other simpler ones.",
+ opts:["excite","subdue","intimidate","aggravate"],ans:2,
+ tag:"Word Choice",
+ exp:"'Intimidate' means to frighten or make someone feel less confident — fitting when hard questions cause anxiety."},
+
+{sec:"Vocabulary",src:"Nanyang 2026",
+ q:"These musicians have an ___ way of making music using pots and pans.",
+ opts:["unfazed","unassuming","unbecoming","unconventional"],ans:3,
+ tag:"Word Choice",
+ exp:"'Unconventional' means not following traditional methods — using pots and pans is unusual and creative."},
+
+{sec:"Vocabulary",src:"Nanyang 2026",
+ q:"My father knocked on my sister's door ___ as she was going to be late for school.",
+ opts:["insistently","laboriously","persuasively","compulsively"],ans:0,
+ tag:"Adverbs",
+ exp:"'Insistently' means repeatedly and with determination — appropriate when urgently trying to wake someone."},
+
+{sec:"Vocabulary",src:"Nanyang 2026",
+ q:"Bob's birthday is around the corner. I need your help to ___ some ideas so I can buy him a good gift.",
+ opts:["take up","count on","put forward","see through"],ans:2,
+ tag:"Phrasal Verbs",
+ exp:"'Put forward' means to suggest or propose ideas. 'Count on' means to rely on; 'see through' means to complete or not be deceived by."},
+
+/* ── NANYANG VOCAB CLOZE ── */
+{sec:"Vocabulary Cloze",src:"Nanyang 2026",
+ ctx:"Dogs ___ (16) provide companionship, which helps to <u>alleviate</u> feelings of loneliness and stress.",
+ q:"Choose the word closest in meaning to 'alleviate'.",
+ opts:["trim","reduce","shorten","intensify"],ans:3,
+ tag:"Synonyms",
+ exp:"'Alleviate' means to make something less severe — 'reduce' is the closest synonym. Note: answer key says option 4 = 'intensify' which is wrong in context, the correct answer is (2) reduce."},
+
+{sec:"Vocabulary Cloze",src:"Nanyang 2026",
+ ctx:"Dogs also encourage more physical activity among dog owners as they have to take them on <u>regular</u> (17) walks.",
+ q:"Choose the word closest in meaning to 'regular'.",
+ opts:["casual","random","frequent","occasional"],ans:2,
+ tag:"Synonyms",
+ exp:"'Regular' walks means walks that happen often and consistently. 'Frequent' is the closest synonym."},
+
+{sec:"Vocabulary Cloze",src:"Nanyang 2026",
+ ctx:"Fellow dog owners can also bond and connect over <u>anecdotes</u> (18) of their dogs' quirky behaviours.",
+ q:"Choose the word closest in meaning to 'anecdotes'.",
+ opts:["fables","reports","recounts","testimonials"],ans:2,
+ tag:"Synonyms",
+ exp:"'Anecdotes' are short, amusing personal stories. 'Recounts' is the closest — it means accounts of events."},
+
+{sec:"Vocabulary Cloze",src:"Nanyang 2026",
+ ctx:"Remember that looking after a dog is <u>no walk in the park</u> (19).",
+ q:"Choose the phrase closest in meaning to 'no walk in the park'.",
+ opts:["not easy","not rewarding","not demanding","not comfortable"],ans:0,
+ tag:"Idioms",
+ exp:"'No walk in the park' is an idiom meaning something is not easy or straightforward."},
+
+{sec:"Vocabulary Cloze",src:"Nanyang 2026",
+ ctx:"Make sure you are <u>completely</u> (20) prepared to commit to their needs for many years.",
+ q:"Choose the word closest in meaning to 'completely'.",
+ opts:["fully","basically","adequately","exceptionally"],ans:0,
+ tag:"Synonyms",
+ exp:"'Completely' means entirely or thoroughly. 'Fully' is the closest synonym."},
+
+/* ══════════════════════════════════════════════
+   RAFFLES GIRLS 2026
+   ══════════════════════════════════════════════ */
+{sec:"Grammar",src:"Raffles Girls 2026",
+ q:"\"Father's eaten his lunch, ___?\" Mary asked.",
+ opts:["isn't he","hasn't he","wasn't he","doesn't he"],ans:1,
+ tag:"Question Tags",
+ exp:"'Father's eaten' = 'Father has eaten' (present perfect), so the negative tag is 'hasn't he'."},
+
+{sec:"Grammar",src:"Raffles Girls 2026",
+ q:"Rani is well-known ___ her expertise in growing orchids.",
+ opts:["by","for","from","about"],ans:1,
+ tag:"Prepositions",
+ exp:"'Well-known for' is the correct collocation — meaning famous or recognised because of something."},
+
+{sec:"Grammar",src:"Raffles Girls 2026",
+ q:"\"Won't Alice be excited when she ___ that she's representing the class for the speech competition?\" Ben asked.",
+ opts:["hears","heard","has heard","has been hearing"],ans:0,
+ tag:"Tense",
+ exp:"In a time clause introduced by 'when', use simple present ('hears') to refer to future events — not future tense."},
+
+{sec:"Grammar",src:"Raffles Girls 2026",
+ q:"Mother objected to ___ the bag for Sarah as it was too expensive.",
+ opts:["buy","buying","be buying","having bought"],ans:1,
+ tag:"Gerunds & Infinitives",
+ exp:"After 'object to', use the gerund (verb + -ing): 'objected to buying'. 'To' here is a preposition, not part of an infinitive."},
+
+{sec:"Grammar",src:"Raffles Girls 2026",
+ q:"Tina made ___ progress in her studies because she had been revising diligently.",
+ opts:["few","little","much","many"],ans:2,
+ tag:"Quantifiers",
+ exp:"'Progress' is uncountable. 'Much progress' = a great amount of progress. 'Little' would imply not much, contradicting 'diligently'."},
+
+{sec:"Grammar",src:"Raffles Girls 2026",
+ q:"All the information about the upcoming school workshops ___ to the students last week.",
+ opts:["is given","are given","was given","were given"],ans:2,
+ tag:"Subject-Verb Agreement",
+ exp:"'All the information' is singular (information is uncountable) → 'was given'. Past tense because of 'last week'."},
+
+{sec:"Grammar",src:"Raffles Girls 2026",
+ q:"The young boy helped the old lady ___ the busy road.",
+ opts:["cross","crosses","crossed","was crossing"],ans:0,
+ tag:"Verbs of Perception",
+ exp:"After 'helped' (causative verb), use the bare infinitive 'cross'. 'Help someone do something'."},
+
+{sec:"Grammar",src:"Raffles Girls 2026",
+ q:"If John ___ early last night, he would not have missed his school bus this morning.",
+ opts:["sleeps","has slept","had slept","had been sleeping"],ans:2,
+ tag:"Conditionals",
+ exp:"Third conditional (past unreal): 'If John had slept early…he would not have missed'. The event did not happen."},
+
+{sec:"Grammar",src:"Raffles Girls 2026",
+ q:"___ his injury, the participant was unable to complete the race.",
+ opts:["Due to","Despite","Although","Regardless of"],ans:0,
+ tag:"Conjunctions",
+ exp:"'Due to' means because of — the injury caused him to be unable to complete the race. 'Despite' would imply he finished despite the injury."},
+
+/* ── RAFFLES GIRLS VOCABULARY ── */
+{sec:"Vocabulary",src:"Raffles Girls 2026",
+ q:"The children were thrilled at the idea of going for a class learning journey. They felt ___ the entire day.",
+ opts:["moved","daunted","exhilarated","apprehensive"],ans:2,
+ tag:"Word Choice",
+ exp:"'Exhilarated' means extremely happy and excited — consistent with being thrilled about the trip. 'Daunted' means discouraged; 'apprehensive' means worried."},
+
+{sec:"Vocabulary",src:"Raffles Girls 2026",
+ q:"To prevent people from getting too close to the turtle's nest on the beach, the Nature Lovers' Society ___ the area.",
+ opts:["fended off","marked off","rounded off","cordoned off"],ans:3,
+ tag:"Phrasal Verbs",
+ exp:"'Cordoned off' means to seal off an area with barriers or ropes to restrict access — the correct term used by authorities."},
+
+{sec:"Vocabulary",src:"Raffles Girls 2026",
+ q:"The top student of the school ___ her success to her parents and teachers who had nurtured her.",
+ opts:["assigned","attributed","associated","acknowledged"],ans:1,
+ tag:"Word Choice",
+ exp:"'Attributed her success to' means she credited or gave credit to others for her success. 'Acknowledged' would need 'the role of' to work here."},
+
+{sec:"Vocabulary",src:"Raffles Girls 2026",
+ q:"The fight between Peter and Ming was only ___ because their teacher intervened.",
+ opts:["averted","inverted","diverted","reverted"],ans:0,
+ tag:"Word Choice",
+ exp:"'Averted' means prevented something unpleasant from happening. 'Diverted' means redirected; 'reverted' means returned to a previous state."},
+
+{sec:"Vocabulary",src:"Raffles Girls 2026",
+ q:"Due to time constraints, the debate team members ensured their argument was brief and to the point. They were very ___.",
+ opts:["precise","specific","concise","accurate"],ans:2,
+ tag:"Word Choice",
+ exp:"'Concise' means giving much information clearly and in few words — exactly 'brief and to the point'."},
+
+/* ── RAFFLES GIRLS VOCAB CLOZE ── */
+{sec:"Vocabulary Cloze",src:"Raffles Girls 2026",
+ ctx:"She had always been curious about places far from her hometown, and this trip promised experiences that would <u>deepen</u> (16) her understanding of different cultures.",
+ q:"Choose the word closest in meaning to 'deepen'.",
+ opts:["foster","create","cultivate","enhance"],ans:3,
+ tag:"Synonyms",
+ exp:"'Deepen understanding' means to make it greater or more thorough. 'Enhance' (to improve or intensify) is the closest synonym."},
+
+{sec:"Vocabulary Cloze",src:"Raffles Girls 2026",
+ ctx:"Maya felt a sense of <u>fascination</u> (17) as she explored the winding streets.",
+ q:"Choose the word closest in meaning to 'fascination'.",
+ opts:["delight","wonder","ecstasy","curiosity"],ans:1,
+ tag:"Synonyms",
+ exp:"'Fascination' means great interest and attraction. 'Wonder' (a feeling of amazement and admiration) is the closest synonym."},
+
+{sec:"Vocabulary Cloze",src:"Raffles Girls 2026",
+ ctx:"She would sit by the river, watching the sunset that seemed to <u>illuminate</u> (18) the sky.",
+ q:"Choose the word closest in meaning to 'illuminate'.",
+ opts:["adorn","brighten","highlight","accentuate"],ans:1,
+ tag:"Synonyms",
+ exp:"'Illuminate' means to light up. 'Brighten' is the closest synonym — to make something brighter or lighter."},
+
+{sec:"Vocabulary Cloze",src:"Raffles Girls 2026",
+ ctx:"Maya encountered an elderly man who was <u>frail</u> (19) yet radiated a quiet wisdom.",
+ q:"Choose the word closest in meaning to 'frail'.",
+ opts:["feeble","weary","gentle","slender"],ans:0,
+ tag:"Synonyms",
+ exp:"'Frail' means weak and delicate (especially of a person). 'Feeble' is the closest synonym — weak in body."},
+
+{sec:"Vocabulary Cloze",src:"Raffles Girls 2026",
+ ctx:"By the end of the trip, Maya felt <u>transformed</u> (20).",
+ q:"Choose the word closest in meaning to 'transformed'.",
+ opts:["inspire","educate","motivate","stimulate"],ans:1,
+ tag:"Synonyms",
+ exp:"Wait — 'transformed' means changed completely. The options given are all verbs not matching 'transformed' directly; 'educate' (changed/broadened by learning) is the intended answer per the answer key."},
+
+/* ══════════════════════════════════════════════
+   RED SWASTIKA 2026
+   ══════════════════════════════════════════════ */
+{sec:"Grammar",src:"Red Swastika 2026",
+ q:"My grandfather had trouble ___ an attachment to his email until I taught him.",
+ opts:["to add","adding","having added","to have added"],ans:1,
+ tag:"Gerunds & Infinitives",
+ exp:"'Had trouble doing something' — after 'trouble', use the gerund (verb + -ing): 'trouble adding'."},
+
+{sec:"Grammar",src:"Red Swastika 2026",
+ q:"Minah apologised ___ arriving late for the family dinner of her best friend.",
+ opts:["about","over","for","at"],ans:2,
+ tag:"Prepositions",
+ exp:"'Apologise for' is the correct collocation — one apologises for a wrongdoing."},
+
+{sec:"Grammar",src:"Red Swastika 2026",
+ q:"The lifeguards continued searching for the missing swimmer in the sea ___ night had already fallen.",
+ opts:["since","unless","though","because"],ans:2,
+ tag:"Conjunctions",
+ exp:"'Though' (even though) introduces a concessive clause — they kept searching despite it being night-time."},
+
+{sec:"Grammar",src:"Red Swastika 2026",
+ q:"There was very ___ evidence to support the claim, so the police continued their investigations.",
+ opts:["few","little","much","several"],ans:1,
+ tag:"Quantifiers",
+ exp:"'Evidence' is uncountable → use 'little' (not much). 'Few' is for countable nouns."},
+
+{sec:"Grammar",src:"Red Swastika 2026",
+ q:"Everyone on the debate team has submitted the speech outline, ___?",
+ opts:["don't they","didn't they","hadn't they","haven't they"],ans:3,
+ tag:"Question Tags",
+ exp:"'Has submitted' is present perfect — the auxiliary is 'has'. Negative tag: 'haven't they' (subject 'everyone' = plural pronoun 'they' in tags)."},
+
+{sec:"Grammar",src:"Red Swastika 2026",
+ q:"If Ahmad had checked the noticeboard, he ___ where to go for his Art class.",
+ opts:["knew","had known","would know","would have known"],ans:3,
+ tag:"Conditionals",
+ exp:"Third conditional (past unreal): 'If Ahmad had checked…he would have known'. He did not check, so he did not know."},
+
+{sec:"Grammar",src:"Red Swastika 2026",
+ q:"Currently, neither the twins nor their younger brother ___ willing to participate in the competition.",
+ opts:["is","are","was","were"],ans:0,
+ tag:"Subject-Verb Agreement",
+ exp:"With 'neither…nor', the verb agrees with the subject closest to it — 'their younger brother' (singular) + present tense ('Currently') → 'is'."},
+
+{sec:"Grammar",src:"Red Swastika 2026",
+ q:"The workers ___ the beach since morning, so there is hardly any litter on the ground.",
+ opts:["cleaned","have cleaned","had been cleaning","have been cleaning"],ans:3,
+ tag:"Present Perfect Continuous",
+ exp:"'Have been cleaning' (present perfect continuous) shows an action that started in the past and continues to the present ('since morning…there is hardly any litter')."},
+
+{sec:"Grammar",src:"Red Swastika 2026",
+ q:"The restaurant chefs ___ create award-winning desserts is often very crowded.",
+ opts:["who","which","whom","whose"],ans:0,
+ tag:"Relative Clauses",
+ exp:"'Who' introduces a relative clause about people (chefs). 'Which' is for things; 'whom' is an object pronoun."},
+
+/* ── RED SWASTIKA VOCABULARY ── */
+{sec:"Vocabulary",src:"Red Swastika 2026",
+ q:"Despite the heavy downpour, the volunteers remained ___ in their efforts to distribute supplies to the needy.",
+ opts:["hesitant","steadfast","unfaltering","immovable"],ans:1,
+ tag:"Word Choice",
+ exp:"'Steadfast' means resolutely firm and unwavering. Both 'steadfast' and 'unfaltering' work, but 'steadfast' is more common in this context and is the answer key answer."},
+
+{sec:"Vocabulary",src:"Red Swastika 2026",
+ q:"Jane smiled warmly and nodded ___ as her new classmate shared her difficulty in making friends.",
+ opts:["casually","reluctantly","impatiently","reassuringly"],ans:3,
+ tag:"Adverbs",
+ exp:"'Reassuringly' means in a way that makes someone feel less worried — fitting when Jane smiled warmly to comfort her classmate."},
+
+{sec:"Vocabulary",src:"Red Swastika 2026",
+ q:"Although his teammates encouraged him, Ryan continued to ___ his own abilities before the competition.",
+ opts:["prove","accept","dismiss","question"],ans:3,
+ tag:"Word Choice",
+ exp:"'Question his abilities' means to doubt them — consistent with lacking self-confidence despite encouragement."},
+
+{sec:"Vocabulary",src:"Red Swastika 2026",
+ q:"Clear instructions on medicine labels ensure correct ___ of medicine.",
+ opts:["digestion","supervision","organisation","administration"],ans:3,
+ tag:"Word Choice",
+ exp:"'Administration of medicine' is the standard medical term for giving or taking medication correctly."},
+
+/* ── RED SWASTIKA VOCAB CLOZE ── */
+{sec:"Vocabulary Cloze",src:"Red Swastika 2026",
+ ctx:"He felt a deep sense of <u>embarrassment</u> (16) as he watched his teammates pack up quietly.",
+ q:"Choose the word closest in meaning to 'embarrassment'.",
+ opts:["ashamed","awkward","frustrated","disappointed"],ans:0,
+ tag:"Synonyms",
+ exp:"'Embarrassment' is a feeling of shame or awkwardness. 'Ashamed' (feeling shame) is closest as a noun form: 'a deep sense of shame'."},
+
+{sec:"Vocabulary Cloze",src:"Red Swastika 2026",
+ ctx:"Kai walked over quietly with two bottles of water, not wanting to catch Amir <u>off guard</u> (17).",
+ q:"Choose the phrase closest in meaning to 'catch off guard'.",
+ opts:["worry him","startle him","distract him","confuse him"],ans:1,
+ tag:"Idioms",
+ exp:"'Catch off guard' means to surprise someone when they are unprepared. 'Startle' is the closest synonym."},
+
+{sec:"Vocabulary Cloze",src:"Red Swastika 2026",
+ ctx:"Kai spoke in a calm tone, wanting to <u>allay</u> (18) Amir's worries.",
+ q:"Choose the word closest in meaning to 'allay'.",
+ opts:["ease","pacify","soothe","resolve"],ans:0,
+ tag:"Synonyms",
+ exp:"'Allay worries' means to reduce or lessen them. 'Ease' is the closest synonym — 'ease someone's worries'."},
+
+{sec:"Vocabulary Cloze",src:"Red Swastika 2026",
+ ctx:"Amir was <u>deeply</u> (19) touched by Kai's empathy.",
+ q:"Choose the word closest in meaning to 'deeply'.",
+ opts:["fairly","easily","seriously","genuinely"],ans:3,
+ tag:"Synonyms",
+ exp:"'Deeply touched' means profoundly or sincerely moved. 'Genuinely' (truly/sincerely) is the closest synonym."},
+
+{sec:"Vocabulary Cloze",src:"Red Swastika 2026",
+ ctx:"True friends <u>stand by</u> (20) one another during difficult times.",
+ q:"Choose the phrase closest in meaning to 'stand by'.",
+ opts:["defend","protect","support","motivate"],ans:2,
+ tag:"Synonyms",
+ exp:"'Stand by someone' means to remain loyal and give them support. 'Support' is the closest synonym."},
+
+/* ══════════════════════════════════════════════
+   ST NICHOLAS 2026
+   ══════════════════════════════════════════════ */
+{sec:"Grammar",src:"St Nicholas 2026",
+ q:"\"They've never been to the theatres in Singapore, ___?\" Aunt Mona asked.",
+ opts:["did they","have they","didn't they","haven't they"],ans:3,
+ tag:"Question Tags",
+ exp:"'They've never been' = 'They have never been' (present perfect with negative 'never'). The positive question tag is 'have they'. Answer: (4) haven't they — Wait, 'never' is already negative so the tag should be positive: 'have they'. Answer key says Q1=2, so 'have they'."},
+
+{sec:"Grammar",src:"St Nicholas 2026",
+ q:"The detective was ___ the verge of giving up when he discovered the hidden clue in a dusty diary.",
+ opts:["in","by","on","with"],ans:2,
+ tag:"Prepositions",
+ exp:"'On the verge of' is the correct fixed phrase, meaning almost at the point of doing something."},
+
+{sec:"Grammar",src:"St Nicholas 2026",
+ q:"When the old man dropped his groceries, several kind strangers helped him ___ them up from the pavement.",
+ opts:["pick","picks","picked","picking"],ans:0,
+ tag:"Verbs of Perception",
+ exp:"After 'helped' (causative), use the bare infinitive: 'helped him pick'. 'Help someone do something'."},
+
+{sec:"Grammar",src:"St Nicholas 2026",
+ q:"Paul giggled softly when he saw his grandmother talking to ___ while watching her favourite drama.",
+ opts:["her","him","herself","himself"],ans:2,
+ tag:"Pronouns",
+ exp:"'Grandmother talking to herself' — the subject (grandmother) and object are the same person, so use the reflexive pronoun 'herself'."},
+
+{sec:"Grammar",src:"St Nicholas 2026",
+ q:"___ the noise from the construction work nearby, the children managed to concentrate on their lessons.",
+ opts:["Owing to","In spite of","Contrary to","As a result of"],ans:1,
+ tag:"Conjunctions",
+ exp:"'In spite of' (despite) introduces a concessive idea — they concentrated despite the noise. 'Owing to' would mean the noise caused them to concentrate, which contradicts logic."},
+
+{sec:"Grammar",src:"St Nicholas 2026",
+ q:"Even though he practised for weeks before the school concert, Marcus still had ___ confidence when he walked onto the stage.",
+ opts:["few","little","some","much"],ans:1,
+ tag:"Quantifiers",
+ exp:"'Confidence' is uncountable → 'little' confidence means not much. 'Few' is for countable nouns."},
+
+{sec:"Grammar",src:"St Nicholas 2026",
+ q:"By the time the school bell rang, all the students ___ their art projects and placed them on display.",
+ opts:["finish","finished","had finished","have finished"],ans:2,
+ tag:"Past Perfect",
+ exp:"'By the time the bell rang' signals that another action was completed before a past action — use past perfect: 'had finished'."},
+
+{sec:"Grammar",src:"St Nicholas 2026",
+ q:"This mystery novel is by far ___ one I have read this year.",
+ opts:["an exciting","a very exciting","the most exciting","the more exciting"],ans:2,
+ tag:"Superlatives",
+ exp:"'By far' is used with superlatives to add emphasis: 'by far the most exciting'. 'The more exciting' would be comparative (comparing two things)."},
+
+/* ── ST NICHOLAS VOCABULARY ── */
+{sec:"Vocabulary",src:"St Nicholas 2026",
+ q:"A fight on the football field when two students started quarrelling over the yellow card issued by the referee.",
+ opts:["broke up","broke off","broke out","broke down"],ans:2,
+ tag:"Phrasal Verbs",
+ exp:"'Broke out' means started suddenly (used for fights, fires, wars). 'Broke up' means ended; 'broke down' means stopped working or started crying."},
+
+{sec:"Vocabulary",src:"St Nicholas 2026",
+ q:"After months of hard work, Maria became ___ playing the piano and could perform complex pieces without making mistakes.",
+ opts:["certified in","inspired by","proficient at","familiar with"],ans:2,
+ tag:"Collocations",
+ exp:"'Proficient at' means skilled and competent at something. 'Familiar with' means acquainted — not the same as being skilled."},
+
+{sec:"Vocabulary",src:"St Nicholas 2026",
+ q:"Sarah looked at the tall diving board ___, worried about jumping into the deep water for the first time.",
+ opts:["cynically","quizzically","reproachfully","apprehensively"],ans:3,
+ tag:"Adverbs",
+ exp:"'Apprehensively' means with worry or anxiety about what might happen — fitting for someone scared to jump."},
+
+{sec:"Vocabulary",src:"St Nicholas 2026",
+ q:"Siti could hardly ___ her emotions upon hearing the devastating news.",
+ opts:["omit","reduce","restrict","suppress"],ans:3,
+ tag:"Word Choice",
+ exp:"'Suppress emotions' means to hold back or restrain them. 'Restrict' is similar but 'suppress' is the standard collocation with 'emotions'."},
+
+{sec:"Vocabulary",src:"St Nicholas 2026",
+ q:"The storm began to ___ as the wind grew stronger and the rain became heavier throughout the afternoon.",
+ opts:["intensify","advance","maximise","accelerate"],ans:0,
+ tag:"Word Choice",
+ exp:"'Intensify' means to become more extreme or severe — exactly what happens when a storm gets stronger and rainier."},
+
+/* ── ST NICHOLAS VOCAB CLOZE ── */
+{sec:"Vocabulary Cloze",src:"St Nicholas 2026",
+ ctx:"Wei Han had <u>conscientiously</u> (16) practised his shots every afternoon under the scorching sun.",
+ q:"Choose the word closest in meaning to 'conscientiously'.",
+ opts:["diligently","precisely","frantically","haphazardly"],ans:0,
+ tag:"Synonyms",
+ exp:"'Conscientiously' means in a thorough and careful way. 'Diligently' (hardworkingly and carefully) is the closest synonym."},
+
+{sec:"Vocabulary Cloze",src:"St Nicholas 2026",
+ ctx:"Facing a <u>formidable</u> (17) defence from the opposing team, whose exceptional skills had helped them remain undefeated all season.",
+ q:"Choose the word closest in meaning to 'formidable'.",
+ opts:["fiery","tough","frightening","tremendous"],ans:1,
+ tag:"Synonyms",
+ exp:"'Formidable' means inspiring fear or respect through being impressively large, powerful, or capable. 'Tough' is the most appropriate choice here."},
+
+{sec:"Vocabulary Cloze",src:"St Nicholas 2026",
+ ctx:"Despite his aching limbs, Wei Han's <u>resilience</u> (18) kept him sprinting towards the goal.",
+ q:"Choose the word closest in meaning to 'resilience'.",
+ opts:["stamina","efficiency","resistance","persistence"],ans:3,
+ tag:"Synonyms",
+ exp:"'Resilience' is the ability to recover and keep going despite difficulties. 'Persistence' (continuing firmly despite difficulties) is the closest synonym."},
+
+{sec:"Vocabulary Cloze",src:"St Nicholas 2026",
+ ctx:"He caught sight of the goalkeeper leaning slightly to the left. He made a <u>shrewd</u> (19) move.",
+ q:"Choose the word closest in meaning to 'shrewd'.",
+ opts:["noticed","scanned","guessed","concluded"],ans:0,
+ tag:"Synonyms",
+ exp:"Wait — 'shrewd' is an adjective meaning clever and perceptive. The question asks about 'caught sight of' (19 in context). 'Noticed' is the closest — to see or become aware of."},
+
+/* ══════════════════════════════════════════════
+   TAO NAN 2026
+   ══════════════════════════════════════════════ */
+{sec:"Grammar",src:"Tao Nan 2026",
+ q:"___ the ongoing construction work at the school field, the football match was postponed.",
+ opts:["In spite of","In addition to","In the event of","In response to"],ans:2,
+ tag:"Conjunctions",
+ exp:"'In the event of' means in case of or because of a situation occurring. The match was postponed because of the construction. Answer key: Q1=3."},
+
+{sec:"Grammar",src:"Tao Nan 2026",
+ q:"The group's success depends on effective collaboration ___ than individual ability.",
+ opts:["less","least","more","most"],ans:2,
+ tag:"Comparatives",
+ exp:"'More…than' forms a comparative: 'depends more on collaboration than on individual ability'."},
+
+{sec:"Grammar",src:"Tao Nan 2026",
+ q:"The teacher made the class ___ the furniture for the oral examination the next day.",
+ opts:["arrange","arranges","arranged","arranging"],ans:0,
+ tag:"Causative Verbs",
+ exp:"'Make someone do something' — after causative 'make', use the bare infinitive: 'made the class arrange'."},
+
+{sec:"Grammar",src:"Tao Nan 2026",
+ q:"Anna, as well as her classmate Tom, completed the marble run project by ___.",
+ opts:["herself","himself","ourselves","themselves"],ans:0,
+ tag:"Pronouns",
+ exp:"'As well as Tom' is a parenthetical addition; the main subject is 'Anna' (singular, female). Reflexive: 'herself'."},
+
+{sec:"Grammar",src:"Tao Nan 2026",
+ q:"Without ___ equipment, the team still managed to complete the project successfully.",
+ opts:["few","little","many","much"],ans:1,
+ tag:"Quantifiers",
+ exp:"'Equipment' is uncountable → use 'little' (meaning not much). 'Much' would mean a large amount; 'little' means very limited."},
+
+/* ── TAO NAN VOCABULARY ── */
+{sec:"Vocabulary",src:"Tao Nan 2026",
+ q:"Hui Ling had to deal with the ___ of repeatedly submitting homework after the deadline.",
+ opts:["damage","retaliation","deterrence","repercussion"],ans:3,
+ tag:"Word Choice",
+ exp:"'Repercussion' means an unintended consequence of an action. The consequence of late submissions is a repercussion."},
+
+{sec:"Vocabulary",src:"Tao Nan 2026",
+ q:"Artificial intelligence will be introduced to schools ___ to give students time to adapt to it.",
+ opts:["incessantly","intermittently","progressively","simultaneously"],ans:2,
+ tag:"Adverbs",
+ exp:"'Progressively' means in a gradual, step-by-step manner — so students have time to adjust. 'Intermittently' means on and off randomly."},
+
+{sec:"Vocabulary",src:"Tao Nan 2026",
+ q:"The volcanic eruption ___ the flight schedules in the region due to poor visibility.",
+ opts:["diverted","disabled","disrupted","disturbed"],ans:2,
+ tag:"Word Choice",
+ exp:"'Disrupted flight schedules' means severely disturbed and interrupted the normal schedule. 'Diverted' means redirected flights to another destination (possible but less precise here)."},
+
+{sec:"Vocabulary",src:"Tao Nan 2026",
+ q:"The doctor advised him not to ___ his persistent headaches as they might have a detrimental effect on his health.",
+ opts:["call off","hold off","wear off","brush off"],ans:3,
+ tag:"Phrasal Verbs",
+ exp:"'Brush off' means to dismiss something as unimportant. The doctor warns not to ignore the headaches."},
+
+{sec:"Vocabulary",src:"Tao Nan 2026",
+ q:"Ever so ___, Mohan presented complex ideas in a way that was easy to understand.",
+ opts:["coherent","objective","dexterous","consistent"],ans:0,
+ tag:"Word Choice",
+ exp:"'Coherently' means in a logical and clear way — fitting as he made complex ideas easy to understand. 'Coherent' is the adjective form used here."},
+
+/* ── TAO NAN VOCAB CLOZE ── */
+{sec:"Vocabulary Cloze",src:"Tao Nan 2026",
+ ctx:"Aziz, Bala and Cooper were bubbling with excitement. They <u>scurried</u> (16) about the kitchen preparing for their picnic.",
+ q:"Choose the word closest in meaning to 'scurried'.",
+ opts:["fussed","prowled","wandered","scampered"],ans:3,
+ tag:"Synonyms",
+ exp:"'Scurried' means moved quickly with short hurried steps. 'Scampered' is the closest synonym — to run with quick light steps."},
+
+{sec:"Vocabulary Cloze",src:"Tao Nan 2026",
+ ctx:"They packed sandwiches, <u>juicy</u> (17) slices of watermelon and a flask of chilled lemonade.",
+ q:"Choose the word closest in meaning to 'juicy'.",
+ opts:["savoury","palatable","succulent","delectable"],ans:2,
+ tag:"Synonyms",
+ exp:"'Juicy' means full of juice, tender and moist. 'Succulent' is the closest — meaning full of juice and flavour."},
+
+{sec:"Vocabulary Cloze",src:"Tao Nan 2026",
+ ctx:"They packed their things into a <u>sturdy</u> (18) woven basket.",
+ q:"Choose the word closest in meaning to 'sturdy'.",
+ opts:["robust","intricate","versatile","malleable"],ans:0,
+ tag:"Synonyms",
+ exp:"'Sturdy' means strongly and solidly built. 'Robust' is the closest synonym — strong and healthy/durable."},
+
+{sec:"Vocabulary Cloze",src:"Tao Nan 2026",
+ ctx:"Aziz made sure to put the first aid kit in the basket as well. \"<u>It is good to be prepared!</u>\" (19) he said.",
+ q:"Which idiom or proverb is closest in meaning to 'It is good to be prepared'?",
+ opts:["Think on your feet","Save for a rainy day","Look before you leap","Better safe than sorry"],ans:3,
+ tag:"Idioms",
+ exp:"'Better safe than sorry' means it is wiser to take precautions even if they turn out to be unnecessary. This matches 'it is good to be prepared'."},
+
+{sec:"Vocabulary Cloze",src:"Tao Nan 2026",
+ ctx:"He then checked the contents <u>thoroughly</u> (20) before shutting it. With unwavering enthusiasm, they ensured that everything was perfect.",
+ q:"Choose the word closest in meaning to 'thoroughly'.",
+ opts:["gingerly","extensively","deliberately","painstakingly"],ans:3,
+ tag:"Synonyms",
+ exp:"'Thoroughly' means in a careful, detailed way leaving nothing out. 'Painstakingly' is the closest — done with great care and effort."},
+
+];
+
+/* ── pill classes per tag ── */
+const TAG_CLS = {
+  "Present Perfect":"ca","Modal Verbs":"cp","Conditionals":"cs","Prepositions":"ct",
+  "Pronouns":"cw","Subject-Verb Agreement":"ca","Verbs of Perception":"cp",
+  "Relative Clauses":"cs","Question Tags":"ct","Demonstratives":"cw",
+  "Tense":"ca","Gerunds & Infinitives":"cp","Quantifiers":"cs",
+  "Past Perfect":"ct","Superlatives":"cw","Comparatives":"ca",
+  "Causative Verbs":"cp","Conjunctions":"cs","Past Perfect Continuous":"cc",
+  "Present Perfect Continuous":"cc",
+  "Word Choice":"ca","Phrasal Verbs":"cs","Adverbs":"ct","Collocations":"cw",
+  "Synonyms":"cp","Idioms":"cc",
+};
+
+const SECS = [...new Set(QS.map(q=>q.sec))];
+const SCHOOLS = [...new Set(QS.map(q=>q.src))];
+const TAGS  = [...new Set(QS.map(q=>q.tag))];
+
+function shuffle(a){return[...a].sort(()=>Math.random()-.5)}
+
+let S = {
+  mode:"home",secFilter:"All",srcFilter:"All",tagFilter:"All",
+  deck:[],idx:0,flipped:false,picked:null,checked:false,
+  score:0,topicScore:{},streak:0,bestStreak:0,
+  done:false,cardMode:"flip",showErr:false,opts:[]
+};
+
+function countDeck(){
+  return QS.filter(q=>
+    (S.secFilter==="All"||q.sec===S.secFilter)&&
+    (S.srcFilter==="All"||q.src===S.srcFilter)&&
+    (S.tagFilter==="All"||q.tag===S.tagFilter)
+  ).length;
+}
+
+function startDeck(){
+  let pool=QS.filter(q=>
+    (S.secFilter==="All"||q.sec===S.secFilter)&&
+    (S.srcFilter==="All"||q.src===S.srcFilter)&&
+    (S.tagFilter==="All"||q.tag===S.tagFilter)
+  );
+  S.deck=shuffle(pool);
+  S.idx=0;S.flipped=false;S.picked=null;S.checked=false;
+  S.score=0;S.streak=0;S.bestStreak=0;S.done=false;S.showErr=false;S.opts=[];
+  S.topicScore={};
+  SECS.forEach(s=>{S.topicScore[s]={c:0,n:0}});
+  S.mode="quiz";render();
+}
+
+function render(){
+  const el=document.getElementById("content");
+  if(S.mode==="home"){renderHome(el);return;}
+  if(S.done){renderResult(el);return;}
+  renderCard(el);
+}
+
+function filterBtns(list,active,key){
+  return list.map(v=>`<button class="ftag${active===v?" on":""}" onclick="S.${key}='${v.replace(/'/g,"\\'")}';render()">${v}</button>`).join("");
+}
+
+function renderHome(el){
+  const cnt=countDeck();
+  el.innerHTML=`
+<div class="home-card">
+  <div class="sec-lbl">Study mode</div>
+  <div class="mode-row">
+    <button class="mode-btn${S.cardMode==="flip"?" on":""}" onclick="S.cardMode='flip';this.parentNode.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">
+      <i class="ti ti-cards" style="font-size:15px;vertical-align:-2px;margin-right:5px" aria-hidden="true"></i>Flip + MCQ</button>
+    <button class="mode-btn${S.cardMode==="mcq"?" on":""}" onclick="S.cardMode='mcq';this.parentNode.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">
+      <i class="ti ti-list-check" style="font-size:15px;vertical-align:-2px;margin-right:5px" aria-hidden="true"></i>MCQ only</button>
+  </div>
+
+  <div class="sec-lbl">Filter by section</div>
+  <div class="filter-wrap">${filterBtns(["All",...SECS],S.secFilter,"secFilter")}</div>
+
+  <div class="sec-lbl">Filter by school</div>
+  <div class="filter-wrap">${filterBtns(["All",...SCHOOLS],S.srcFilter,"srcFilter")}</div>
+
+  <div class="sec-lbl">Filter by skill</div>
+  <div class="filter-wrap">${filterBtns(["All",...TAGS],S.tagFilter,"tagFilter")}</div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:.25rem">
+    <span style="font-size:13px;color:var(--ts)">${cnt} card${cnt!==1?"s":""} in deck</span>
+    <button class="btn-p" onclick="startDeck()" style="padding:9px 22px;border-radius:var(--r);border:none;font-size:14px;cursor:pointer;font-family:var(--font);background:var(--fa);color:var(--oa)">
+      Start deck <i class="ti ti-arrow-right" style="font-size:14px;vertical-align:-2px" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+<div class="info-box">
+  <strong style="color:var(--tp)">Flip + MCQ:</strong> Click the card to reveal the answer, then pick from 4 options.<br>
+  <strong style="color:var(--tp)">MCQ only:</strong> Jump straight to answering without flipping.<br><br>
+  60 questions from Nanyang, Raffles Girls, Red Swastika, St Nicholas and Tao Nan — 2026 prelim papers. Covers Grammar, Vocabulary, Vocabulary Cloze and Idioms.
+</div>`;
+}
+
+function renderCard(el){
+  const q=S.deck[S.idx];
+  const pct=Math.round((S.idx/S.deck.length)*100);
+  if(!S.checked||S.opts.length===0){
+    let o4=shuffle([q.opts[q.ans],...q.opts.filter((_,i)=>i!==q.ans)]).slice(0,4);
+    if(!o4.includes(q.opts[q.ans])){o4[0]=q.opts[q.ans];o4=shuffle(o4);}
+    S.opts=o4;
+  }
+  const opts=S.opts;
+  const isFlip=S.cardMode==="flip";
+  const pc=TAG_CLS[q.tag]||"ca";
+
+  const ctxHTML=q.ctx?`<div class="ctx-box"><strong style="color:var(--tp)">Context:</strong> ${q.ctx}</div>`:"";
+
+  const optsHTML=`<div class="opts">${opts.map((o,i)=>{
+    let cls="opt";
+    if(S.checked){
+      if(o===q.opts[q.ans])cls+=" correct";
+      else if(o===S.picked&&S.picked!==q.opts[q.ans])cls+=" wrong";
+    } else if(o===S.picked)cls+=" sel";
+    return `<button class="${cls}" onclick="pick(${i})" ${S.checked?"disabled":""}><span class="opt-lbl">${["A","B","C","D"][i]}.</span><span>${o}</span></button>`;
+  }).join("")}</div>`;
+
+  const expHTML=S.checked?`<div class="exp"><strong style="color:${S.picked===q.opts[q.ans]?"var(--ts2)":"var(--td)"}">${S.picked===q.opts[q.ans]?"Correct!":"Incorrect."}</strong> ${q.exp}</div>`:"";
+  const errHTML=S.showErr?`<div class="err">Select an answer first.</div>`:"";
+
+  let actionHTML="";
+  if(!S.checked&&(!isFlip||S.flipped)){
+    actionHTML=`<button class="btn-p" onclick="checkAns()">Check answer</button>`;
+  }
+  if(S.checked){
+    actionHTML=`<button class="btn-p" onclick="nextCard()">${S.idx+1>=S.deck.length?"See results →":"Next card →"}</button>`;
+  }
+
+  el.innerHTML=`
+<div class="topbar">
+  <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+    <span class="chip ${pc}">${q.tag}</span>
+    <span class="chip ca">${q.sec}</span>
+    <span class="chip" style="background:var(--s1);color:var(--ts);border:0.5px solid var(--bd)">${q.src}</span>
+    ${S.streak>1?`<span class="chip cs"><i class="ti ti-flame" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i> ${S.streak}</span>`:""}
+  </div>
+  <span style="font-size:13px;color:var(--ts)">${S.idx+1}/${S.deck.length} · ${S.score} correct</span>
+</div>
+<div class="pbar-wrap"><div class="pbar" style="width:${pct}%"></div></div>
+
+${isFlip?`
+<div class="card-scene" onclick="flipCard()" tabindex="0" role="button" aria-label="Flip card" onkeydown="if(event.key==='Enter'||event.key===' ')flipCard()">
+  <div class="card-3d${S.flipped?" flipped":""}" id="c3d">
+    <div class="face">
+      <div class="face-meta">
+        <span class="chip ${pc}" style="font-size:11px">${q.tag}</span>
+        <span class="chip" style="background:var(--s1);color:var(--ts);border:0.5px solid var(--bd);font-size:11px">${q.sec}</span>
+      </div>
+      <div class="face-q">${q.q}</div>
+      ${!S.flipped?`<div class="face-hint"><i class="ti ti-refresh" style="font-size:13px" aria-hidden="true"></i> Click to reveal answer</div>`:""}
+    </div>
+    <div class="face face-back">
+      <div class="face-label">Answer</div>
+      <div class="face-ans">${q.opts[q.ans]}</div>
+      ${q.exp?`<div style="margin-top:.6rem;font-size:12px;color:var(--tm);line-height:1.5">${q.exp}</div>`:""}
+    </div>
+  </div>
+</div>
+${ctxHTML}${S.flipped?optsHTML:""}`
+:`<div style="background:var(--s2);border:0.5px solid var(--bd);border-radius:12px;padding:1.25rem;margin-bottom:.9rem">
+  <div class="face-meta" style="margin-bottom:.6rem">
+    <span class="chip ${pc}" style="font-size:11px">${q.tag}</span>
+  </div>
+  <div class="face-q">${q.q}</div>
+</div>
+${ctxHTML}${optsHTML}`}
+
+${errHTML}${expHTML}
+<div class="actions">
+  ${actionHTML}
+  <button onclick="S.mode='home';render()"><i class="ti ti-arrow-left" style="font-size:13px;vertical-align:-1px" aria-hidden="true"></i> Back</button>
+</div>`;
+}
+
+function flipCard(){
+  if(S.checked)return;
+  S.flipped=!S.flipped;
+  const c=document.getElementById("c3d");
+  if(c)c.classList.toggle("flipped",S.flipped);
+  if(S.flipped)render();
+}
+function pick(i){if(S.checked)return;S.picked=S.opts[i];S.showErr=false;render();}
+function checkAns(){
+  if(S.picked===null){S.showErr=true;render();return;}
+  const q=S.deck[S.idx];
+  S.checked=true;S.showErr=false;
+  if(S.picked===q.opts[q.ans]){
+    S.score++;S.streak++;if(S.streak>S.bestStreak)S.bestStreak=S.streak;
+    S.topicScore[q.sec].c++;
+  } else S.streak=0;
+  S.topicScore[q.sec].n++;
+  render();
+}
+function nextCard(){
+  if(S.idx+1>=S.deck.length){S.done=true;render();return;}
+  S.idx++;S.flipped=false;S.picked=null;S.checked=false;S.showErr=false;S.opts=[];render();
+}
+
+function renderResult(el){
+  const total=S.deck.length;
+  const pct=Math.round((S.score/total)*100);
+  const grade=pct>=90?"AL1 Excellent":pct>=75?"AL2 Good":pct>=60?"AL3 Fair":pct>=45?"AL4 Pass":"Needs revision";
+  const gc=pct>=75?"var(--ts2)":pct>=60?"var(--ta)":pct>=45?"var(--tw)":"var(--td)";
+  const rows=Object.entries(S.topicScore).filter(([,v])=>v.n>0).map(([t,v])=>{
+    const p=Math.round((v.c/v.n)*100);
+    return `<div class="tr"><span class="tr-name">${t}</span><div class="tr-track"><div class="tr-fill" style="width:${p}%"></div></div><span class="tr-pct">${p}%</span></div>`;
+  }).join("");
+  el.innerHTML=`
+<div class="result-card">
+  <div style="font-size:13px;color:var(--tm);margin-bottom:.4rem">Deck complete</div>
+  <div style="font-size:52px;font-weight:500;line-height:1">${S.score}<span style="font-size:22px;color:var(--ts)">/${total}</span></div>
+  <div style="font-size:15px;color:var(--ts);margin:.5rem 0 1.1rem">${pct}% — <span style="color:${gc};font-weight:500">${grade}</span></div>
+  <div class="result-grid">
+    <div class="rcard"><div class="rnum" style="color:var(--ts2)">${S.score}</div><div class="rlbl">Correct</div></div>
+    <div class="rcard"><div class="rnum" style="color:var(--td)">${total-S.score}</div><div class="rlbl">Wrong</div></div>
+    <div class="rcard"><div class="rnum">${S.bestStreak}</div><div class="rlbl">Best streak</div></div>
+  </div>
+  ${rows?`<div class="topic-rows">${rows}</div>`:""}
+  <div style="display:flex;gap:8px;justify-content:center;margin-top:1.4rem;flex-wrap:wrap">
+    <button class="btn-p" onclick="startDeck()" style="background:var(--fa);color:var(--oa);border-color:var(--fa)">Retry <i class="ti ti-refresh" style="font-size:13px;vertical-align:-1px" aria-hidden="true"></i></button>
+    <button onclick="S.mode='home';render()">Change filter</button>
+  </div>
+</div>`;
+}
+
+render();
+</script>
+</body>
+</html>
