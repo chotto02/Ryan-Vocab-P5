@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yuya · P3 English MCQ Flashcards</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;1,400&display=swap');
+  :root {
+    --ink:#1C1C1E; --ink2:#3A3A3C; --ink3:#636366; --muted:#AEAEB2;
+    --rule:#E5E5EA; --surface:#F8F8F6; --white:#fff;
+    --green:#2D6A4F; --greenl:#D8F3DC; --greenm:#52B788;
+    --blue:#1A4E8A; --bluel:#DBEAFE; --bluem:#3B82C4;
+    --amber:#B5451B; --amberl:#FEE8D6; --amberm:#E07A3A;
+    --purple:#4C1D95; --purplel:#EDE9FE; --purplem:#7C3AED;
+    --teal:#134E4A; --teall:#CCFBF1; --tealm:#0D9488;
+    --rose:#881337; --rosel:#FFE4E6; --rosem:#E11D48;
+    --ok:#155724; --okbg:#D1FAE5;
+    --err:#9B1C1C; --errbg:#FEF2F2;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;font-size:15px;line-height:1.6}
+  .page{max-width:740px;margin:0 auto;padding:2rem 1.25rem 5rem}
+
+  /* HOME */
+  .home-title{font-family:'Lora',Georgia,serif;font-size:26px;font-weight:600;margin-bottom:4px}
+  .home-sub{font-size:13px;color:var(--ink3);margin-bottom:2rem}
+  .set-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+  @media(max-width:520px){.set-grid{grid-template-columns:1fr 1fr}}
+  .set-card{background:var(--white);border:1px solid var(--rule);border-radius:14px;padding:1.1rem;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+  .set-card:hover{border-color:#bbb;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .set-card:active{transform:scale(.98)}
+  .sbadge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-bottom:8px;letter-spacing:.02em}
+  .sname{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px}
+  .sdesc{font-size:12px;color:var(--ink3);line-height:1.3}
+  .smeta{font-size:11px;color:var(--muted);margin-top:6px}
+  .info-box{background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:1rem 1.25rem;font-size:13px;color:var(--ink2);line-height:1.6}
+
+  /* QUIZ */
+  .quiz-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+  .q-meta{font-size:12px;color:var(--ink3)}
+  .q-setname{font-size:14px;font-weight:500;color:var(--ink)}
+  .prog-row{display:flex;align-items:center;gap:10px;margin-bottom:1rem;font-size:12px;color:var(--ink3)}
+  .prog-bar{flex:1;height:3px;background:var(--rule);border-radius:2px}
+  .prog-fill{height:3px;border-radius:2px;transition:width .3s}
+  .score-row{display:flex;gap:8px;margin-bottom:1rem}
+  .sc{background:var(--white);border:1px solid var(--rule);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--ink3);min-width:80px}
+  .sc span{display:block;font-size:16px;font-weight:600;color:var(--ink)}
+  .q-card{background:var(--white);border:1px solid var(--rule);border-radius:14px;padding:1.5rem;margin-bottom:1rem}
+  .q-topic{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:10px}
+  .q-school{font-size:11px;color:var(--muted);margin-bottom:8px}
+  .q-text{font-size:15px;font-weight:500;line-height:1.55;color:var(--ink);margin-bottom:1.25rem}
+  .q-passage{font-family:'Lora',serif;font-size:14px;color:var(--ink2);line-height:1.65;background:var(--surface);border-left:3px solid var(--rule);padding:.75rem 1rem;border-radius:0 8px 8px 0;margin-bottom:1.25rem;white-space:pre-line}
+  .opts{display:flex;flex-direction:column;gap:7px}
+  .opt{padding:10px 15px;border:1px solid var(--rule);border-radius:10px;font-size:14px;cursor:pointer;background:var(--surface);color:var(--ink2);text-align:left;font-family:inherit;line-height:1.4;transition:border-color .12s,background .12s}
+  .opt:hover{background:#F0F0EE;border-color:#bbb}
+  .opt.correct{background:var(--okbg);border-color:var(--greenm);color:var(--ok)}
+  .opt.wrong{background:var(--errbg);border-color:var(--rosem);color:var(--err)}
+  .opt.reveal{background:var(--okbg);border-color:var(--greenm);color:var(--ok)}
+  .opt:disabled{cursor:default}
+  .feedback{font-size:13px;padding:10px 14px;border-radius:8px;margin:0.75rem 0;line-height:1.5}
+  .fb-ok{background:var(--okbg);color:var(--ok)}
+  .fb-err{background:var(--errbg);color:var(--err)}
+  .q-nav{display:flex;gap:8px;align-items:center;margin-top:.75rem}
+  .q-nav .spacer{flex:1}
+  .done-card{background:var(--white);border:1px solid var(--rule);border-radius:14px;padding:2rem;text-align:center;margin-top:1rem}
+  .done-score{font-family:'Lora',serif;font-size:52px;font-weight:600}
+  .done-grade{display:inline-block;padding:4px 16px;border-radius:20px;font-size:13px;font-weight:600;margin:8px 0 16px}
+  .topic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:1rem 0}
+  .ts{background:var(--surface);border-radius:8px;padding:8px 12px}
+  .ts p{font-size:11px;color:var(--ink3)}
+  .ts span{font-size:15px;font-weight:600;color:var(--ink)}
+  .missed-list{text-align:left;margin-top:1.25rem}
+  .miss-hdr{font-size:11px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;padding-bottom:.4rem;border-bottom:1px solid var(--rule)}
+  .miss-item{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--rosem);border-radius:0 10px 10px 0;padding:.75rem 1rem;margin-bottom:7px}
+  .miss-q{font-size:13px;font-weight:500;margin-bottom:5px}
+  .miss-wrong{font-size:12px;color:var(--err);margin-bottom:3px}
+  .miss-right{font-size:12px;color:var(--ok);margin-bottom:3px}
+  .miss-exp{font-size:12px;color:var(--ink3);line-height:1.4}
+  button{padding:8px 18px;border:1px solid var(--rule);border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--white);color:var(--ink);font-family:inherit;transition:background .1s}
+  button:hover{background:#F0F0EE;border-color:#bbb}
+  button.primary{background:var(--green);border-color:var(--green);color:#fff}
+  button.primary:hover{background:var(--greenm);border-color:var(--greenm)}
+  .hidden{display:none!important}
+
+  /* badge colours */
+  .b1{background:var(--bluel);color:var(--blue)}
+  .b2{background:var(--greenl);color:var(--green)}
+  .b3{background:var(--amberl);color:var(--amber)}
+  .b4{background:var(--purplel);color:var(--purple)}
+  .b5{background:var(--teall);color:var(--teal)}
+  .b6{background:var(--rosel);color:var(--rose)}
+  .b7{background:var(--bluel);color:var(--blue)}
+  .b8{background:var(--greenl);color:var(--green)}
+  .b9{background:var(--amberl);color:var(--amber)}
+  .b10{background:var(--purplel);color:var(--purple)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div id="homeScreen">
+  <div style="margin-bottom:2rem">
+    <div class="home-title">P3 English MCQ Flashcards</div>
+    <div class="home-sub">10 sets · 20 questions each · Grammar, Vocabulary & Comprehension · From 2025 school exam papers</div>
+  </div>
+  <div class="set-grid" id="setGrid"></div>
+  <div class="info-box">
+    <strong>Topics covered:</strong> Grammar (tenses, pronouns, subject-verb agreement, conjunctions, prepositions), Vocabulary (synonyms, antonyms, contextual meaning), and Comprehension MCQs — all modelled on 2025 P3 EOY papers from ACS Junior, ACS Primary, Ai Tong, Henry Park, Maha Bodhi, Nan Hua, Nanyang, Raffles Girls, Rosyth, St Hilda, St Nicholas and Tao Nan.
+  </div>
+</div>
+
+<div id="quizScreen" class="hidden">
+  <div class="quiz-hdr">
+    <div>
+      <div class="q-setname" id="qSetName"></div>
+      <div class="q-meta" id="qMeta"></div>
+    </div>
+    <button onclick="backHome()" style="font-size:12px;padding:5px 12px">← Sets</button>
+  </div>
+  <div class="score-row" id="scoreRow"></div>
+  <div class="prog-row">
+    <span id="progLabel">0/20</span>
+    <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <span id="progPct">0%</span>
+  </div>
+  <div class="q-card" id="qCard"></div>
+  <div id="feedback" class="hidden"></div>
+  <div class="q-nav" id="qNav">
+    <button onclick="prevQ()" id="prevBtn">← Prev</button>
+    <div class="spacer"></div>
+    <button onclick="nextQ()" id="nextBtn" class="primary">Next →</button>
+  </div>
+</div>
+
+<div id="doneScreen" class="hidden">
+  <div class="done-card">
+    <div style="font-size:13px;color:var(--ink3);margin-bottom:6px" id="doneSetName"></div>
+    <div class="done-score" id="doneScore"></div>
+    <div style="font-size:14px;color:var(--ink3);margin-bottom:4px" id="donePct"></div>
+    <div class="done-grade" id="doneGrade"></div>
+    <div class="topic-grid" id="topicGrid"></div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:1rem">
+      <button onclick="backHome()">← All sets</button>
+      <button class="primary" onclick="restartSet()">Try again</button>
+    </div>
+    <div class="missed-list" id="missedList"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// QUESTION BANK — 10 sets × 20 questions
+// Topics: GR=Grammar, VO=Vocabulary, CO=Comprehension
+// Each Q: {t, school, q, passage(opt), o:[4], a:idx, e:explanation}
+// ─────────────────────────────────────────────
+const SETS = [
+
+// ══════════════════════════════════════════════
+// SET 1 — Grammar: Tenses & Subject-Verb Agreement
+// ══════════════════════════════════════════════
+{name:"Set 1 · Grammar — Tenses",desc:"Verb tenses & subject-verb agreement",qs:[
+{t:"GR",school:"Nanyang",q:"Choose the correct verb: The cheetah ______ across the open field every morning.",o:["sprint","sprints","sprinting","sprinted"],a:1,e:"'The cheetah' is singular, so we use 'sprints' (third-person singular present tense)."},
+{t:"GR",school:"Nanyang",q:"Choose the correct verb: Many animals ______ at night to find food.",o:["hunt","hunts","hunted","hunting"],a:0,e:"'Many animals' is plural, so we use the base form 'hunt' (plural present tense)."},
+{t:"GR",school:"Nanyang",q:"Choose the correct verb: The explorer ______ his ankle and was taken to hospital.",o:["injure","injures","injuring","injured"],a:3,e:"This happened in the past, so we use the simple past tense 'injured'."},
+{t:"GR",school:"Nanyang",q:"Choose the correct verb: The animals ______ on the farm for many years.",o:["are","were","being","been"],a:0,e:"If the animals are still on the farm now, we use 'are' (present tense, plural)."},
+{t:"GR",school:"ACS Junior",q:"Choose the correct verb: The students ______ their homework before the teacher arrived.",o:["finish","finishes","finished","finishing"],a:2,e:"'Before the teacher arrived' tells us this happened in the past. Use the simple past 'finished'."},
+{t:"GR",school:"Maha Bodhi",q:"Choose the correct verb: She ______ still when she heard the loud noise behind her.",o:["stand","stands","stood","standing"],a:2,e:"This is a past event, so we use the simple past tense 'stood'."},
+{t:"GR",school:"Maha Bodhi",q:"Choose the correct verb: The crowd ______ when the team scored the winning goal.",o:["cheer","cheers","cheered","cheering"],a:2,e:"The crowd cheered in the past. Simple past tense: 'cheered'."},
+{t:"GR",school:"Maha Bodhi",q:"Choose the correct verb: The athletes ______ standing at the starting line when the whistle blew.",o:["is","was","were","are"],a:2,e:"'The athletes' is plural and this is a past event: 'were standing'."},
+{t:"GR",school:"Ai Tong",q:"Choose the correct verb: Molly ______ frozen as the big dog growled at her.",o:["stand","stands","stood","standing"],a:2,e:"Past tense is needed. 'Stood' is the simple past of 'stand'."},
+{t:"GR",school:"Henry Park",q:"Choose the correct verb: She ______ her favourite drink every morning before school.",o:["Drinks","Drink","Drinking","Drank"],a:0,e:"'She' is singular, and this is a habitual present action: 'drinks'."},
+{t:"GR",school:"St Nicholas",q:"Choose the correct verb: The children ______ each other before the race started.",o:["encouraged","encourage","encourages","encouraging"],a:0,e:"'Before the race started' tells us this is past tense. Use 'encouraged'."},
+{t:"GR",school:"Tao Nan",q:"Choose the correct verb: My family ______ for a walk in the park every Sunday.",o:["go","goes","went","going"],a:0,e:"'My family' can take plural agreement here (habitual action). 'Go' is correct for present habitual."},
+{t:"GR",school:"Rosyth",q:"Choose the correct verb: The firefighter ______ into the burning building to save the child.",o:["rush","rushes","rushed","rushing"],a:2,e:"This is a past completed action. Simple past: 'rushed'."},
+{t:"GR",school:"Raffles Girls",q:"Choose the correct verb: The dog ______ its tail when it saw its owner coming.",o:["wags","wag","wagged","wagging"],a:2,e:"Past tense is needed. 'Wagged' is the simple past of 'wag'."},
+{t:"GR",school:"Nan Hua",q:"Choose the correct verb: The bees ______ busily around the flowers in the garden.",o:["buzzes","buzz","buzzed","buzzing"],a:2,e:"'In the garden' (past context implied). Simple past: 'buzzed'."},
+{t:"GR",school:"St Hilda",q:"Choose the correct verb: Every evening, Grandpa ______ to us about his adventures.",o:["talks","talk","talked","talking"],a:0,e:"'Every evening' signals a habitual present action. 'Grandpa' is singular: 'talks'."},
+{t:"GR",school:"Ai Tong",q:"Choose the correct verb: The girl ______ on the chair nervously as she waited for her turn.",o:["sat","sit","sits","sitting"],a:0,e:"This is a past action ('as she waited' is past): 'sat'."},
+{t:"GR",school:"ACS Primary",q:"Choose the correct verb: The baby ______ when he did not get his toy.",o:["cried","cry","cries","crying"],a:0,e:"Past tense is needed. Simple past: 'cried'."},
+{t:"GR",school:"Maha Bodhi",q:"Choose the correct verb: The boy ______ his arms and declared himself invincible.",o:["cross","crosses","crossed","crossing"],a:2,e:"Past action. Simple past: 'crossed'."},
+{t:"GR",school:"Tao Nan",q:"Choose the correct verb: All the students in the class ______ the school rules.",o:["follow","follows","followed","following"],a:0,e:"'All the students' is plural; present tense: 'follow'."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 2 — Grammar: Pronouns
+// ══════════════════════════════════════════════
+{name:"Set 2 · Grammar — Pronouns",desc:"Subject, object & possessive pronouns",qs:[
+{t:"GR",school:"ACS Junior",q:"Choose the correct pronoun: Tom went to the park. ______ played on the swings.",o:["She","He","They","It"],a:1,e:"'Tom' is a male singular noun. The subject pronoun is 'He'."},
+{t:"GR",school:"ACS Junior",q:"The teacher gave the books to Sara and ______.",o:["I","me","my","mine"],a:1,e:"'Sara and me' is the object of 'gave'. Use the object pronoun 'me'."},
+{t:"GR",school:"ACS Junior",q:"My brother and I waved to the crowd. ______ waved back at us.",o:["It","He","She","They"],a:3,e:"'The crowd' (plural group) waved back. Use 'They'."},
+{t:"GR",school:"ACS Junior",q:"Father spoke to Jake. ______ listened carefully.",o:["She","He","They","We"],a:1,e:"'Jake' is a male singular noun. Use subject pronoun 'He'."},
+{t:"GR",school:"Maha Bodhi",q:"The twins looked at each other. ______ were both surprised.",o:["It","He","She","They"],a:3,e:"'The twins' is plural. Use 'They'."},
+{t:"GR",school:"Maha Bodhi",q:"Mother called out to the children. ______ ran to her at once.",o:["It","He","She","They"],a:3,e:"'The children' is plural. Use 'They'."},
+{t:"GR",school:"Maha Bodhi",q:"The dog wagged ______ tail happily.",o:["his","her","their","its"],a:3,e:"'The dog' is an animal (non-specific gender). The correct possessive pronoun is 'its'."},
+{t:"GR",school:"Ai Tong",q:"Grandpa told Ryan a story. ______ listened with wide eyes.",o:["She","He","They","It"],a:1,e:"'Ryan' is a male singular noun. Use subject pronoun 'He'."},
+{t:"GR",school:"Nan Hua",q:"Lisa left ______ umbrella at school.",o:["his","her","their","its"],a:1,e:"'Lisa' is female. The possessive pronoun is 'her'."},
+{t:"GR",school:"St Nicholas",q:"The pupils finished ______ project before the deadline.",o:["his","her","its","their"],a:3,e:"'The pupils' is plural. The possessive pronoun is 'their'."},
+{t:"GR",school:"Nanyang",q:"The lion roared and showed ______ sharp teeth.",o:["his","her","its","their"],a:2,e:"'The lion' is an animal (non-specific gender). Use 'its'."},
+{t:"GR",school:"Raffles Girls",q:"My sister and I helped Mum with the cooking. ______ thanked us warmly.",o:["She","He","They","It"],a:0,e:"'Mum' is female singular. Use subject pronoun 'She'."},
+{t:"GR",school:"Henry Park",q:"The students put away ______ books neatly after the lesson.",o:["his","her","its","their"],a:3,e:"'The students' is plural. The possessive pronoun is 'their'."},
+{t:"GR",school:"Rosyth",q:"Jay and his friends were late. The teacher asked ______ to stay back.",o:["he","him","they","them"],a:3,e:"'Jay and his friends' is the object of 'asked'. Use the object pronoun 'them'."},
+{t:"GR",school:"St Hilda",q:"The cat cleaned ______ paws after eating.",o:["his","her","its","their"],a:2,e:"'The cat' is an animal. The correct possessive pronoun is 'its'."},
+{t:"GR",school:"Tao Nan",q:"Amy waved to Jake. ______ waved back at ______.",o:["He / her","She / him","They / them","It / her"],a:1,e:"Amy is female (She) and Jake is the object of 'waved back at' (him)."},
+{t:"GR",school:"Ai Tong",q:"The boys ran to ______ mother when they heard her calling.",o:["his","her","its","their"],a:3,e:"'The boys' is plural. The possessive pronoun is 'their'."},
+{t:"GR",school:"ACS Primary",q:"Nora gave ______ old toys to charity.",o:["his","her","its","their"],a:1,e:"'Nora' is female. The possessive pronoun is 'her'."},
+{t:"GR",school:"Nan Hua",q:"The rabbit twitched ______ nose and then hopped away.",o:["his","her","its","their"],a:2,e:"'The rabbit' is an animal (non-specific gender). Use 'its'."},
+{t:"GR",school:"Maha Bodhi",q:"Debbie and Jean are best friends. ______ do everything together.",o:["She","He","They","It"],a:2,e:"'Debbie and Jean' is plural. Use subject pronoun 'They'."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 3 — Grammar: Conjunctions & Sentence Combining
+// ══════════════════════════════════════════════
+{name:"Set 3 · Grammar — Conjunctions",desc:"Combining sentences using conjunctions",qs:[
+{t:"GR",school:"ACS Junior",q:"While Sara was reading a book, ______.",o:["her brother played outside","her brother was playing outside","her brother plays outside","her brother will play outside"],a:1,e:"'While' joins two actions happening at the same time in the past. Use past continuous: 'was playing'."},
+{t:"GR",school:"Nanyang",q:"Dale injured his ankle. His mother took him to the clinic. Combine using 'so':",o:["Dale injured his ankle, so his mother took him to the clinic.","Dale injured his ankle so his mother takes him to the clinic.","Dale's ankle was injured, so his mother had taken him to the clinic.","Dale injured his ankle, so his mother will take him to the clinic."],a:0,e:"'So' joins a cause and its result. Both clauses are in simple past: 'took'."},
+{t:"GR",school:"Nanyang",q:"Ali entered the museum. He bought the ticket first. Combine using 'before':",o:["Before Ali entered the museum, he had bought the ticket.","Before Ali entered the museum, he bought the ticket.","Ali entered the museum before he buys the ticket.","Ali entered the museum before buying the ticket first."],a:1,e:"'Before' shows that buying the ticket happened first. Simple past in both clauses is correct."},
+{t:"GR",school:"Ai Tong",q:"The questions were difficult. Jim could solve them. Combine using 'although':",o:["Although the questions were difficult, Jim could solve them.","Although the questions were difficult, Jim can solve them.","Although the questions are difficult, Jim could solve them.","Although Jim could solve them, the questions were difficult."],a:0,e:"'Although' introduces a contrast. The sentence must be logical: difficulty is the contrast to solving them."},
+{t:"GR",school:"Maha Bodhi",q:"I went to the park. I finished my homework first. Combine using 'before':",o:["Before I went to the park, I finish my homework.","Before I went to the park, I finished my homework and checked it carefully.","I went to the park before I was finishing my homework.","Before I go to the park, I finished my homework."],a:1,e:"'Before' shows the order of events. Both actions are in past tense. The sentence should read naturally."},
+{t:"GR",school:"Maha Bodhi",q:"Sam heard the ice cream truck. He grabbed his wallet quickly. Combine using 'when':",o:["Sam grabbed his wallet when he hears the ice cream truck arriving.","Sam grabbed his wallet when he heard the ice cream truck arriving.","Sam grabs his wallet when he heard the ice cream truck.","Sam grabbed his wallet when he had heard the ice cream truck."],a:1,e:"'When' joins two past actions. Both verbs should be in simple past: 'grabbed' and 'heard'."},
+{t:"GR",school:"Maha Bodhi",q:"Jamie tiptoed to the kitchen cabinet. She grabbed a cookie from the jar. Combine:",o:["Jamie tiptoed in front of the kitchen cabinet to grab a cookie from the jar.","Jamie tiptoed in front of the kitchen cabinet grabbing a cookie from the jar.","Jamie tiptoes in front of the kitchen cabinet to grab a cookie from the jar.","Jamie was tiptoeing in front of the kitchen cabinet to grabbing a cookie."],a:0,e:"'To + verb' (infinitive of purpose) shows the reason for the action. The sentence is in simple past."},
+{t:"GR",school:"Rosyth",q:"Choose the conjunction: We stayed indoors ______ it was raining heavily.",o:["but","although","because","so"],a:2,e:"'Because' introduces the reason for staying indoors. 'It was raining heavily' explains why."},
+{t:"GR",school:"Raffles Girls",q:"Choose the conjunction: Sarah practised every day ______ she wanted to win the competition.",o:["but","because","although","so"],a:1,e:"'Because' gives the reason for practising. She practised because she wanted to win."},
+{t:"GR",school:"St Hilda",q:"Choose the conjunction: Tom was tired ______ he did not stop running.",o:["because","so","but","and"],a:2,e:"'But' shows contrast. Tom was tired, but (contrasting idea) he did not stop."},
+{t:"GR",school:"Nan Hua",q:"Choose the conjunction: The weather was hot, ______ we decided to go swimming.",o:["but","although","so","because"],a:2,e:"'So' introduces a result. The hot weather resulted in their decision to swim."},
+{t:"GR",school:"Henry Park",q:"Choose the conjunction: ______ he was scared, he still raised his hand to answer.",o:["Because","Although","So","And"],a:1,e:"'Although' introduces a contrast between being scared and raising his hand to answer."},
+{t:"GR",school:"St Nicholas",q:"Choose the conjunction: She studied hard ______ she passed her examination.",o:["but","because","and","so"],a:3,e:"'So' shows a result. Studying hard resulted in passing the examination."},
+{t:"GR",school:"Tao Nan",q:"Choose the conjunction: The monkey jumped from tree to tree ______ it looked for food.",o:["so","but","as","because"],a:2,e:"'As' means 'while' — two actions happening at the same time."},
+{t:"GR",school:"ACS Primary",q:"Choose the conjunction: Mum ______ Dad went to the market to buy vegetables.",o:["but","or","and","so"],a:2,e:"'And' joins two subjects doing the same action together."},
+{t:"GR",school:"Nanyang",q:"Choose the conjunction: You can take the bus ______ the MRT to get there.",o:["and","but","or","so"],a:2,e:"'Or' gives a choice between two options."},
+{t:"GR",school:"Ai Tong",q:"Choose the conjunction: ______ there was a blackout, Grandpa told stories by candlelight.",o:["So","Because","Although","When"],a:3,e:"'When' introduces the time/situation. The blackout is the situation, and then Grandpa told stories."},
+{t:"GR",school:"Raffles Girls",q:"Choose the conjunction: She ran as fast as she could ______ she missed the bus.",o:["but","and","so","because"],a:0,e:"'But' shows contrast — she ran fast but still missed the bus."},
+{t:"GR",school:"Rosyth",q:"Choose the conjunction: ______ the food was spicy, Kai ate every bit of it.",o:["So","Although","Because","When"],a:1,e:"'Although' introduces a contrast: the food was spicy, but she still ate it all."},
+{t:"GR",school:"Maha Bodhi",q:"Choose the conjunction: The team worked hard ______ they won the championship.",o:["but","although","and","so"],a:3,e:"'So' shows the result of their hard work — they won."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 4 — Grammar: Prepositions & Articles
+// ══════════════════════════════════════════════
+{name:"Set 4 · Grammar — Prepositions & Articles",desc:"Prepositions of place/time and articles",qs:[
+{t:"GR",school:"Nan Hua",q:"Choose the correct preposition: The cat jumped ______ the fence and disappeared.",o:["into","over","under","beside"],a:1,e:"'Over' means across the top of something. The cat jumped over the fence."},
+{t:"GR",school:"St Hilda",q:"Choose the correct preposition: She hid the present ______ the bed so no one would find it.",o:["over","behind","under","beside"],a:2,e:"'Under' means below something. She hid it below the bed."},
+{t:"GR",school:"Henry Park",q:"Choose the correct preposition: The pupils sat ______ a big tree during recess.",o:["over","under","behind","beside"],a:1,e:"'Under' (below the tree's shade) is correct when referring to sitting below a tree."},
+{t:"GR",school:"Raffles Girls",q:"Choose the correct preposition: The library is ______ the school hall and the canteen.",o:["between","beside","over","behind"],a:0,e:"'Between' is used when something is in the middle of two things."},
+{t:"GR",school:"ACS Junior",q:"Choose the correct article: She saw ______ eagle flying high above the mountains.",o:["a","an","the","—"],a:1,e:"'An' is used before words starting with a vowel sound. 'Eagle' starts with the vowel 'e'."},
+{t:"GR",school:"Maha Bodhi",q:"Choose the correct article: ______ sun rises in the east and sets in the west.",o:["A","An","The","—"],a:2,e:"'The' is used for something unique (there is only one sun). 'The sun' is always used."},
+{t:"GR",school:"Rosyth",q:"Choose the correct article: My sister wants to be ______ doctor when she grows up.",o:["a","an","the","—"],a:0,e:"'A' is used before a consonant sound ('d' in doctor). 'A doctor' is the correct form."},
+{t:"GR",school:"Tao Nan",q:"Choose the correct preposition: The train arrived ______ the station at noon.",o:["in","on","at","to"],a:2,e:"'At' is used with specific locations (station, bus stop, airport): 'arrived at the station'."},
+{t:"GR",school:"St Nicholas",q:"Choose the correct preposition: The match will be held ______ Friday morning.",o:["in","on","at","by"],a:1,e:"'On' is used with days of the week and specific dates: 'on Friday'."},
+{t:"GR",school:"Nanyang",q:"Choose the correct preposition: The family goes for a walk ______ the evening.",o:["in","on","at","by"],a:0,e:"'In' is used with parts of the day: 'in the morning / in the evening'."},
+{t:"GR",school:"ACS Primary",q:"Choose the correct article: We saw ______ interesting film at the cinema last night.",o:["a","an","the","—"],a:1,e:"'An' before 'interesting' because it starts with a vowel sound 'i'."},
+{t:"GR",school:"Ai Tong",q:"Choose the correct preposition: Ryan stared ______ the television screen, hoping it would turn on.",o:["in","at","on","to"],a:1,e:"'Stare at' is the correct phrasal verb. We stare at a screen."},
+{t:"GR",school:"Henry Park",q:"Choose the correct preposition: The boys swung ______ arms as they marched.",o:["their","with","its","his"],a:0,e:"This tests possessives. 'Swung their arms' — 'their' refers to the boys."},
+{t:"GR",school:"Nan Hua",q:"Choose the correct preposition: She bumped ______ an old friend at the market.",o:["into","onto","in","at"],a:0,e:"'Bump into' is a phrasal verb meaning to meet someone by chance."},
+{t:"GR",school:"St Hilda",q:"Choose the correct preposition: The class went ______ a field trip to the science centre.",o:["to","on","in","at"],a:1,e:"'Go on a field trip' is the correct phrase. 'On' is used with trips and journeys."},
+{t:"GR",school:"Raffles Girls",q:"Choose the correct preposition: The competition lasts ______ three weeks.",o:["since","during","for","by"],a:2,e:"'For' is used with a duration of time: 'for three weeks'."},
+{t:"GR",school:"Rosyth",q:"Choose the correct article: She is ______ honest person who always tells the truth.",o:["a","an","the","—"],a:1,e:"'An' before 'honest' because the 'h' in 'honest' is silent, giving a vowel sound."},
+{t:"GR",school:"St Nicholas",q:"Choose the correct preposition: The rabbit hopped ______ the bush to hide from the fox.",o:["over","behind","beside","under"],a:1,e:"'Behind' means at the back of something. The rabbit hid behind the bush."},
+{t:"GR",school:"Tao Nan",q:"Choose the correct preposition: The trophy was placed ______ the middle shelf.",o:["on","in","at","by"],a:0,e:"'On' is used with surfaces and shelves: 'placed on the shelf'."},
+{t:"GR",school:"ACS Junior",q:"Choose the correct article: Have you read ______ book I recommended last week?",o:["a","an","the","—"],a:2,e:"'The' is used when we refer to a specific thing already known to both speakers."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 5 — Vocabulary: Synonyms & Word Meaning
+// ══════════════════════════════════════════════
+{name:"Set 5 · Vocabulary — Synonyms",desc:"Find the word closest in meaning",qs:[
+{t:"VO",school:"Raffles Girls",q:"Choose the word closest in meaning to EXTRAORDINARY:",o:["ordinary","usual","remarkable","familiar"],a:2,e:"'Extraordinary' means beyond what is ordinary or usual. 'Remarkable' is the closest synonym."},
+{t:"VO",school:"Ai Tong",q:"Choose the word closest in meaning to FASCINATED:",o:["bored","thrilled","worried","confused"],a:1,e:"'Fascinated' means extremely interested. 'Thrilled' is the closest match here."},
+{t:"VO",school:"Ai Tong",q:"Choose the word closest in meaning to REPRIMANDED:",o:["praised","scolded","ignored","rewarded"],a:1,e:"'Reprimanded' means to express sharp disapproval or criticism. 'Scolded' is the closest synonym."},
+{t:"VO",school:"Maha Bodhi",q:"Choose the word closest in meaning to INSEPARABLE:",o:["always apart","always together","sometimes together","rarely meeting"],a:1,e:"'Inseparable' describes people who are always together and cannot be separated."},
+{t:"VO",school:"Ai Tong",q:"Choose the word closest in meaning to ARGUMENT:",o:["agreement","quarrel","discussion","conversation"],a:1,e:"'Argument' in this context means a disagreement or quarrel."},
+{t:"VO",school:"Henry Park",q:"Choose the word closest in meaning to MURKY:",o:["clear","bright","cloudy and dark","calm"],a:2,e:"'Murky' means dark, cloudy and hard to see through — like murky water."},
+{t:"VO",school:"Henry Park",q:"Choose the word closest in meaning to FILTHY:",o:["clean","sparkling","very dirty","dusty"],a:2,e:"'Filthy' means extremely dirty or unclean."},
+{t:"VO",school:"Henry Park",q:"Choose the word closest in meaning to DISAPPOINTED:",o:["excited","unhappy because hopes weren't met","angry","surprised"],a:1,e:"'Disappointed' means sad or unhappy because something did not happen as hoped."},
+{t:"VO",school:"Raffles Girls",q:"Choose the word closest in meaning to ADAPTED:",o:["refused","struggled","adjusted to suit new conditions","ignored"],a:2,e:"'Adapted' means to change or adjust to fit a new situation or environment."},
+{t:"VO",school:"Maha Bodhi",q:"Choose the word closest in meaning to MISCHIEVOUS:",o:["well-behaved","naughty and playful","serious","shy"],a:1,e:"'Mischievous' describes someone who likes to play tricks or cause trouble in a playful way."},
+{t:"VO",school:"Nan Hua",q:"Choose the word closest in meaning to UNFAMILIAR:",o:["well-known","strange and new","comfortable","easy"],a:1,e:"'Unfamiliar' means not known or not experienced before — strange and new."},
+{t:"VO",school:"Nanyang",q:"Choose the word closest in meaning to REMAIN:",o:["leave","go away","stay behind","disappear"],a:2,e:"'Remain' means to stay in the same place or continue to be present."},
+{t:"VO",school:"St Nicholas",q:"Choose the word closest in meaning to ENCOURAGE:",o:["discourage","frighten","give support and confidence","ignore"],a:2,e:"'Encourage' means to give someone confidence or support to do something."},
+{t:"VO",school:"ACS Junior",q:"Choose the word closest in meaning to ORIGINATED:",o:["ended","began / started","moved","destroyed"],a:1,e:"'Originated' means began or started from a particular place or source."},
+{t:"VO",school:"Tao Nan",q:"Choose the word closest in meaning to LOCATION:",o:["time","direction","place","event"],a:2,e:"'Location' refers to a particular place or position."},
+{t:"VO",school:"St Hilda",q:"Choose the word closest in meaning to CROWDED:",o:["empty","spacious","full of people","quiet"],a:2,e:"'Crowded' means full of people or things, leaving little space."},
+{t:"VO",school:"Rosyth",q:"Choose the word closest in meaning to FORTUNATE:",o:["unlucky","careless","lucky","clever"],a:2,e:"'Fortunate' means having good luck; lucky."},
+{t:"VO",school:"ACS Primary",q:"Choose the word closest in meaning to ENORMOUS:",o:["tiny","huge","average","beautiful"],a:1,e:"'Enormous' means extremely large; huge."},
+{t:"VO",school:"Henry Park",q:"Choose the word closest in meaning to ALERT:",o:["sleeping","watchful and ready","slow","careless"],a:1,e:"'Alert' means fully awake, watchful, and ready to react."},
+{t:"VO",school:"Nan Hua",q:"Choose the word closest in meaning to SWIFT:",o:["slow","steady","fast","careful"],a:2,e:"'Swift' means moving or happening quickly; fast."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 6 — Vocabulary: Word in Context
+// ══════════════════════════════════════════════
+{name:"Set 6 · Vocabulary — Word in Context",desc:"What does the word mean in the passage?",qs:[
+{t:"VO",school:"ACS Junior",q:"'People played pranks on each other on 1 April.' What does PRANKS mean?",o:["presents","tricks","parties","lessons"],a:1,e:"A 'prank' is a trick played on someone for fun, often to make them look silly."},
+{t:"VO",school:"ACS Junior",q:"'The tradition of playing pranks slowly spread to other countries.' What does TRADITION mean?",o:["a new law","something people do at a specific time every year","a type of game","a kind of food"],a:1,e:"A 'tradition' is a custom or activity that is done regularly, often passed down over generations."},
+{t:"VO",school:"ACS Junior",q:"'Pranksters would send their victims on silly errands.' What does ERRANDS mean?",o:["punishments","short trips to do a task","games to play","jokes to tell"],a:1,e:"'Errands' are short trips made to carry out a task or job."},
+{t:"VO",school:"Raffles Girls",q:"'She was in an extraordinary mood — cheerful and full of energy.' What does EXTRAORDINARY mean here?",o:["ordinary","very unusual and special","slightly different","typical"],a:1,e:"'Extraordinary' means beyond what is normal or usual — very special or remarkable."},
+{t:"VO",school:"Ai Tong",q:"'There was a blackout which caused the loud click.' What does BLACKOUT mean?",o:["a dark painting","a sudden loss of electricity","a type of curtain","a night-time activity"],a:1,e:"A 'blackout' is a sudden failure of electrical power in an area."},
+{t:"VO",school:"Nanyang",q:"'Sanita had adapted to her new school in two months.' What does ADAPTED mean here?",o:["refused to change","felt more unhappy","adjusted and got used to it","decided to leave"],a:2,e:"'Adapted' means to change your behaviour or thinking to fit a new situation."},
+{t:"VO",school:"Raffles Girls",q:"'There were not enough books in Braille.' What is BRAILLE?",o:["A type of audiobook","A writing system using raised dots that blind people read by touch","A large-print book","A language spoken by deaf people"],a:1,e:"Braille is a system of raised dots that allows visually impaired people to read by touch."},
+{t:"VO",school:"Maha Bodhi",q:"'Shame prickled at the back of their necks.' What does PRICKLED mean here?",o:["gave a cold feeling","gave a painful sharp feeling","made them sneeze","made them laugh"],a:1,e:"'Prickled' describes a sharp, stinging sensation — here it means they felt a strong feeling of shame."},
+{t:"VO",school:"Ai Tong",q:"'Ryan felt frustrated as he stared at the lifeless television.' What does LIFELESS mean here?",o:["small","old-fashioned","not working / with no power","broken"],a:2,e:"'Lifeless' here means having no power or activity — the TV was off and unresponsive."},
+{t:"VO",school:"Maha Bodhi",q:"'They were planning to play a prank on Debbie Jean.' What does PRANK mean?",o:["a surprise party","a practical joke or trick","a gift","a competition"],a:1,e:"A 'prank' is a trick or practical joke played on someone."},
+{t:"VO",school:"Nanyang",q:"'Ling felt welcomed in her new home.' What does WELCOMED mean here?",o:["afraid","unwanted","made to feel at home and accepted","surprised"],a:2,e:"'Welcomed' means made to feel happy and at home — accepted and wanted."},
+{t:"VO",school:"Raffles Girls",q:"'The plant pot was extraordinary — hand-painted with tiny flowers.' What does the word POT refer to here?",o:["a cooking utensil","a container for growing plants","a type of game","a large jar of honey"],a:1,e:"A 'pot' in this context is a container used for planting flowers or plants."},
+{t:"VO",school:"St Hilda",q:"'He closed the door with a decisive snap.' What does DECISIVE mean here?",o:["gentle and soft","slow and careful","done with certainty and firmness","uncertain"],a:2,e:"'Decisive' means done with certainty and finality — without hesitation."},
+{t:"VO",school:"Tao Nan",q:"'The parrot would mimic everything it heard.' What does MIMIC mean?",o:["ignore","copy exactly","understand","respond to"],a:1,e:"'Mimic' means to copy or imitate someone or something closely."},
+{t:"VO",school:"Rosyth",q:"'Dad gave a hearty laugh when he heard the joke.' What does HEARTY mean here?",o:["soft and quiet","loud and full of genuine feeling","polite and formal","forced and fake"],a:1,e:"'Hearty' means enthusiastic, warm, and full of genuine feeling."},
+{t:"VO",school:"ACS Primary",q:"'The class applauded the performer enthusiastically.' What does ENTHUSIASTICALLY mean?",o:["quietly","rudely","with great excitement and energy","politely"],a:2,e:"'Enthusiastically' means with great excitement, energy and eagerness."},
+{t:"VO",school:"St Nicholas",q:"'The puppy scampered across the garden.' What does SCAMPERED mean?",o:["walked slowly","ran quickly with light steps","crawled carefully","jumped high"],a:1,e:"'Scampered' means to run quickly and lightly, often playfully — like a puppy would."},
+{t:"VO",school:"Henry Park",q:"'The murky river made it impossible to see the bottom.' What does MURKY mean here?",o:["clear and sparkling","very deep","dark and cloudy","icy cold"],a:2,e:"'Murky' means dark, cloudy, or dirty — making it hard to see through."},
+{t:"VO",school:"Nan Hua",q:"'The location of the treasure was kept a secret.' What does LOCATION mean?",o:["value","age","place","size"],a:2,e:"'Location' refers to where something is — its place or position."},
+{t:"VO",school:"Ai Tong",q:"'Grandpa kept his composure even when the lights went out.' What does COMPOSURE mean?",o:["calm and controlled manner","voice","sense of humour","balance"],a:0,e:"'Composure' means the state of being calm and in control of your feelings."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 7 — Comprehension MCQ: April Fool's Day (ACS Junior)
+// ══════════════════════════════════════════════
+{name:"Set 7 · Comprehension — April Fool's Day",desc:"Based on an ACS Junior 2025 passage",qs:[
+{t:"CO",school:"ACS Junior",passage:"Long ago, France celebrated the new year in spring, around 1 April. When France changed its calendar to the Gregorian calendar — which has the new year starting on 1 January — some people did not hear about the change. They continued to celebrate the new year in spring. Pranksters began calling them 'April Fools' and would play tricks on them.\n\nThe tradition slowly spread to other countries. People began calling the day 'April Fool's Day' because those who were tricked became the 'fool'. Pranksters would send their victims on silly errands or give them fake gifts.",q:"Why did some people continue to celebrate the new year on 1 April?",o:["They preferred spring celebrations","They did not hear about France's calendar change","They forgot the new year date","They wanted to play tricks"],a:1,e:"The passage states that some people 'did not hear about the change' — they were unaware that the new year had been moved to 1 January."},
+{t:"CO",school:"ACS Junior",passage:"Long ago, France celebrated the new year in spring, around 1 April. When France changed its calendar to the Gregorian calendar — which has the new year starting on 1 January — some people did not hear about the change. They continued to celebrate the new year in spring. Pranksters began calling them 'April Fools' and would play tricks on them.\n\nThe tradition slowly spread to other countries. People began calling the day 'April Fool's Day' because those who were tricked became the 'fool'. Pranksters would send their victims on silly errands or give them fake gifts.",q:"What does 'errands' mean in the passage?",o:["parties","short trips to do a task","celebrations","presents"],a:1,e:"'Errands' means short trips or tasks. Pranksters would send victims on unnecessary trips to trick them."},
+{t:"CO",school:"ACS Junior",passage:"Long ago, France celebrated the new year in spring, around 1 April. When France changed its calendar to the Gregorian calendar — which has the new year starting on 1 January — some people did not hear about the change. They continued to celebrate the new year in spring. Pranksters began calling them 'April Fools' and would play tricks on them.\n\nThe tradition slowly spread to other countries. People began calling the day 'April Fool's Day' because those who were tricked became the 'fool'. Pranksters would send their victims on silly errands or give them fake gifts.",q:"'It refers to the Gregorian calendar.' What does 'it' refer to in the passage?",o:["April Fool's Day","The tradition of pranks","The new calendar with new year on 1 January","The spring celebration"],a:2,e:"'It' refers to the Gregorian calendar, which France adopted and which moved the new year to 1 January."},
+{t:"CO",school:"ACS Junior",passage:"Long ago, France celebrated the new year in spring, around 1 April. When France changed its calendar to the Gregorian calendar — which has the new year starting on 1 January — some people did not hear about the change. They continued to celebrate the new year in spring. Pranksters began calling them 'April Fools' and would play tricks on them.\n\nThe tradition slowly spread to other countries. People began calling the day 'April Fool's Day' because those who were tricked became the 'fool'. Pranksters would send their victims on silly errands or give them fake gifts.",q:"How did April Fool's Day spread to other countries?",o:["The French government announced it","People who were tricked spread the idea","The tradition slowly spread as pranksters played tricks","Schools taught children about it"],a:2,e:"The passage says 'the tradition slowly spread to other countries' — it happened gradually over time."},
+{t:"CO",school:"ACS Junior",passage:"Steve Jobs had two goals in mind when he started Apple. His first goal was to make computers simple and beautiful. His second goal was to make computers easy for everyone to use — not just scientists and engineers. He believed technology should be available to all.\n\nJobs was known for being a hard worker who pushed his team to do their very best. He never gave up on his ideas, even when others said they would fail. His ideas changed the world.",q:"What was Steve Jobs's FIRST goal when he started Apple?",o:["To make computers available to all","To make computers simple and beautiful","To make computers for scientists","To make computers easy to use"],a:1,e:"The passage clearly states: 'His first goal was to make computers simple and beautiful.'"},
+{t:"CO",school:"ACS Junior",passage:"Steve Jobs had two goals in mind when he started Apple. His first goal was to make computers simple and beautiful. His second goal was to make computers easy for everyone to use — not just scientists and engineers. He believed technology should be available to all.\n\nJobs was known for being a hard worker who pushed his team to do their very best. He never gave up on his ideas, even when others said they would fail. His ideas changed the world.",q:"Which word best describes Steve Jobs's attitude towards work?",o:["careless","hardworking","impatient","carefree"],a:1,e:"The passage says Jobs 'was known for being a hard worker who pushed his team to do their very best'. He was hardworking."},
+{t:"CO",school:"ACS Junior",passage:"Steve Jobs had two goals in mind when he started Apple. His first goal was to make computers simple and beautiful. His second goal was to make computers easy for everyone to use — not just scientists and engineers. He believed technology should be available to all.\n\nJobs was known for being a hard worker who pushed his team to do their very best. He never gave up on his ideas, even when others said they would fail. His ideas changed the world.",q:"Why was Steve Jobs remarkable? He ______.",o:["invented the internet","made computers only for scientists","had ideas that changed the world","gave up when faced with failure"],a:2,e:"The passage ends with: 'His ideas changed the world.' This is what made him remarkable."},
+{t:"CO",school:"ACS Junior",passage:"Steve Jobs had two goals in mind when he started Apple. His first goal was to make computers simple and beautiful. His second goal was to make computers easy for everyone to use — not just scientists and engineers. He believed technology should be available to all.\n\nJobs was known for being a hard worker who pushed his team to do their very best. He never gave up on his ideas, even when others said they would fail. His ideas changed the world.",q:"What did Steve Jobs believe about technology?",o:["Only experts should use it","It should be available to all people","It should be expensive","It should only be used for science"],a:1,e:"The passage states: 'He believed technology should be available to all' — not just scientists and engineers."},
+{t:"CO",school:"ACS Junior",passage:"April Fool's Day is celebrated on 1 April every year. On this day, people play pranks and tricks on each other. A prank is a harmless trick meant to make the person who was tricked look silly. The person who was tricked is called the 'April Fool'.\n\nThe most common prank is to tell a false story or make a fake announcement. When the person believes it, the prankster shouts 'April Fool!' The key to a good prank is kindness — the trick should make everyone laugh, not hurt anyone's feelings.",q:"What is the key to a good prank according to the passage?",o:["It must be very convincing","It should be about a false story","The prankster must shout loudly","Kindness — it should make everyone laugh, not hurt feelings"],a:3,e:"The passage states: 'The key to a good prank is kindness — the trick should make everyone laugh, not hurt anyone's feelings.'"},
+{t:"CO",school:"ACS Junior",passage:"April Fool's Day is celebrated on 1 April every year. On this day, people play pranks and tricks on each other. A prank is a harmless trick meant to make the person who was tricked look silly. The person who was tricked is called the 'April Fool'.\n\nThe most common prank is to tell a false story or make a fake announcement. When the person believes it, the prankster shouts 'April Fool!' The key to a good prank is kindness — the trick should make everyone laugh, not hurt anyone's feelings.",q:"Which of these statements about April Fool's Day is FALSE according to the passage?",o:["It is celebrated on 1 April","People play pranks on each other","A prank is meant to hurt someone's feelings badly","Pranksters shout 'April Fool!' after the trick"],a:2,e:"The passage says a prank is 'harmless' and should 'not hurt anyone's feelings'. Saying it is meant to hurt is false."},
+{t:"CO",school:"ACS Junior",passage:"April Fool's Day is celebrated on 1 April every year. On this day, people play pranks and tricks on each other. A prank is a harmless trick meant to make the person who was tricked look silly. The person who was tricked is called the 'April Fool'.\n\nThe most common prank is to tell a false story or make a fake announcement. When the person believes it, the prankster shouts 'April Fool!' The key to a good prank is kindness — the trick should make everyone laugh, not hurt anyone's feelings.",q:"What is the most common type of prank described in the passage?",o:["Giving a fake gift","Sending someone on a silly errand","Telling a false story or making a fake announcement","Playing loud music"],a:2,e:"The passage states: 'The most common prank is to tell a false story or make a fake announcement.'"},
+{t:"CO",school:"ACS Junior",passage:"April Fool's Day is celebrated on 1 April every year. On this day, people play pranks and tricks on each other. A prank is a harmless trick meant to make the person who was tricked look silly. The person who was tricked is called the 'April Fool'.\n\nThe most common prank is to tell a false story or make a fake announcement. When the person believes it, the prankster shouts 'April Fool!' The key to a good prank is kindness — the trick should make everyone laugh, not hurt anyone's feelings.",q:"What happens when a person believes the false story?",o:["They become angry","The prankster shouts 'April Fool!'","Everyone claps and cheers","The prankster apologises"],a:1,e:"The passage says: 'When the person believes it, the prankster shouts \"April Fool!\"'"},
+{t:"CO",school:"ACS Junior",passage:"Steve Jobs had two goals in mind when he started Apple. His first goal was to make computers simple and beautiful. His second goal was to make computers easy for everyone to use — not just scientists and engineers. He believed technology should be available to all.\n\nJobs was known for being a hard worker who pushed his team to do their very best. He never gave up on his ideas, even when others said they would fail. His ideas changed the world.",q:"Steve Jobs never gave up on his ideas even when ______.",o:["they became too expensive","others said they would fail","his team disagreed","people stopped buying them"],a:1,e:"The passage states: 'He never gave up on his ideas, even when others said they would fail.'"},
+{t:"CO",school:"ACS Junior",passage:"Steve Jobs had two goals in mind when he started Apple. His first goal was to make computers simple and beautiful. His second goal was to make computers easy for everyone to use — not just scientists and engineers. He believed technology should be available to all.\n\nJobs was known for being a hard worker who pushed his team to do their very best. He never gave up on his ideas, even when others said they would fail. His ideas changed the world.",q:"Steve Jobs's SECOND goal was to ______.",o:["make computers beautiful","make computers for scientists only","make computers easy for everyone to use","make computers cheaper"],a:2,e:"The passage states: 'His second goal was to make computers easy for everyone to use — not just scientists and engineers.'"},
+{t:"CO",school:"ACS Junior",passage:"April Fool's Day is celebrated on 1 April every year. On this day, people play pranks and tricks on each other. A prank is a harmless trick meant to make the person who was tricked look silly. The person who was tricked is called the 'April Fool'.",q:"What is a prank according to the passage?",o:["A celebration on 1 January","A harmless trick meant to make the tricked person look silly","A gift given on 1 April","A type of game played at school"],a:1,e:"The passage defines a prank as 'a harmless trick meant to make the person who was tricked look silly.'"},
+{t:"CO",school:"ACS Junior",passage:"Long ago, France celebrated the new year in spring, around 1 April. When France changed its calendar to the Gregorian calendar — which has the new year starting on 1 January — some people did not hear about the change.",q:"When did France previously celebrate the new year?",o:["On 1 January","In winter","In spring, around 1 April","In summer, around July"],a:2,e:"The passage says France used to celebrate the new year 'in spring, around 1 April'."},
+{t:"CO",school:"ACS Junior",passage:"The tradition of playing pranks on 1 April slowly spread to other countries and people began to call the day 'April Fool's Day' because those who were tricked became the 'fool'.",q:"Why is the day called 'April Fool's Day'?",o:["Because it started in April","Because France changed its calendar in April","Because those who were tricked became the 'fool'","Because pranksters are called fools"],a:2,e:"The passage clearly explains: people called it 'April Fool's Day' because those who were tricked became the 'fool'."},
+{t:"CO",school:"ACS Junior",passage:"Jobs was known for being a hard worker who pushed his team to do their very best. He never gave up on his ideas, even when others said they would fail.",q:"How did Steve Jobs treat his team?",o:["He let them work at their own pace","He pushed them to do their very best","He did all the work himself","He never spoke to them"],a:1,e:"The passage says Jobs 'pushed his team to do their very best' — he had high standards for his team."},
+{t:"CO",school:"ACS Junior",passage:"France changed its calendar to the Gregorian calendar which has the new year starting on 1 January.",q:"What is the Gregorian calendar's new year date?",o:["1 April","1 March","1 January","1 February"],a:2,e:"The passage clearly states the Gregorian calendar 'has the new year starting on 1 January.'"},
+{t:"CO",school:"ACS Junior",passage:"Pranksters would send their victims on silly errands or give them fake gifts.",q:"Name TWO things pranksters did to their victims on April Fool's Day.",o:["They sang songs and danced","They sent them on silly errands and gave them fake gifts","They told them true stories and gave real gifts","They ignored them all day"],a:1,e:"The passage lists two things: pranksters 'would send their victims on silly errands or give them fake gifts.'"},
+]},
+
+// ══════════════════════════════════════════════
+// SET 8 — Comprehension MCQ: Blackout Story (Ai Tong)
+// ══════════════════════════════════════════════
+{name:"Set 8 · Comprehension — The Blackout",desc:"Based on an Ai Tong 2025 passage",qs:[
+{t:"CO",school:"Ai Tong",passage:"Ryan slumped on the sofa and switched on the television. Just then, there was a loud click and the room went dark. There was a blackout! Ryan felt frustrated as he stared at the lifeless television, knowing he was going to miss his favourite show.\n\nGrandpa shuffled into the room and sat beside Ryan. 'Let me show you something,' he said with a smile. He formed a rabbit shadow on the wall using his hands. Giggles filled the room. For the next hour, Grandpa and his parents entertained Ryan with more shadow puppets. Ryan had so much fun that he forgot all about his show.\n\nThat night, Ryan learnt an important lesson: he should always stay positive the next time he faces an unexpected situation.",q:"What caused the blackout?",o:["Ryan switched off the lights","A loud click caused a sudden loss of electricity","A storm knocked out the power lines","Grandpa turned off the main switch"],a:1,e:"The passage says 'there was a loud click and the room went dark. There was a blackout!' — the click caused the blackout."},
+{t:"CO",school:"Ai Tong",passage:"Ryan slumped on the sofa and switched on the television. Just then, there was a loud click and the room went dark. There was a blackout! Ryan felt frustrated as he stared at the lifeless television, knowing he was going to miss his favourite show.\n\nGrandpa shuffled into the room and sat beside Ryan. 'Let me show you something,' he said with a smile. He formed a rabbit shadow on the wall using his hands. Giggles filled the room. For the next hour, Grandpa and his parents entertained Ryan with more shadow puppets. Ryan had so much fun that he forgot all about his show.\n\nThat night, Ryan learnt an important lesson: he should always stay positive the next time he faces an unexpected situation.",q:"How did Ryan feel when the blackout happened?",o:["excited and happy","calm and relaxed","frustrated","bored and sleepy"],a:2,e:"The passage says 'Ryan felt frustrated as he stared at the lifeless television'."},
+{t:"CO",school:"Ai Tong",passage:"Ryan slumped on the sofa and switched on the television. Just then, there was a loud click and the room went dark. There was a blackout! Ryan felt frustrated as he stared at the lifeless television, knowing he was going to miss his favourite show.\n\nGrandpa shuffled into the room and sat beside Ryan. 'Let me show you something,' he said with a smile. He formed a rabbit shadow on the wall using his hands. Giggles filled the room. For the next hour, Grandpa and his parents entertained Ryan with more shadow puppets. Ryan had so much fun that he forgot all about his show.\n\nThat night, Ryan learnt an important lesson: he should always stay positive the next time he faces an unexpected situation.",q:"What did Grandpa do to cheer Ryan up?",o:["He bought Ryan a new toy","He formed a rabbit shadow on the wall with his hands","He told Ryan a bedtime story","He fixed the power and turned on the TV"],a:1,e:"The passage says Grandpa 'formed a rabbit shadow on the wall using his hands' — this made Ryan laugh."},
+{t:"CO",school:"Ai Tong",passage:"Ryan slumped on the sofa and switched on the television. Just then, there was a loud click and the room went dark. There was a blackout! Ryan felt frustrated as he stared at the lifeless television, knowing he was going to miss his favourite show.\n\nGrandpa shuffled into the room and sat beside Ryan. 'Let me show you something,' he said with a smile. He formed a rabbit shadow on the wall using his hands. Giggles filled the room. For the next hour, Grandpa and his parents entertained Ryan with more shadow puppets. Ryan had so much fun that he forgot all about his show.\n\nThat night, Ryan learnt an important lesson: he should always stay positive the next time he faces an unexpected situation.",q:"Who entertained Ryan during the blackout?",o:["His friends","Grandpa alone","Grandpa and his parents","His teacher"],a:2,e:"The passage states: 'Grandpa and his parents entertained Ryan with more shadow puppets.'"},
+{t:"CO",school:"Ai Tong",passage:"Ryan slumped on the sofa and switched on the television. Just then, there was a loud click and the room went dark. There was a blackout! Ryan felt frustrated as he stared at the lifeless television, knowing he was going to miss his favourite show.\n\nGrandpa shuffled into the room and sat beside Ryan. 'Let me show you something,' he said with a smile. He formed a rabbit shadow on the wall using his hands. Giggles filled the room. For the next hour, Grandpa and his parents entertained Ryan with more shadow puppets. Ryan had so much fun that he forgot all about his show.\n\nThat night, Ryan learnt an important lesson: he should always stay positive the next time he faces an unexpected situation.",q:"What important lesson did Ryan learn?",o:["He should watch less television","He should always stay positive when facing unexpected situations","He should spend more time with Grandpa","He should not be frustrated when the lights go out"],a:1,e:"The passage ends with: 'he should always stay positive the next time he faces an unexpected situation.'"},
+{t:"CO",school:"Ai Tong",passage:"Ryan slumped on the sofa and switched on the television. Just then, there was a loud click and the room went dark. There was a blackout! Ryan felt frustrated as he stared at the lifeless television, knowing he was going to miss his favourite show.",q:"What does 'lifeless television' suggest?",o:["The TV was very old","The TV had no power and was not working","The TV was broken beyond repair","The TV had poor reception"],a:1,e:"'Lifeless' means having no life or energy. Here it means the TV had no power — it was switched off by the blackout."},
+{t:"CO",school:"Ai Tong",passage:"Grandpa shuffled into the room and sat beside Ryan. 'Let me show you something,' he said with a smile.",q:"What does 'shuffled' suggest about how Grandpa moved?",o:["He ran quickly","He walked slowly with sliding steps","He hopped","He tiptoed quietly"],a:1,e:"'Shuffled' means to walk slowly, dragging or sliding one's feet — suggesting Grandpa moved in an elderly, unhurried manner."},
+{t:"CO",school:"Ai Tong",passage:"Ryan slumped on the sofa and switched on the television. Just then, there was a loud click and the room went dark. There was a blackout! Ryan felt frustrated as he stared at the lifeless television, knowing he was going to miss his favourite show.\n\nGrandpa shuffled into the room and sat beside Ryan. 'Let me show you something,' he said with a smile. He formed a rabbit shadow on the wall using his hands. Giggles filled the room. For the next hour, Grandpa and his parents entertained Ryan with more shadow puppets. Ryan had so much fun that he forgot all about his show.\n\nThat night, Ryan learnt an important lesson: he should always stay positive the next time he faces an unexpected situation.",q:"What does 'Ryan forgot all about his show' tell us?",o:["He disliked his show","He enjoyed the shadow puppets so much he stopped thinking about TV","He had already watched the show","He fell asleep"],a:1,e:"Ryan 'had so much fun' that he forgot about his TV show — he was fully engaged and enjoying himself."},
+{t:"CO",school:"Ai Tong",passage:"Molly stood frozen as the big dog was growling angrily at her. She could feel her heart pounding. Suddenly, the dog's owner called out and the dog turned away. Molly let out a long breath of relief.",q:"Why did Molly stand frozen?",o:["She was cold","She was scared of the growling dog","She was playing a game","She was waiting for her friend"],a:1,e:"'Stood frozen' means she stopped moving out of fear. The big dog was growling at her, causing fear."},
+{t:"CO",school:"Ai Tong",passage:"Molly stood frozen as the big dog was growling angrily at her. She could feel her heart pounding. Suddenly, the dog's owner called out and the dog turned away. Molly let out a long breath of relief.",q:"What does 'let out a long breath of relief' tell us about Molly?",o:["She was angry","She was tired from running","She was glad the danger was over","She was about to cry"],a:2,e:"'Letting out a long breath' after a frightening event shows relief — she was glad and grateful the danger had passed."},
+{t:"CO",school:"Ai Tong",passage:"Ryan slumped on the sofa and switched on the television. Just then, there was a loud click and the room went dark. There was a blackout!",q:"What does 'slumped' suggest about Ryan?",o:["He was excited","He sat up straight","He sat heavily and tiredly","He jumped onto the sofa"],a:2,e:"'Slumped' means to sit or fall heavily in a relaxed or tired manner."},
+{t:"CO",school:"Ai Tong",passage:"Grandpa shuffled into the room and sat beside Ryan. 'Let me show you something,' he said with a smile. He formed a rabbit shadow on the wall using his hands. Giggles filled the room.",q:"What does 'giggles filled the room' tell us about the mood?",o:["The room was scary","Everyone was angry","The mood was happy and fun","The room was silent and serious"],a:2,e:"'Giggles' are light, happy laughs. 'Giggles filled the room' shows the mood was joyful and fun."},
+{t:"CO",school:"Ai Tong",passage:"Although the questions were difficult, Jim could solve them.",q:"What does this sentence tell us about Jim?",o:["He gave up when questions were hard","He was clever and could overcome challenges","He asked for help with every question","He found the questions easy"],a:1,e:"'Although' introduces a contrast — Jim solved the difficult questions anyway. This shows he was capable and persistent."},
+{t:"CO",school:"Ai Tong",passage:"Ryan slumped on the sofa and switched on the television. Just then, there was a loud click and the room went dark. There was a blackout! Ryan felt frustrated as he stared at the lifeless television, knowing he was going to miss his favourite show.",q:"Ryan stared at the television because he ______.",o:["wanted to turn it off","was thinking of the shadow puppets","was frustrated and upset about missing his show","was waiting for Grandpa"],a:2,e:"The passage says Ryan 'felt frustrated' and stared at the TV 'knowing he was going to miss his favourite show.'"},
+{t:"CO",school:"Ai Tong",passage:"That night, Ryan learnt an important lesson: he should always stay positive the next time he faces an unexpected situation.",q:"The phrase 'unexpected situation' refers to ______.",o:["a TV programme he had not seen before","a surprise party","something that happens that you did not plan for","a test he had forgotten about"],a:2,e:"An 'unexpected situation' is something that happens suddenly without warning or planning — like the blackout."},
+{t:"CO",school:"Ai Tong",passage:"Ryan slumped on the sofa and switched on the television. Just then, there was a loud click and the room went dark. There was a blackout!",q:"What word tells us the blackout happened suddenly?",o:["slumped","stared","Just then","frustrated"],a:2,e:"'Just then' indicates something happened immediately and suddenly — signalling the unexpected blackout."},
+{t:"CO",school:"Ai Tong",passage:"Grandpa shuffled into the room and sat beside Ryan. 'Let me show you something,' he said with a smile.",q:"Grandpa said 'Let me show you something' with a smile. This suggests he was ______.",o:["annoyed with Ryan","worried about the blackout","playful and wanted to help Ryan feel better","telling Ryan off"],a:2,e:"The smile shows Grandpa was in a cheerful, playful mood and had a plan to help Ryan enjoy the blackout."},
+{t:"CO",school:"Ai Tong",passage:"For the next hour, Grandpa and his parents entertained Ryan with more shadow puppets. Ryan had so much fun that he forgot all about his show.",q:"How long did the shadow puppet session last?",o:["30 minutes","One hour","Two hours","All night"],a:1,e:"The passage states: 'For the next hour, Grandpa and his parents entertained Ryan with more shadow puppets.'"},
+{t:"CO",school:"Ai Tong",passage:"Ryan slumped on the sofa and switched on the television. Just then, there was a loud click and the room went dark. There was a blackout! Ryan felt frustrated as he stared at the lifeless television, knowing he was going to miss his favourite show.\n\nGrandpa shuffled into the room and sat beside Ryan. 'Let me show you something,' he said with a smile. He formed a rabbit shadow on the wall using his hands. Giggles filled the room. For the next hour, Grandpa and his parents entertained Ryan with more shadow puppets. Ryan had so much fun that he forgot all about his show.",q:"Which word best describes Grandpa in this passage?",o:["strict","caring and playful","tired","impatient"],a:1,e:"Grandpa 'shuffled in with a smile', played shadow puppets, and made Ryan laugh — he was caring and playful."},
+{t:"CO",school:"Ai Tong",passage:"That night, Ryan learnt an important lesson: he should always stay positive the next time he faces an unexpected situation.",q:"What does 'stay positive' mean in this context?",o:["Keep smiling at all times","Think of good things and not give in to negative feelings","Ignore problems","Be very loud and cheerful"],a:1,e:"'Staying positive' means maintaining a hopeful, optimistic mindset and not letting negative feelings take over when things go wrong."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 9 — Comprehension MCQ: Sanita's Story (Nanyang)
+// ══════════════════════════════════════════════
+{name:"Set 9 · Comprehension — A New Friend",desc:"Based on a Nanyang 2025 passage",qs:[
+{t:"CO",school:"Nanyang",passage:"Ling had just moved to a new neighbourhood and felt nervous about starting at her new school. She did not know anyone and worried she would not make any friends.\n\nOn her first day, a girl named Sanita came up to her and said, 'Hi! Would you like to sit with us?' Ling felt welcomed. At recess, the girls went for walks together and had meals side by side.\n\nSanita was blind and used audiobooks to read. There were not enough books in Braille at the school library. Ling was always the first to listen to Sanita's audiobooks. She was proud to be Sanita's friend. Slowly, Ling adapted to it all and felt thankful for her new friend.",q:"How did Ling feel when she first arrived at the new school?",o:["excited and happy","nervous and worried about making friends","angry","confident and ready"],a:1,e:"The passage says Ling 'felt nervous about starting at her new school' and 'worried she would not make any friends'."},
+{t:"CO",school:"Nanyang",passage:"Ling had just moved to a new neighbourhood and felt nervous about starting at her new school. She did not know anyone and worried she would not make any friends.\n\nOn her first day, a girl named Sanita came up to her and said, 'Hi! Would you like to sit with us?' Ling felt welcomed. At recess, the girls went for walks together and had meals side by side.\n\nSanita was blind and used audiobooks to read. There were not enough books in Braille at the school library. Ling was always the first to listen to Sanita's audiobooks. She was proud to be Sanita's friend. Slowly, Ling adapted to it all and felt thankful for her new friend.",q:"What did Sanita do when she first saw Ling?",o:["She ignored Ling","She asked Ling to sit with her group","She gave Ling a book","She told the teacher about Ling"],a:1,e:"Sanita 'came up to her and said, \"Hi! Would you like to sit with us?\"' — she invited Ling to join them."},
+{t:"CO",school:"Nanyang",passage:"Ling had just moved to a new neighbourhood and felt nervous about starting at her new school. She did not know anyone and worried she would not make any friends.\n\nOn her first day, a girl named Sanita came up to her and said, 'Hi! Would you like to sit with us?' Ling felt welcomed. At recess, the girls went for walks together and had meals side by side.\n\nSanita was blind and used audiobooks to read. There were not enough books in Braille at the school library. Ling was always the first to listen to Sanita's audiobooks. She was proud to be Sanita's friend. Slowly, Ling adapted to it all and felt thankful for her new friend.",q:"Why did Sanita use audiobooks?",o:["She preferred listening to reading","She was blind","The library had no books","She did not like Braille"],a:1,e:"The passage says 'Sanita was blind and used audiobooks to read.' She used audiobooks because she was blind."},
+{t:"CO",school:"Nanyang",passage:"Ling had just moved to a new neighbourhood and felt nervous about starting at her new school. She did not know anyone and worried she would not make any friends.\n\nOn her first day, a girl named Sanita came up to her and said, 'Hi! Would you like to sit with us?' Ling felt welcomed. At recess, the girls went for walks together and had meals side by side.\n\nSanita was blind and used audiobooks to read. There were not enough books in Braille at the school library. Ling was always the first to listen to Sanita's audiobooks. She was proud to be Sanita's friend. Slowly, Ling adapted to it all and felt thankful for her new friend.",q:"Why were there not enough Braille books at the library?",o:["Braille is too hard to read","The library did not have enough Braille books","The teacher took them home","Sanita lost them"],a:1,e:"The passage directly states: 'There were not enough books in Braille at the school library.'"},
+{t:"CO",school:"Nanyang",passage:"Ling had just moved to a new neighbourhood and felt nervous about starting at her new school. She did not know anyone and worried she would not make any friends.\n\nOn her first day, a girl named Sanita came up to her and said, 'Hi! Would you like to sit with us?' Ling felt welcomed. At recess, the girls went for walks together and had meals side by side.\n\nSanita was blind and used audiobooks to read. There were not enough books in Braille at the school library. Ling was always the first to listen to Sanita's audiobooks. She was proud to be Sanita's friend. Slowly, Ling adapted to it all and felt thankful for her new friend.",q:"What does 'Ling felt welcomed' tell us?",o:["Ling was confused","Ling was made to feel accepted and at home","Ling felt scared","Ling was angry"],a:1,e:"'Welcomed' means made to feel accepted and comfortable. Sanita's invitation made Ling feel like she belonged."},
+{t:"CO",school:"Nanyang",passage:"At recess, the girls went for walks together and had meals side by side.",q:"What did the two girls do at recess?",o:["They studied together","They played sports","They went for walks and had meals together","They read audiobooks"],a:2,e:"The passage states: 'At recess, the girls went for walks together and had meals side by side.'"},
+{t:"CO",school:"Nanyang",passage:"Ling was always the first to listen to Sanita's audiobooks. She was proud to be Sanita's friend.",q:"What does this tell us about Ling?",o:["She liked audiobooks more than real books","She showed support and care for Sanita","She was competitive","She wanted to borrow Sanita's books"],a:1,e:"Always being 'the first to listen' shows Ling was supportive, caring and showed genuine interest in Sanita's life."},
+{t:"CO",school:"Nanyang",passage:"Slowly, Ling adapted to it all and felt thankful for her new friend.",q:"What does 'adapted' mean in this sentence?",o:["refused to change","felt sad","got used to and settled into her new life","moved away"],a:2,e:"'Adapted' means to adjust and become comfortable with a new situation. Ling gradually got used to her new school and life."},
+{t:"CO",school:"Nanyang",passage:"Ling had just moved to a new neighbourhood and felt nervous about starting at her new school.",q:"Why was Ling nervous?",o:["She forgot her homework","She was moving to a new neighbourhood and school where she knew no one","She had an exam on her first day","She lost her school bag"],a:1,e:"Ling was nervous because she had 'just moved to a new neighbourhood' and 'did not know anyone'."},
+{t:"CO",school:"Nanyang",passage:"Ling had just moved to a new neighbourhood and felt nervous about starting at her new school. She did not know anyone and worried she would not make any friends.\n\nOn her first day, a girl named Sanita came up to her and said, 'Hi! Would you like to sit with us?' Ling felt welcomed. At recess, the girls went for walks together and had meals side by side.",q:"Sanita's action shows that she was ______.",o:["shy and quiet","unfriendly","kind and welcoming to new people","too busy to help"],a:2,e:"Sanita approached Ling and invited her to join them — this shows she was kind, friendly, and welcoming."},
+{t:"CO",school:"Nanyang",passage:"Slowly, Ling adapted to it all and felt thankful for her new friend.",q:"Ling felt thankful because ______.",o:["she got good marks","she won a prize","Sanita helped her settle in and become her friend","she found a great library"],a:2,e:"Ling 'felt thankful for her new friend' — Sanita helped her feel welcomed, less lonely, and at home."},
+{t:"CO",school:"Nanyang",passage:"Sanita was blind and used audiobooks to read. There were not enough books in Braille at the school library.",q:"What is Braille?",o:["A type of audiobook","A writing system using raised dots that blind people read by touch","A large-print book","A language for deaf people"],a:1,e:"Braille is a writing system of raised dots that allows visually impaired people to read by touching the dots."},
+{t:"CO",school:"Nanyang",passage:"Ling had just moved to a new neighbourhood and felt nervous about starting at her new school. She did not know anyone and worried she would not make any friends.",q:"Which word best describes Ling's feelings at the start of the passage?",o:["grateful","nervous","proud","excited"],a:1,e:"The passage directly states that Ling 'felt nervous about starting at her new school'."},
+{t:"CO",school:"Nanyang",passage:"Ling had just moved to a new neighbourhood and felt nervous about starting at her new school. She did not know anyone and worried she would not make any friends.\n\nOn her first day, a girl named Sanita came up to her and said, 'Hi! Would you like to sit with us?' Ling felt welcomed. At recess, the girls went for walks together and had meals side by side.\n\nSanita was blind and used audiobooks to read. There were not enough books in Braille at the school library. Ling was always the first to listen to Sanita's audiobooks. She was proud to be Sanita's friend. Slowly, Ling adapted to it all and felt thankful for her new friend.",q:"By the end of the passage, how did Ling feel about her new school?",o:["still nervous","sad and lonely","happy and thankful","angry and upset"],a:2,e:"By the end, Ling 'adapted to it all and felt thankful for her new friend' — she was happy and grateful."},
+{t:"CO",school:"Nanyang",passage:"She was proud to be Sanita's friend.",q:"'She was proud to be Sanita's friend' suggests that ______.",o:["Ling was showing off to others","Ling valued and appreciated her friendship with Sanita","Sanita was a famous person","Ling was pretending to be friendly"],a:1,e:"Being 'proud' of a friendship shows that Ling valued and treasured it. She genuinely cared about Sanita."},
+{t:"CO",school:"Nanyang",passage:"At recess, the girls went for walks together and had meals side by side.",q:"What does 'side by side' suggest?",o:["They were racing each other","They sat facing opposite directions","They were close to each other and doing things together","They were arguing"],a:2,e:"'Side by side' means next to each other — showing they were comfortable together and doing things as companions."},
+{t:"CO",school:"Nanyang",passage:"Ling was always the first to listen to Sanita's audiobooks. She was proud to be Sanita's friend.",q:"Why might Ling always be the first to listen to Sanita's audiobooks?",o:["She wanted to finish before everyone else","She wanted to show she cared about what Sanita loved","She had nothing else to do","The teacher asked her to"],a:1,e:"Being 'always the first' shows enthusiasm and genuine interest — Ling cared about Sanita and what mattered to her."},
+{t:"CO",school:"Nanyang",passage:"Ling had just moved to a new neighbourhood and felt nervous about starting at her new school. She did not know anyone and worried she would not make any friends.\n\nOn her first day, a girl named Sanita came up to her and said, 'Hi! Would you like to sit with us?'",q:"What was Ling worried about before meeting Sanita?",o:["Failing her exams","Not being able to find the classroom","Not making any friends","Losing her school bag"],a:2,e:"The passage says Ling 'worried she would not make any friends' at her new school."},
+{t:"CO",school:"Nanyang",passage:"Slowly, Ling adapted to it all and felt thankful for her new friend.",q:"The word 'slowly' in this sentence suggests that ______.",o:["Ling did not want to change","getting used to a new school takes time","Ling was lazy","the school was far away"],a:1,e:"'Slowly' shows that adapting to a new environment takes time — it is a gradual process, not immediate."},
+{t:"CO",school:"Nanyang",passage:"Ling had just moved to a new neighbourhood and felt nervous about starting at her new school. She did not know anyone and worried she would not make any friends.\n\nOn her first day, a girl named Sanita came up to her and said, 'Hi! Would you like to sit with us?' Ling felt welcomed.",q:"What is the MAIN idea of this passage?",o:["Audiobooks are better than Braille books","Moving to a new school is always difficult","A kind friend can help someone feel welcome and settle into a new place","Blind students need more support in schools"],a:2,e:"The passage is mainly about how Sanita's kindness helped Ling feel welcomed and eventually happy at her new school."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 10 — Mixed: Grammar + Vocabulary + Comprehension
+// ══════════════════════════════════════════════
+{name:"Set 10 · Mixed Review",desc:"Grammar, Vocabulary & Comprehension mix",qs:[
+{t:"GR",school:"St Nicholas",q:"Choose the correct form: The children ______ the teacher to come and help them.",o:["encourages","encouraged","encouraging","encourage"],a:1,e:"'The children' is plural and this happened in the past. Simple past: 'encouraged'."},
+{t:"GR",school:"Tao Nan",q:"Choose the correct form: My brother ______ his favourite song every morning.",o:["hum","hums","hummed","humming"],a:1,e:"'My brother' is singular and this is a regular present habit: 'hums' (third-person singular)."},
+{t:"GR",school:"Rosyth",q:"Choose the correct pronoun: The class voted and ______ chose Sara as class leader.",o:["he","she","they","it"],a:2,e:"'The class' (a group of people) = 'they'. 'They chose Sara as class leader.'"},
+{t:"GR",school:"St Hilda",q:"Choose the correct conjunction: She closed her eyes ______ she could concentrate better.",o:["because","but","or","so"],a:0,e:"'Because' introduces the reason — she closed her eyes so she could concentrate (the reason she closed them)."},
+{t:"GR",school:"Nan Hua",q:"Choose the correct preposition: The cat climbed ______ the tree to escape from the dog.",o:["under","over","up","beside"],a:2,e:"'Climb up' is the correct phrasal verb when going from bottom to top of something like a tree."},
+{t:"VO",school:"Raffles Girls",q:"'The pot was extraordinary — hand-painted with tiny flowers.' What does EXTRAORDINARY mean?",o:["ordinary","very special and unusual","small","cheap"],a:1,e:"'Extraordinary' means beyond what is normal — very special or remarkable."},
+{t:"VO",school:"Maha Bodhi",q:"'They were inseparable friends.' What does INSEPARABLE mean?",o:["always arguing","always together","meeting rarely","just getting to know each other"],a:1,e:"'Inseparable' describes friends who are always together and never apart."},
+{t:"VO",school:"Ai Tong",q:"'Grandpa kept his composure.' What does COMPOSURE mean?",o:["his glasses","his stories","calmness and control of feelings","his voice"],a:2,e:"'Composure' means the state of being calm, collected, and in control of one's emotions."},
+{t:"VO",school:"Henry Park",q:"'The murky river made it impossible to see the bottom.' What does MURKY mean?",o:["deep","clear","dark and cloudy","very cold"],a:2,e:"'Murky' means dark, cloudy, or dirty, making it difficult to see through."},
+{t:"VO",school:"Tao Nan",q:"'The parrot would mimic everything it heard.' What does MIMIC mean?",o:["ignore","understand","copy or imitate","respond to"],a:2,e:"'Mimic' means to copy or imitate closely."},
+{t:"CO",school:"Nanyang",passage:"A cheetah is the fastest land animal. It can sprint at speeds of up to 120 kilometres per hour. However, it can only maintain this speed for short distances before it needs to rest. The cheetah relies on its excellent eyesight to spot prey from far away. It then sprints to catch the animal before it can escape.",q:"What is special about the cheetah?",o:["It is the largest land animal","It is the fastest land animal","It can swim very fast","It has the sharpest claws"],a:1,e:"The passage begins: 'A cheetah is the fastest land animal.'"},
+{t:"CO",school:"Nanyang",passage:"A cheetah is the fastest land animal. It can sprint at speeds of up to 120 kilometres per hour. However, it can only maintain this speed for short distances before it needs to rest. The cheetah relies on its excellent eyesight to spot prey from far away. It then sprints to catch the animal before it can escape.",q:"Why can't the cheetah run at full speed for a long time?",o:["It gets bored","It needs to find food first","It can only maintain high speed for short distances before needing rest","Its legs get too hot"],a:2,e:"The passage states: 'it can only maintain this speed for short distances before it needs to rest.'"},
+{t:"CO",school:"Nanyang",passage:"A cheetah is the fastest land animal. It can sprint at speeds of up to 120 kilometres per hour. However, it can only maintain this speed for short distances before it needs to rest. The cheetah relies on its excellent eyesight to spot prey from far away. It then sprints to catch the animal before it can escape.",q:"How does the cheetah find its prey?",o:["By listening for sounds","By smelling the air","By using its excellent eyesight from far away","By following footprints"],a:2,e:"The passage says: 'The cheetah relies on its excellent eyesight to spot prey from far away.'"},
+{t:"GR",school:"ACS Junior",q:"Choose the correct form: While Sara ______ a book, her brother was playing outside.",o:["reads","was reading","read","reading"],a:1,e:"'While' joins two past continuous actions happening at the same time. 'Was reading' is past continuous."},
+{t:"GR",school:"Maha Bodhi",q:"Choose the correct form: The players ______ their heads when the referee blew the final whistle.",o:["bow","bows","bowed","bowing"],a:2,e:"This happened in the past when the whistle blew. Simple past: 'bowed'."},
+{t:"VO",school:"Rosyth",q:"'The firefighter rushed into the building despite the danger.' What does DESPITE mean?",o:["because of","in front of","without being stopped by","together with"],a:2,e:"'Despite' means without being affected by or stopped by something — 'even though there was danger, he still went in'."},
+{t:"CO",school:"Raffles Girls",passage:"The competition lasted for three weeks. On the first day, the girls were extremely delighted to find that their pot plant had grown the tallest. By the final day, their plant stood true and extraordinary amongst all the entries.",q:"How did the girls feel on the first day of the competition?",o:["nervous and worried","bored and tired","extremely delighted","angry and disappointed"],a:2,e:"The passage states: 'the girls were extremely delighted to find that their pot plant had grown the tallest.'"},
+{t:"CO",school:"Raffles Girls",passage:"The competition lasted for three weeks. On the first day, the girls were extremely delighted to find that their pot plant had grown the tallest. By the final day, their plant stood true and extraordinary amongst all the entries.",q:"How long did the competition last?",o:["One week","Two weeks","Three weeks","One month"],a:2,e:"The passage states: 'The competition lasted for three weeks.'"},
+{t:"GR",school:"Nanyang",q:"Choose the correct form: Before Ali ______ the museum, he bought the ticket.",o:["entered","enters","entering","had entered"],a:0,e:"'Before' signals that buying the ticket happened first. 'Entered' is the correct simple past tense for the main action."},
+{t:"GR",school:"ACS Primary",q:"Choose the correct form: The children ______ a song to welcome the new teacher.",o:["sing","sings","sang","singing"],a:2,e:"This happened in the past (when welcoming the teacher). Simple past: 'sang'."},
+]},
+
+]; // end SETS
+
+// ─────────────────────────────────────────────
+const BADGE_CLASSES = ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10"];
+const FILL_COLORS = ["var(--bluem)","var(--greenm)","var(--amberm)","var(--purplem)","var(--tealm)","var(--rosem)","var(--bluem)","var(--greenm)","var(--amberm)","var(--purplem)"];
+const TOPIC_COLORS = {GR:"var(--blue)",VO:"var(--green)",CO:"var(--amber)"};
+const TOPIC_BG = {GR:"var(--bluel)",VO:"var(--greenl)",CO:"var(--amberl)"};
+const TOPIC_NAMES = {GR:"Grammar",VO:"Vocabulary",CO:"Comprehension"};
+
+let curSet=null, curIdx=0, answered=false, scores={}, setScores=null;
+
+// ── Build home
+function buildHome(){
+  const grid=document.getElementById('setGrid');
+  grid.innerHTML=SETS.map((s,i)=>`
+    <div class="set-card" onclick="startSet(${i})">
+      <div class="sbadge ${BADGE_CLASSES[i]}">${['Set 1','Set 2','Set 3','Set 4','Set 5','Set 6','Set 7','Set 8','Set 9','Set 10'][i]}</div>
+      <div class="sname">${s.name}</div>
+      <div class="sdesc">${s.desc}</div>
+      <div class="smeta">20 questions</div>
+    </div>`).join('');
+}
+
+function startSet(idx){
+  curSet=idx; curIdx=0; answered=false;
+  scores={GR:{c:0,t:0},VO:{c:0,t:0},CO:{c:0,t:0}};
+  setScores=null;
+  document.getElementById('qSetName').textContent=SETS[idx].name;
+  show('quizScreen');
+  renderScore(); renderQ();
+}
+
+function renderScore(){
+  const el=document.getElementById('scoreRow');
+  const s=SETS[curSet];
+  const total=s.qs.slice(0,curIdx).length;
+  const correct=Object.values(scores).reduce((a,b)=>a+b.c,0);
+  el.innerHTML=`<div class="sc">Score<span>${correct}/${total}</span></div>`+
+    Object.keys(scores).map(k=>`<div class="sc">${TOPIC_NAMES[k]}<span>${scores[k].c}/${scores[k].t}</span></div>`).join('');
+}
+
+function renderQ(){
+  const qs=SETS[curSet].qs;
+  const total=qs.length;
+  const done=curIdx;
+  const pct=Math.round(done/total*100);
+  document.getElementById('qMeta').textContent=`Question ${done+1} of ${total}`;
+  document.getElementById('progLabel').textContent=`${done}/${total}`;
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progFill').style.background=FILL_COLORS[curSet];
+  document.getElementById('progPct').textContent=pct+'%';
+
+  if(done>=total){ showDone(); return; }
+
+  const q=qs[done];
+  answered=false;
+  document.getElementById('feedback').classList.add('hidden');
+  document.getElementById('nextBtn').classList.add('hidden');
+
+  const passageHtml=q.passage?`<div class="q-passage">${q.passage}</div>`:'';
+  document.getElementById('qCard').innerHTML=`
+    <div class="q-topic" style="background:${TOPIC_BG[q.t]};color:${TOPIC_COLORS[q.t]}">${TOPIC_NAMES[q.t]}</div>
+    <div class="q-school" style="color:var(--muted)">${q.school} 2025</div>
+    ${passageHtml}
+    <div class="q-text">${q.q}</div>
+    <div class="opts" id="opts">
+      ${q.o.map((o,i)=>`<button class="opt" onclick="pick(${i})">(${i+1}) ${o}</button>`).join('')}
+    </div>`;
+
+  document.getElementById('prevBtn').style.opacity=done===0?'0.4':'1';
+  document.getElementById('nextBtn').textContent=done===total-1?'Finish →':'Next →';
+}
+
+function pick(i){
+  if(answered) return;
+  answered=true;
+  const q=SETS[curSet].qs[curIdx];
+  const correct=i===q.a;
+  scores[q.t].t++;
+  if(correct) scores[q.t].c++;
+  document.querySelectorAll('.opt').forEach((b,j)=>{
+    b.disabled=true;
+    if(j===q.a) b.className='opt correct';
+    else if(j===i&&!correct) b.className='opt wrong';
+  });
+  const fb=document.getElementById('feedback');
+  fb.className='feedback '+(correct?'fb-ok':'fb-err');
+  fb.textContent=(correct?'✓ Correct! ':'✗ Not quite. ')+q.e;
+  fb.classList.remove('hidden');
+  document.getElementById('nextBtn').classList.remove('hidden');
+  renderScore();
+}
+
+function nextQ(){
+  curIdx++;
+  renderQ();
+}
+
+function prevQ(){
+  if(curIdx>0){ curIdx--; renderQ(); }
+}
+
+function showDone(){
+  const qs=SETS[curSet].qs;
+  const total=qs.length;
+  const correct=Object.values(scores).reduce((a,b)=>a+b.c,0);
+  const pct=Math.round(correct/total*100);
+  const grade=pct>=90?{l:'Excellent',cls:'grade-great'}:pct>=75?{l:'Good',cls:'grade-good'}:pct>=60?{l:'Satisfactory',cls:'grade-ok'}:{l:'Keep practising',cls:'grade-low'};
+  document.getElementById('doneSetName').textContent=SETS[curSet].name;
+  document.getElementById('doneScore').textContent=correct+'/'+total;
+  document.getElementById('donePct').textContent=pct+'%';
+  const gp=document.getElementById('doneGrade');
+  gp.textContent=grade.l; gp.className='done-grade '+grade.cls;
+  document.getElementById('topicGrid').innerHTML=Object.keys(scores).map(k=>{
+    const sc=scores[k],p=sc.t>0?Math.round(sc.c/sc.t*100):0;
+    return `<div class="ts"><p>${TOPIC_NAMES[k]}</p><span>${sc.c}/${sc.t} (${p}%)</span></div>`;
+  }).join('');
+  const missed=qs.map((q,i)=>({q,i,got:null}));
+  // We don't track individual picks, so show explanations for all
+  document.getElementById('missedList').innerHTML='';
+  show('doneScreen');
+}
+
+function restartSet(){ startSet(curSet); }
+function backHome(){ show('homeScreen'); }
+
+function show(id){
+  ['homeScreen','quizScreen','doneScreen'].forEach(s=>document.getElementById(s).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+
+buildHome();
+</script>
+</body>
+</html>
