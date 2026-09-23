@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P6 English MCQ — 3 Practice Sets · 2025 & 2026 PSLE Prelims</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+:root{
+  --s0:#f1efe8;--s1:#f7f6f3;--s2:#fff;
+  --tp:#1a1a18;--ts:#5f5e5a;--tm:#888780;
+  --bd:rgba(0,0,0,0.09);--bds:rgba(0,0,0,0.17);
+  --fa:#378add;--oa:#fff;--bda:#85b7eb;
+  --bga:#e6f1fb;--ta:#185fa5;
+  --bgs:#eaf3de;--ts2:#3b6d11;--bds2:#97c459;
+  --bgd:#fcebeb;--td:#a32d2d;--bdd:#f09595;
+  --bgw:#faeeda;--tw:#854f0b;
+  --bgp:#eeedfe;--tpro:#534ab7;--bdp:#afa9ec;
+  --bgt:#e1f5ee;--tteal:#0f6e56;
+  --bgc:#faece7;--tcoral:#993c1d;
+  --r:9px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+
+  /* Set accent colours */
+  --setA:#378add;--setAb:#e6f1fb;--setAt:#185fa5;
+  --setB:#7c4dbd;--setBb:#eeedfe;--setBt:#4e2e8c;
+  --setC:#1a8c6a;--setCb:#e1f5ee;--setCt:#0f6e56;
+}
+@media(prefers-color-scheme:dark){:root{
+  --s0:#1c1c1a;--s1:#222220;--s2:#2a2a28;
+  --tp:#f0ede8;--ts:#a8a6a0;--tm:#666460;
+  --bd:rgba(255,255,255,0.09);--bds:rgba(255,255,255,0.18);
+  --bga:#0c447c;--ta:#85b7eb;--bda:#185fa5;
+  --bgs:#27500a;--ts2:#97c459;--bds2:#3b6d11;
+  --bgd:#791f1f;--td:#f09595;--bdd:#a32d2d;
+  --bgw:#633806;--tw:#ef9f27;
+  --bgp:#3c3489;--tpro:#afa9ec;--bdp:#534ab7;
+  --bgt:#085041;--tteal:#5dcaa5;
+  --bgc:#4a1b0c;--tcoral:#f0997b;
+  --setAb:#0c447c;--setAt:#85b7eb;
+  --setBb:#3c3489;--setBt:#afa9ec;
+  --setCb:#085041;--setCt:#5dcaa5;
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--s0);color:var(--tp);min-height:100vh;padding:1.25rem 1rem 4rem}
+#app{max-width:700px;margin:0 auto}
+
+/* Header */
+.hdr{margin-bottom:1.75rem;padding-bottom:1rem;border-bottom:0.5px solid var(--bd)}
+.hdr-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.site-title{font-size:19px;font-weight:500}
+.site-sub{font-size:13px;color:var(--tm);margin-top:3px}
+
+/* Pill */
+.pill{display:inline-block;font-size:11px;padding:3px 9px;border-radius:12px;font-weight:500}
+.pa{background:var(--setAb);color:var(--setAt)}
+.pb{background:var(--setBb);color:var(--setBt)}
+.pc{background:var(--setCb);color:var(--setCt)}
+.pg{background:var(--bgw);color:var(--tw)}
+.pv{background:var(--bgp);color:var(--tpro)}
+.ps{background:var(--bga);color:var(--ta)}
+
+/* Set selector */
+.set-tabs{display:flex;gap:8px;margin-bottom:1.5rem}
+.set-tab{flex:1;padding:12px 8px;border-radius:var(--r);border:0.5px solid var(--bds);background:transparent;cursor:pointer;font-family:var(--font);font-size:14px;font-weight:500;color:var(--ts);transition:all .15s;text-align:center}
+.set-tab:hover{background:var(--s1)}
+.set-tab.on-A{background:var(--setAb);color:var(--setAt);border-color:var(--bda)}
+.set-tab.on-B{background:var(--setBb);color:var(--setBt);border-color:var(--bdp)}
+.set-tab.on-C{background:var(--setCb);color:var(--setCt);border-color:#5dcaa5}
+.set-info{font-size:12px;margin-top:4px;opacity:.75}
+
+/* Mode row */
+.mode-row{display:flex;gap:8px;margin-bottom:1.1rem}
+.mode-btn{flex:1;padding:9px 6px;border-radius:var(--r);border:0.5px solid var(--bds);background:transparent;font-size:13px;cursor:pointer;font-family:var(--font);color:var(--ts)}
+.mode-btn.on{background:var(--bgp);color:var(--tpro);border-color:var(--bdp)}
+
+/* Progress */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;flex-wrap:wrap;gap:6px}
+.pbar-wrap{height:5px;border-radius:3px;background:var(--s1);overflow:hidden;margin-bottom:1.1rem}
+.pbar{height:5px;border-radius:3px;transition:width .4s}
+.pbar-A{background:var(--setA)}
+.pbar-B{background:var(--setB)}
+.pbar-C{background:var(--setC)}
+
+/* Card flip */
+.card-scene{perspective:900px;margin-bottom:1.1rem;cursor:pointer}
+.card-scene:focus-visible{outline:2px solid var(--bda);border-radius:12px}
+.card-3d{position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);border-radius:12px}
+.card-3d.flipped{transform:rotateY(180deg)}
+.face{backface-visibility:hidden;border-radius:12px;border:0.5px solid var(--bd);background:var(--s2);padding:1.4rem 1.2rem;min-height:155px;display:flex;flex-direction:column;justify-content:center}
+.face-back{position:absolute;inset:0;transform:rotateY(180deg);min-height:155px}
+.face-meta{display:flex;gap:6px;margin-bottom:.6rem;flex-wrap:wrap;align-items:center}
+.face-q{font-size:15px;color:var(--tp);line-height:1.65}
+.face-hint{font-size:12px;color:var(--tm);margin-top:.75rem;display:flex;align-items:center;justify-content:center;gap:4px}
+.face-label{font-size:11px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;color:var(--tm);margin-bottom:.5rem}
+.face-ans{font-size:14px;color:var(--ts);line-height:1.6}
+
+/* Context box */
+.ctx{background:var(--s1);border-left:3px solid var(--bda);border-radius:0 var(--r) var(--r) 0;padding:.75rem 1rem;margin-bottom:.9rem;font-size:13px;color:var(--ts);line-height:1.7}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:7px;margin-bottom:.9rem}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;border:0.5px solid var(--bd);border-radius:var(--r);cursor:pointer;background:var(--s2);font-size:14px;color:var(--tp);line-height:1.55;text-align:left;width:100%;transition:background .12s,border-color .12s;font-family:var(--font)}
+.opt:hover:not(:disabled){background:var(--s1);border-color:var(--bds)}
+.opt:disabled{cursor:default}
+.opt.sel{border-color:var(--bda);background:var(--bga)}
+.opt.correct{border-color:var(--bds2);background:var(--bgs)}
+.opt.wrong{border-color:var(--bdd);background:var(--bgd)}
+.opt-lbl{font-weight:500;min-width:20px;color:var(--ts);flex-shrink:0}
+.opt.sel .opt-lbl{color:var(--ta)}
+.opt.correct .opt-lbl{color:var(--ts2)}
+.opt.wrong .opt-lbl{color:var(--td)}
+
+/* Explanation */
+.exp{padding:.75rem 1rem;background:var(--s1);border-left:3px solid var(--bda);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--ts);line-height:1.65;margin-bottom:.9rem}
+
+/* Buttons */
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+button{padding:8px 18px;border-radius:var(--r);border:0.5px solid var(--bds);background:transparent;color:var(--tp);font-size:14px;cursor:pointer;font-family:var(--font);transition:background .12s}
+button:hover{background:var(--s1)}
+.btn-A{background:var(--setA);color:#fff;border-color:var(--setA)}
+.btn-B{background:var(--setB);color:#fff;border-color:var(--setB)}
+.btn-C{background:var(--setC);color:#fff;border-color:var(--setC)}
+
+/* Results */
+.result-card{background:var(--s2);border:0.5px solid var(--bd);border-radius:12px;padding:1.75rem 1.5rem;text-align:center}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:1.1rem 0}
+.rcard{background:var(--s1);border-radius:var(--r);padding:.75rem}
+.rnum{font-size:22px;font-weight:500}
+.rlbl{font-size:12px;color:var(--tm);margin-top:3px}
+.sec-rows{margin-top:1.1rem;text-align:left}
+.sr{display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:13px}
+.sr-name{min-width:150px;color:var(--ts)}
+.sr-track{flex:1;height:7px;background:var(--s0);border-radius:4px;overflow:hidden}
+.sr-fill{height:7px;border-radius:4px}
+.sr-pct{min-width:32px;text-align:right;font-size:12px;color:var(--ts)}
+.err{font-size:13px;color:var(--td);margin-bottom:.75rem}
+.q-num{font-size:11px;font-weight:500;color:var(--tm)}
+
+/* Home card */
+.home-card{background:var(--s2);border:0.5px solid var(--bd);border-radius:12px;padding:1.4rem;margin-bottom:1rem}
+.info-box{font-size:13px;color:var(--ts);line-height:1.75;padding:.9rem 1rem;background:var(--s1);border-radius:var(--r)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="hdr">
+    <div class="hdr-top">
+      <div>
+        <div class="site-title">P6 English MCQ — 3 Practice Sets</div>
+        <div class="site-sub">Fresh questions from 2025 &amp; 2026 PSLE Prelim Papers</div>
+      </div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap">
+        <span class="pill pa">Set A</span>
+        <span class="pill pb">Set B</span>
+        <span class="pill pc">Set C</span>
+      </div>
+    </div>
+  </div>
+  <div id="content"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   QUESTION BANK  — 3 × 20 questions
+   Each question: {set, n, sec, tag, src, q, opts[], ans, exp, ctx?}
+   ═══════════════════════════════════════════════════ */
+const QS = [
+
+/* ╔══════════════════════════════════════
+   ║  SET A — GRAMMAR FOCUS
+   ╚══════════════════════════════════════ */
+
+/* A1 */ {set:"A",n:1,sec:"Grammar",tag:"Question Tags",src:"Ai Tong 2025",
+ q:"\"He'd have submitted his project by now, ___ he?\" Alex asked, looking concerned.",
+ opts:["don't","won't","didn't","wouldn't"],ans:3,
+ exp:"'He'd have' = 'He would have' → the auxiliary is 'would', so the negative question tag is 'wouldn't he'."},
+
+/* A2 */ {set:"A",n:2,sec:"Grammar",tag:"Superlatives",src:"Ai Tong 2025",
+ q:"Among all the movies I have watched, this is undoubtedly ___ one.",
+ opts:["an interesting","a very interesting","the most interesting","the more interesting"],ans:2,
+ exp:"'Among all' signals a comparison of many items → use the superlative 'the most interesting'. 'The more interesting' is comparative (only two items)."},
+
+/* A3 */ {set:"A",n:3,sec:"Grammar",tag:"Future Perfect",src:"Ai Tong 2025",
+ q:"By the end of this year, Mr Lim's daughter ___ her studies overseas.",
+ opts:["finishes","is finishing","has finished","will have finished"],ans:3,
+ exp:"'By the end of this year' signals completion at a future point → future perfect: 'will have finished'."},
+
+/* A4 */ {set:"A",n:4,sec:"Grammar",tag:"Conditionals",src:"Ai Tong 2025",
+ q:"\"Wouldn't Grandma be thrilled if she ___ that we had cooked lunch for her?\" Benjamin asked his sister.",
+ opts:["knew","known","has known","had known"],ans:3,
+ exp:"Second conditional with a past-perfect-like feel from reported speech context: 'if she had known' — she does not know, so this is hypothetical past."},
+
+/* A5 */ {set:"A",n:5,sec:"Grammar",tag:"Subject-Verb Agreement",src:"Methodist Girls 2025",
+ q:"All the luggage ___ still strewn about the room; Sam had no space to move around.",
+ opts:["is","are","was","were"],ans:2,
+ exp:"'Luggage' is uncountable (singular) and the sentence is past tense → 'was'."},
+
+/* A6 */ {set:"A",n:6,sec:"Grammar",tag:"Conditionals",src:"Methodist Girls 2025",
+ q:"If I ___ her email address, I would send her an invitation.",
+ opts:["know","knew","had known","have known"],ans:1,
+ exp:"Second conditional (present unreal): 'If I knew…I would send'. The speaker doesn't have the address now."},
+
+/* A7 */ {set:"A",n:7,sec:"Grammar",tag:"Subject-Verb Agreement",src:"Methodist Girls 2025",
+ q:"Tom, together with his friends, ___ at the Active Ageing Centre to befriend seniors every month.",
+ opts:["volunteer","volunteers","has volunteered","have volunteered"],ans:1,
+ exp:"'Together with his friends' is parenthetical — the main subject is 'Tom' (singular). Habitual present → 'volunteers'."},
+
+/* A8 */ {set:"A",n:8,sec:"Grammar",tag:"Modal Verbs",src:"Methodist Girls 2025",
+ q:"Given that it might rain tomorrow, you ___ bring an umbrella when you go out.",
+ opts:["will","could","would","should"],ans:3,
+ exp:"'Should' expresses advice — the recommended thing to do given the weather forecast."},
+
+/* A9 */ {set:"A",n:9,sec:"Grammar",tag:"Past Perfect",src:"Methodist Girls 2025",
+ q:"Hassan wished he ___ his mother's advice not to place his plate on the edge of the table. However, it was too late.",
+ opts:["heeded","has heeded","had heeded","had been heeding"],ans:2,
+ exp:"'Wished he had done' = past perfect after 'wished' — expressing regret about something that didn't happen."},
+
+/* A10 */ {set:"A",n:10,sec:"Grammar",tag:"Prepositions",src:"Red Swastika 2025",
+ q:"Mrs Tan was impressed ___ how well the students had presented their project.",
+ opts:["at","of","on","with"],ans:3,
+ exp:"'Impressed with/by' are both standard collocations. Answer key for RS25 Q1 = (4) 'with'."},
+
+/* A11 */ {set:"A",n:11,sec:"Vocabulary",tag:"Word Choice",src:"Methodist Girls 2025",
+ q:"Leo's confidence to clinch the championship was ___ when he saw how good his opponent was.",
+ opts:["inflated","elevated","deepened","dampened"],ans:3,
+ exp:"'Dampened' means reduced or discouraged — his confidence was lowered when he saw the tough opponent. 'Elevated' and 'inflated' would mean increased."},
+
+/* A12 */ {set:"A",n:12,sec:"Vocabulary",tag:"Word Choice",src:"Methodist Girls 2025",
+ q:"Hundreds of residents in the area were ___ when they lost their homes to the fire and had to move elsewhere.",
+ opts:["evicted","expelled","retreated","displaced"],ans:3,
+ exp:"'Displaced' means forced to leave one's home — fitting for people who lost their homes. 'Evicted' means forced out by a landlord; 'expelled' is from school/group."},
+
+/* A13 */ {set:"A",n:13,sec:"Vocabulary",tag:"Adverbs",src:"Methodist Girls 2025",
+ q:"When the toddler showed off his completed sandcastle, the proud grandfather praised him ___.",
+ opts:["modestly","profusely","unanimously","consecutively"],ans:1,
+ exp:"'Profusely' means in large amounts or excessively — the grandfather praised generously. 'Unanimously' means all together in agreement."},
+
+/* A14 */ {set:"A",n:14,sec:"Vocabulary",tag:"Phrasal Verbs",src:"Methodist Girls 2025",
+ q:"\"Let's ___ on our efforts to complete the project on time,\" the manager urged his workers.",
+ opts:["double up","double over","double back","double down"],ans:3,
+ exp:"'Double down' means to increase commitment or effort. 'Double up' means to share or fold double; 'double back' means to retrace steps."},
+
+/* A15 */ {set:"A",n:15,sec:"Vocabulary",tag:"Word Choice",src:"Ai Tong 2025",
+ q:"After getting a standing ovation, the actress ___ in the limelight, her eyes gleaming with joy.",
+ opts:["shone","basked","radiated","absorbed"],ans:1,
+ exp:"'Basked in the limelight' is a fixed collocation meaning to enjoy the attention and admiration. 'Shone' would need to be used differently."},
+
+/* A16 */ {set:"A",n:16,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Methodist Girls 2025",
+ ctx:"Continuous <u>scrolling</u> (16) online not only affects sleep quality, but also takes time away from playing with friends.",
+ q:"Choose the word closest in meaning to 'scrolling'.",
+ opts:["dissipating","depreciating","deteriorating","browsing"],ans:3,
+ exp:"'Scrolling' in this context means browsing through social media content continuously. 'Browsing' is the closest synonym."},
+
+/* A17 */ {set:"A",n:17,sec:"Vocabulary Cloze",tag:"Connectives",src:"Methodist Girls 2025",
+ ctx:"Children are deprived of healthier physical activities. ___ (17), all these can add anxiety and feelings of depression.",
+ q:"Choose the word that best fits the blank.",
+ opts:["Moreover","Therefore","Meanwhile","Regardless"],ans:0,
+ exp:"'Moreover' (furthermore) adds another point to the argument. The sentence adds to the list of negative effects of screen time."},
+
+/* A18 */ {set:"A",n:18,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Methodist Girls 2025",
+ ctx:"Children are also <u>especially</u> (18) vulnerable to being harmed in digital spaces.",
+ q:"Choose the word closest in meaning to 'especially'.",
+ opts:["mainly","usually","commonly","particularly"],ans:3,
+ exp:"'Especially' means to a greater degree than usual. 'Particularly' is the closest synonym."},
+
+/* A19 */ {set:"A",n:19,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Methodist Girls 2025",
+ ctx:"Children become easy prey for strangers who want to <u>take advantage of</u> (19) them online.",
+ q:"Choose the phrase closest in meaning to 'take advantage of'.",
+ opts:["exploit","misuse","swindle","deceive"],ans:0,
+ exp:"'Take advantage of' means to use someone unfairly for one's own benefit. 'Exploit' is the closest synonym."},
+
+/* A20 */ {set:"A",n:20,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Methodist Girls 2025",
+ ctx:"Children may be more <u>prone to</u> (20) screen addiction.",
+ q:"Choose the word closest in meaning to 'prone to'.",
+ opts:["averse","exposed","responsive","susceptible"],ans:3,
+ exp:"'Prone to' means having a tendency or likelihood to be affected by something. 'Susceptible' is the closest synonym."},
+
+/* ╔══════════════════════════════════════
+   ║  SET B — VOCABULARY & MIXED FOCUS
+   ╚══════════════════════════════════════ */
+
+/* B1 */ {set:"B",n:1,sec:"Grammar",tag:"Subject-Verb Agreement",src:"Henry Park 2025",
+ q:"Everybody ___ excited for the upcoming school play as they have been spending long hours rehearsing.",
+ opts:["is","are","was","were"],ans:0,
+ exp:"'Everybody' is always singular → 'is'. Present tense because they are still rehearsing."},
+
+/* B2 */ {set:"B",n:2,sec:"Grammar",tag:"Comparatives",src:"Henry Park 2025",
+ q:"Georgina would rather cook her own meals ___ eat out.",
+ opts:["to","over","than","then"],ans:2,
+ exp:"'Would rather…than' is a fixed comparative structure. Never 'then' (which shows sequence in time)."},
+
+/* B3 */ {set:"B",n:3,sec:"Grammar",tag:"Verbs of Perception",src:"Henry Park 2025",
+ q:"She watched the dancers ___ onto the stage with their movements perfectly timed with the music.",
+ opts:["walk","walks","had walked","were walking"],ans:0,
+ exp:"After verbs of perception ('watched'), use the bare infinitive 'walk' to describe a completed action seen in full."},
+
+/* B4 */ {set:"B",n:4,sec:"Grammar",tag:"Subject-Verb Agreement",src:"Henry Park 2026",
+ q:"The class monitor, together with a group of students, ___ very excited about the upcoming National Day celebration.",
+ opts:["is","are","were","have been"],ans:0,
+ exp:"'Together with a group of students' is parenthetical. The main subject 'the class monitor' is singular → 'is'."},
+
+/* B5 */ {set:"B",n:5,sec:"Grammar",tag:"Conjunctions",src:"Henry Park 2026",
+ q:"___ the difficult questions in the paper, Ahmad managed to complete the test on time.",
+ opts:["Due to","Instead of","In spite of","Because of"],ans:2,
+ exp:"'In spite of' (despite) introduces a concession — he completed the test despite the difficult questions. 'Due to' and 'because of' would imply the difficult questions helped him."},
+
+/* B6 */ {set:"B",n:6,sec:"Grammar",tag:"Pronouns",src:"Henry Park 2026",
+ q:"Please keep this secret between you and ___.",
+ opts:["I","me","mine","myself"],ans:1,
+ exp:"After a preposition ('between'), use the object pronoun 'me'. 'I' is a subject pronoun."},
+
+/* B7 */ {set:"B",n:7,sec:"Grammar",tag:"Past Perfect Continuous",src:"Henry Park 2026",
+ q:"By the time I got to school this morning, Candice ___ waiting there for me for 30 minutes.",
+ opts:["was","had been","has been","have been"],ans:1,
+ exp:"'Had been waiting' (past perfect continuous) shows an action that was ongoing in the past before another past action ('I got to school')."},
+
+/* B8 */ {set:"B",n:8,sec:"Grammar",tag:"Conditionals",src:"Henry Park 2026",
+ q:"Had I known about the traffic jam, I ___ a different route.",
+ opts:["will take","would take","will have taken","would have taken"],ans:3,
+ exp:"Inverted third conditional: 'Had I known…I would have taken'. The traffic jam happened and I did not know about it."},
+
+/* B9 */ {set:"B",n:9,sec:"Grammar",tag:"Participle Phrases",src:"Henry Park 2026",
+ q:"___ the good news, my entire family celebrated with joy.",
+ opts:["Receive","Received","To receive","Having received"],ans:3,
+ exp:"'Having received' is a perfect participle phrase — the receiving happened before the celebrating. 'Having + past participle' shows prior completed action."},
+
+/* B10 */ {set:"B",n:10,sec:"Grammar",tag:"Question Tags",src:"Henry Park 2026",
+ q:"\"Let's work together for this project, ___?\" Lydia proposed.",
+ opts:["shall we","may we","can we","will we"],ans:0,
+ exp:"The question tag for 'Let's' is always 'shall we'. This is a fixed rule in English grammar."},
+
+/* B11 */ {set:"B",n:11,sec:"Vocabulary",tag:"Phrasal Verbs",src:"Henry Park 2025",
+ q:"The strong smell of paint really ___ me ___ from working in the room.",
+ opts:["set…up","put…off","take…off","break…up"],ans:1,
+ exp:"'Put off' means to discourage or deter someone from doing something. The smell discouraged him from working there."},
+
+/* B12 */ {set:"B",n:12,sec:"Vocabulary",tag:"Word Choice",src:"Henry Park 2025",
+ q:"The head prefect nominee's speech was ___ with unclear statements that made his position hard to understand.",
+ opts:["factual","concise","ambiguous","straightforward"],ans:2,
+ exp:"'Ambiguous' means open to more than one interpretation, not clear — exactly what 'unclear statements' describes."},
+
+/* B13 */ {set:"B",n:13,sec:"Vocabulary",tag:"Phrasal Verbs",src:"Henry Park 2026",
+ q:"The teacher ___ the students' artwork on the wall.",
+ opts:["put up","set aside","turn down","brought about"],ans:0,
+ exp:"'Put up' means to display or hang something on a wall. 'Set aside' means to reserve; 'turn down' means to reject; 'brought about' means caused."},
+
+/* B14 */ {set:"B",n:14,sec:"Vocabulary",tag:"Word Choice",src:"Henry Park 2026",
+ q:"He disobeyed the rules ___, knowing that his actions would have serious consequences.",
+ opts:["blindly","wilfully","impulsively","unwittingly"],ans:1,
+ exp:"'Wilfully' means deliberately and intentionally — he knew the rules and chose to disobey them. 'Unwittingly' means without knowing."},
+
+/* B15 */ {set:"B",n:15,sec:"Vocabulary",tag:"Word Choice",src:"Henry Park 2026",
+ q:"The residents were ___ when they saw that their house was completely burnt down by the fire, leaving them homeless.",
+ opts:["dejected","disturbed","devastated","disappointed"],ans:2,
+ exp:"'Devastated' means severely and deeply shocked or distressed — appropriate for completely losing one's home. 'Dejected' is milder (sad); 'disappointed' is too mild."},
+
+/* B16 */ {set:"B",n:16,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Henry Park 2025",
+ ctx:"Abel Mutai became <u>bewildered</u> (16) by the signage and stopped, thinking he had completed the race.",
+ q:"Choose the word closest in meaning to 'bewildered'.",
+ opts:["excited","shocked","annoyed","confused"],ans:3,
+ exp:"'Bewildered' means completely puzzled or confused. 'Confused' is the closest synonym."},
+
+/* B17 */ {set:"B",n:17,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Henry Park 2025",
+ ctx:"Ivan Fernandez noticed the situation and <u>signalled</u> (17) the Kenyan to continue running.",
+ q:"Choose the word closest in meaning to 'signalled'.",
+ opts:["forced","followed","gestured","requested"],ans:2,
+ exp:"'Signalled' means communicated by using a gesture or sign. 'Gestured' is the closest synonym."},
+
+/* B18 */ {set:"B",n:18,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Henry Park 2025",
+ ctx:"Mutai could not <u>comprehend</u> (18) the language.",
+ q:"Choose the word closest in meaning to 'comprehend'.",
+ opts:["speak","translate","recognise","understand"],ans:3,
+ exp:"'Comprehend' means to understand fully. 'Understand' is the direct synonym."},
+
+/* B19 */ {set:"B",n:19,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Henry Park 2025",
+ ctx:"Seeing the situation, Fernandez gently <u>nudged</u> (19) Mutai forward.",
+ q:"Choose the word closest in meaning to 'nudged'.",
+ opts:["pulled","guided","tapped","pushed"],ans:1,
+ exp:"'Nudged forward' means gently guided or encouraged someone to move forward. 'Guided' captures the gentle, encouraging nature."},
+
+/* B20 */ {set:"B",n:20,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Henry Park 2025",
+ ctx:"\"If I had taken advantage of the situation, I wouldn't have earned the medal <u>honestly</u> (20).\" — Fernandez",
+ q:"Choose the word closest in meaning to 'honestly'.",
+ opts:["easily","eagerly","rightfully","reluctantly"],ans:2,
+ exp:"'Honestly' in this context means having earned it in a genuine, deserved way. 'Rightfully' (deservedly, legitimately) is the closest synonym."},
+
+/* ╔══════════════════════════════════════
+   ║  SET C — ADVANCED & MIXED
+   ╚══════════════════════════════════════ */
+
+/* C1 */ {set:"C",n:1,sec:"Grammar",tag:"Conditionals",src:"Ai Tong 2026",
+ q:"___ the traffic not been heavy, we would have reached the airport on time.",
+ opts:["Did","Had","Might","Should"],ans:1,
+ exp:"Inverted third conditional: 'Had the traffic not been heavy…' = 'If the traffic had not been heavy…'. 'Had' inverts with the subject in formal/written English."},
+
+/* C2 */ {set:"C",n:2,sec:"Grammar",tag:"Question Tags",src:"Ai Tong 2026",
+ q:"\"I heard Ryan is being awarded the Model Student Award. He's improved immensely in his behaviour, ___ he?\" Mrs Tan commented.",
+ opts:["is","has","isn't","hasn't"],ans:3,
+ exp:"'He's improved' = 'He has improved' (present perfect). The negative question tag is 'hasn't he'."},
+
+/* C3 */ {set:"C",n:3,sec:"Grammar",tag:"Prepositions",src:"Ai Tong 2026",
+ q:"Being declared the winners of the National Volleyball Championships was ___ our wildest dreams.",
+ opts:["of","over","above","beyond"],ans:3,
+ exp:"'Beyond our wildest dreams' is a fixed idiom meaning far greater than anything imagined. 'Beyond' is the correct preposition."},
+
+/* C4 */ {set:"C",n:4,sec:"Grammar",tag:"Gerunds & Infinitives",src:"Ai Tong 2026",
+ q:"Krish insisted on ___ the puzzle before his dinner, refusing to leave it half done.",
+ opts:["complete","completed","completing","completion"],ans:2,
+ exp:"'Insist on' is followed by a gerund (verb + -ing): 'insisted on completing'."},
+
+/* C5 */ {set:"C",n:5,sec:"Grammar",tag:"Subject-Verb Agreement",src:"Ai Tong 2026",
+ q:"\"Neither of us ___ ready to leave the party now,\" whined Kim to her mother.",
+ opts:["is","are","was","were"],ans:0,
+ exp:"'Neither of us' takes a singular verb: 'is'. Despite 'us' being plural, 'neither' makes it singular."},
+
+/* C6 */ {set:"C",n:6,sec:"Grammar",tag:"Comparatives",src:"Ai Tong 2026",
+ q:"\"Working with Nora on this project was ___ than the requirements of the project itself,\" said Jill.",
+ opts:["challenging","as challenging","more challenging","most challenging"],ans:2,
+ exp:"'More…than' is the comparative form. Jill is comparing working with Nora against the project requirements — two things."},
+
+/* C7 */ {set:"C",n:7,sec:"Grammar",tag:"Question Tags",src:"Catholic High 2026",
+ q:"She said that she would attend the rehearsal for the concert later, ___ she?",
+ opts:["did","didn't","would","wouldn't"],ans:3,
+ exp:"'She said she would…' — the auxiliary is 'would', so the question tag is 'wouldn't she'."},
+
+/* C8 */ {set:"C",n:8,sec:"Grammar",tag:"Tense",src:"Catholic High 2026",
+ q:"Ronn wanted to attend the concert because his favourite singer Brono ___ there.",
+ opts:["performed","had performed","had been performing","would be performing"],ans:3,
+ exp:"Ronn 'wanted' (past) to attend because the singer 'would be performing' — future in the past. The concert hadn't happened yet when he made his decision."},
+
+/* C9 */ {set:"C",n:9,sec:"Grammar",tag:"Pronouns",src:"Catholic High 2026",
+ q:"Other than Tom, Jerry and ___, no one else was there.",
+ opts:["I","me","mine","myself"],ans:0,
+ exp:"After 'other than Tom, Jerry and', the pronoun is the subject of an implied verb ('was there') → use subject pronoun 'I'."},
+
+/* C10 */ {set:"C",n:10,sec:"Grammar",tag:"Future Perfect Continuous",src:"Catholic High 2026",
+ q:"We need to stop searching and rest. We ___ for more than twenty hours once the morning comes.",
+ opts:["will search","have searched","have been searching","will have been searching"],ans:3,
+ exp:"'Once the morning comes' signals a future point. By then, the searching will have been ongoing — future perfect continuous: 'will have been searching'."},
+
+/* C11 */ {set:"C",n:11,sec:"Vocabulary",tag:"Adverbs",src:"Catholic High 2026",
+ q:"After discussing the matter for over an hour, the judges voted ___ to disqualify the participant.",
+ opts:["mutually","intuitively","concurrently","unanimously"],ans:3,
+ exp:"'Unanimously' means all members voted the same way without any disagreement. 'Mutually' means shared between two parties; 'concurrently' means at the same time."},
+
+/* C12 */ {set:"C",n:12,sec:"Vocabulary",tag:"Word Choice",src:"Catholic High 2026",
+ q:"After insisting for hours that he had not broken the vase, Ryan finally ___ that he had knocked it over while chasing the cat.",
+ opts:["denied","conceded","questioned","surrendered"],ans:1,
+ exp:"'Conceded' means admitted something reluctantly, especially after initially denying it. 'Surrendered' is too physical; 'denied' is the opposite."},
+
+/* C13 */ {set:"C",n:13,sec:"Vocabulary",tag:"Word Choice",src:"Catholic High 2026",
+ q:"Corruption is often ___ in countries where laws are not strictly enforced.",
+ opts:["rampant","bountiful","stringent","infamous"],ans:0,
+ exp:"'Rampant' means spreading unchecked and widespread. 'Bountiful' means generous/plentiful (positive); 'stringent' means strict."},
+
+/* C14 */ {set:"C",n:14,sec:"Vocabulary",tag:"Phrasal Verbs",src:"Catholic High 2026",
+ q:"The discipline master quickly ___ the fight between Eddie and Dylon before anyone got injured.",
+ opts:["broke up","broke off","broke down","broke away"],ans:0,
+ exp:"'Broke up' means stopped a fight by separating the people involved. 'Broke off' means ended (a relationship/negotiation); 'broke down' means stopped working or lost control emotionally."},
+
+/* C15 */ {set:"C",n:15,sec:"Vocabulary",tag:"Word Choice",src:"Catholic High 2026",
+ q:"After the competition, the players from every team showed ___ by gathering together to sing at the closing ceremony.",
+ opts:["solidarity","tolerance","alignment","consensus"],ans:0,
+ exp:"'Solidarity' means unity and mutual support — all players from every team coming together demonstrates this. 'Consensus' means general agreement; 'tolerance' means accepting differences."},
+
+/* C16 */ {set:"C",n:16,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Ai Tong 2026",
+ ctx:"This arrival marked a <u>significant</u> (16) milestone as these were the first-ever cubs of their kind to be born here.",
+ q:"Choose the word closest in meaning to 'significant'.",
+ opts:["historic","important","memorable","extraordinary"],ans:1,
+ exp:"'Significant' means notable and having a meaningful impact. 'Important' is the most direct synonym."},
+
+/* C17 */ {set:"C",n:17,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Ai Tong 2026",
+ ctx:"Experts hope the birth of these cubs will <u>boost</u> (17) the shrinking population of this endangered species.",
+ q:"Choose the word closest in meaning to 'boost'.",
+ opts:["restore","increase","preserve","replenish"],ans:1,
+ exp:"'Boost' means to increase or raise. 'Increase' is the most direct synonym in this context."},
+
+/* C18 */ {set:"C",n:18,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Henry Park 2026",
+ ctx:"Professor Marlo was a well-known inventor. His workshop was a <u>cluster</u> (16) of tubes, levers and spinning wheels.",
+ q:"Choose the word closest in meaning to 'cluster'.",
+ opts:["unit","section","display","collection"],ans:3,
+ exp:"'Cluster' means a group or collection of things gathered together. 'Collection' is the closest synonym."},
+
+/* C19 */ {set:"C",n:19,sec:"Vocabulary Cloze",tag:"Synonyms",src:"Henry Park 2026",
+ ctx:"His assistant, Pip, looking <u>dead on his feet</u> (17), approached the workshop door and froze.",
+ q:"Choose the word closest in meaning to 'dead on his feet'.",
+ opts:["wary","clumsy","deprived","exhausted"],ans:3,
+ exp:"'Dead on his feet' is an idiom meaning extremely tired. 'Exhausted' is the closest synonym."},
+
+/* C20 */ {set:"C",n:20,sec:"Visual Text",tag:"Visual Text Comprehension",src:"Nan Hua 2026",
+ ctx:"Text 1 (Peaks School Bag poster) promotes fitting everything into one bag. Text 2 (online article) warns about carrying too many items straining your back.",
+ q:"Text 1 and Text 2 express differing views on whether students should ___.",
+ opts:["store certain items in school","choose bags with padded backs","fit everything into their school bags","express personality through bag choice"],ans:2,
+ exp:"Text 1 promotes fitting everything into one bag ('Fit your entire school day into one bag!'). Text 2 warns against this ('Carrying too many items strains your back'). They disagree on whether students should fit everything into one bag."},
+
+];
+
+/* ════ engine ════ */
+const SETS = ["A","B","C"];
+const SET_LABELS = {A:"Set A — Grammar Focus", B:"Set B — Vocabulary & Mixed", C:"Set C — Advanced & Mixed"};
+const SET_SUB   = {A:"20 questions · Grammar deep-dive", B:"20 questions · Vocabulary focus", C:"20 questions · Mixed challenge"};
+
+function shuffle(a){return[...a].sort(()=>Math.random()-.5)}
+
+let S={
+  mode:"home", set:"A", cardMode:"flip",
+  deck:[], idx:0, flipped:false, picked:null, checked:false,
+  score:0, secScore:{}, streak:0, bestStreak:0,
+  done:false, showErr:false, opts:[]
+};
+
+function getDeck(set){return QS.filter(q=>q.set===set).sort((a,b)=>a.n-b.n)}
+function startDeck(){
+  S.deck=shuffle(getDeck(S.set));
+  S.idx=0;S.flipped=false;S.picked=null;S.checked=false;
+  S.score=0;S.streak=0;S.bestStreak=0;S.done=false;S.showErr=false;S.opts=[];
+  S.secScore={};
+  ["Grammar","Vocabulary","Vocabulary Cloze","Visual Text"].forEach(s=>{S.secScore[s]={c:0,n:0}});
+  S.mode="quiz";render();
+}
+
+function render(){
+  const el=document.getElementById("content");
+  if(S.mode==="home"){renderHome(el);}
+  else if(S.done){renderResult(el);}
+  else{renderCard(el);}
+}
+
+function setColor(set){return{A:"var(--setA)",B:"var(--setB)",C:"var(--setC)"}[set]}
+function setBtn(set){return`btn-${set}`}
+function pillClass(set){return{A:"pa",B:"pb",C:"pc"}[set]}
+
+function renderHome(el){
+  el.innerHTML=`
+<div class="mode-row">
+  <button class="mode-btn${S.cardMode==="flip"?" on":""}" onclick="S.cardMode='flip';this.parentNode.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">
+    <i class="ti ti-cards" style="font-size:15px;vertical-align:-2px;margin-right:5px"></i>Flip + MCQ</button>
+  <button class="mode-btn${S.cardMode==="mcq"?" on":""}" onclick="S.cardMode='mcq';this.parentNode.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">
+    <i class="ti ti-list-check" style="font-size:15px;vertical-align:-2px;margin-right:5px"></i>MCQ only</button>
+</div>
+<div class="set-tabs">
+  ${SETS.map(s=>`
+  <button class="set-tab${S.set===s?" on-"+s:""}" onclick="S.set='${s}';document.querySelectorAll('.set-tab').forEach(b=>b.className='set-tab');this.className='set-tab on-${s}';updateSetInfo()">
+    <div style="font-size:16px;margin-bottom:3px"><i class="ti ti-${s==='A'?'bolt':s==='B'?'book':'brain'}" style="vertical-align:-2px"></i> Set ${s}</div>
+    <div class="set-info">${SET_SUB[s]}</div>
+  </button>`).join("")}
+</div>
+<div id="set-info-box" class="home-card">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:1rem">
+    <div>
+      <div style="font-size:16px;font-weight:500" id="si-title">${SET_LABELS[S.set]}</div>
+      <div style="font-size:13px;color:var(--tm);margin-top:3px" id="si-sub">Schools: ${getSchools(S.set)}</div>
+    </div>
+    <span class="pill ${pillClass(S.set)}" id="si-pill">20 cards</span>
+  </div>
+  <div id="si-tags" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:1rem">${getTagPills(S.set)}</div>
+  <button class="${setBtn(S.set)}" onclick="startDeck()" style="padding:9px 22px;border-radius:var(--r);font-size:14px;cursor:pointer;font-family:var(--font);color:#fff;border:none;background:${setColor(S.set)}">
+    Start Set ${S.set} <i class="ti ti-arrow-right" style="font-size:14px;vertical-align:-2px"></i>
+  </button>
+</div>
+<div class="info-box">
+  <strong style="color:var(--tp)">Flip + MCQ:</strong> Click the card to reveal the answer on the back, then test yourself from 4 options.<br>
+  <strong style="color:var(--tp)">MCQ only:</strong> Answer directly without flipping.<br><br>
+  Questions drawn from: Ai Tong, Methodist Girls, Henry Park, Red Swastika, Catholic High, Nan Hua, Nanyang, Raffles Girls, ACS Junior, St Nicholas, Tao Nan — 2025 &amp; 2026 prelims. Each set has 20 questions with full explanations.
+</div>`;
+}
+
+function getSchools(set){
+  return [...new Set(QS.filter(q=>q.set===set).map(q=>q.src))].join(", ");
+}
+function getTagPills(set){
+  const tags=[...new Set(QS.filter(q=>q.set===set).map(q=>q.tag))];
+  const cls={A:"pa",B:"pb",C:"pc"}[set];
+  return tags.map(t=>`<span class="pill ${cls}" style="font-size:11px">${t}</span>`).join("");
+}
+function updateSetInfo(){
+  document.getElementById("si-title").textContent=SET_LABELS[S.set];
+  document.getElementById("si-sub").textContent="Schools: "+getSchools(S.set);
+  document.getElementById("si-pill").className="pill "+pillClass(S.set);
+  document.getElementById("si-tags").innerHTML=getTagPills(S.set);
+}
+
+function renderCard(el){
+  const q=S.deck[S.idx];
+  const pct=Math.round((S.idx/S.deck.length)*100);
+  const set=S.set;
+  if(!S.checked||S.opts.length===0){
+    let o4=shuffle([q.opts[q.ans],...q.opts.filter((_,i)=>i!==q.ans)]).slice(0,4);
+    if(!o4.includes(q.opts[q.ans])){o4[0]=q.opts[q.ans];o4=shuffle(o4);}
+    S.opts=o4;
+  }
+  const opts=S.opts;
+  const isFlip=S.cardMode==="flip";
+  const pCls=pillClass(set);
+  const col=setColor(set);
+
+  const ctxHTML=q.ctx?`<div class="ctx"><strong style="color:var(--tp)">Context:</strong> ${q.ctx}</div>`:"";
+
+  const optsHTML=`<div class="opts">${opts.map((o,i)=>{
+    let cls="opt";
+    if(S.checked){
+      if(o===q.opts[q.ans])cls+=" correct";
+      else if(o===S.picked&&S.picked!==q.opts[q.ans])cls+=" wrong";
+    } else if(o===S.picked)cls+=" sel";
+    return `<button class="${cls}" onclick="pick(${i})" ${S.checked?"disabled":""}><span class="opt-lbl">${["A","B","C","D"][i]}.</span><span>${o}</span></button>`;
+  }).join("")}</div>`;
+
+  const expHTML=S.checked?`<div class="exp"><strong style="color:${S.picked===q.opts[q.ans]?"var(--ts2)":"var(--td)"}">${S.picked===q.opts[q.ans]?"✓ Correct!":"✗ Incorrect."}</strong> ${q.exp}</div>`:"";
+  const errHTML=S.showErr?`<div class="err">Please select an answer first.</div>`:"";
+
+  let actionHTML="";
+  if(!S.checked&&(!isFlip||S.flipped)){
+    actionHTML=`<button class="${setBtn(set)}" onclick="checkAns()" style="background:${col};color:#fff;border-color:${col}">Check answer</button>`;
+  }
+  if(S.checked){
+    actionHTML=`<button class="${setBtn(set)}" onclick="nextCard()" style="background:${col};color:#fff;border-color:${col}">${S.idx+1>=S.deck.length?"See results →":"Next card →"}</button>`;
+  }
+
+  el.innerHTML=`
+<div class="topbar">
+  <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+    <span class="pill ${pCls}">Set ${set}</span>
+    <span class="pill pg">${q.tag}</span>
+    <span class="pill pv">${q.sec}</span>
+    ${S.streak>1?`<span class="pill ps"><i class="ti ti-flame" style="font-size:11px;vertical-align:-1px"></i> ${S.streak}</span>`:""}
+  </div>
+  <span style="font-size:13px;color:var(--ts)">Q${S.idx+1}/20 · ${S.score} correct</span>
+</div>
+<div class="pbar-wrap"><div class="pbar pbar-${set}" style="width:${pct}%"></div></div>
+
+${isFlip?`
+<div class="card-scene" onclick="flipCard()" tabindex="0" role="button" aria-label="Flip card" onkeydown="if(event.key==='Enter'||event.key===' ')flipCard()">
+  <div class="card-3d${S.flipped?" flipped":""}" id="c3d">
+    <div class="face">
+      <div class="face-meta">
+        <span class="q-num">Q${q.n}</span>
+        <span class="pill pg" style="font-size:11px">${q.tag}</span>
+        <span style="font-size:11px;color:var(--tm)">${q.src}</span>
+      </div>
+      <div class="face-q">${q.q}</div>
+      ${!S.flipped?`<div class="face-hint"><i class="ti ti-refresh" style="font-size:13px"></i> Click to reveal answer</div>`:""}
+    </div>
+    <div class="face face-back">
+      <div class="face-label">Answer</div>
+      <div class="face-ans">${q.opts[q.ans]}</div>
+      ${q.exp?`<div style="margin-top:.6rem;font-size:12px;color:var(--tm);line-height:1.5">${q.exp}</div>`:""}
+    </div>
+  </div>
+</div>
+${ctxHTML}${S.flipped?optsHTML:""}`
+:`<div style="background:var(--s2);border:0.5px solid var(--bd);border-radius:12px;padding:1.25rem;margin-bottom:.9rem">
+  <div style="display:flex;gap:6px;margin-bottom:.6rem;flex-wrap:wrap;align-items:center">
+    <span class="q-num">Q${q.n}</span>
+    <span class="pill pg" style="font-size:11px">${q.tag}</span>
+    <span style="font-size:11px;color:var(--tm)">${q.src}</span>
+  </div>
+  <div class="face-q">${q.q}</div>
+</div>
+${ctxHTML}${optsHTML}`}
+
+${errHTML}${expHTML}
+<div class="actions">
+  ${actionHTML}
+  <button onclick="S.mode='home';render()"><i class="ti ti-arrow-left" style="font-size:13px;vertical-align:-1px"></i> Back</button>
+</div>`;
+}
+
+function flipCard(){
+  if(S.checked)return;
+  S.flipped=!S.flipped;
+  const c=document.getElementById("c3d");
+  if(c)c.classList.toggle("flipped",S.flipped);
+  if(S.flipped)render();
+}
+function pick(i){if(S.checked)return;S.picked=S.opts[i];S.showErr=false;render();}
+function checkAns(){
+  if(S.picked===null){S.showErr=true;render();return;}
+  const q=S.deck[S.idx];
+  S.checked=true;S.showErr=false;
+  const sec=q.sec;
+  if(!S.secScore[sec])S.secScore[sec]={c:0,n:0};
+  if(S.picked===q.opts[q.ans]){
+    S.score++;S.streak++;if(S.streak>S.bestStreak)S.bestStreak=S.streak;
+    S.secScore[sec].c++;
+  } else S.streak=0;
+  S.secScore[sec].n++;
+  render();
+}
+function nextCard(){
+  if(S.idx+1>=S.deck.length){S.done=true;render();return;}
+  S.idx++;S.flipped=false;S.picked=null;S.checked=false;S.showErr=false;S.opts=[];render();
+}
+
+function renderResult(el){
+  const total=S.deck.length;
+  const pct=Math.round((S.score/total)*100);
+  const grade=pct>=90?"AL1 — Excellent":pct>=75?"AL2 — Good":pct>=60?"AL3 — Fair":pct>=45?"AL4 — Pass":"Needs more practice";
+  const gc=pct>=75?"var(--ts2)":pct>=60?"var(--setA)":pct>=45?"var(--tw)":"var(--td)";
+  const col=setColor(S.set);
+  const pCls=pillClass(S.set);
+
+  const secColors={A:"var(--setA)",B:"var(--setB)",C:"var(--setC)"};
+  const rows=Object.entries(S.secScore).filter(([,v])=>v.n>0).map(([sec,v])=>{
+    const p=Math.round((v.c/v.n)*100);
+    return `<div class="sr">
+      <span class="sr-name">${sec}</span>
+      <div class="sr-track"><div class="sr-fill" style="width:${p}%;background:${col}"></div></div>
+      <span class="sr-pct">${p}%</span>
+    </div>`;
+  }).join("");
+
+  // suggest next set
+  const nextSet={A:"B",B:"C",C:"A"}[S.set];
+  const nextLabel={A:"Set B",B:"Set C",C:"Set A"}[S.set];
+
+  el.innerHTML=`
+<div class="result-card">
+  <div style="margin-bottom:.5rem">
+    <span class="pill ${pCls}">Set ${S.set} Complete</span>
+  </div>
+  <div style="font-size:52px;font-weight:500;line-height:1;color:var(--tp)">${S.score}<span style="font-size:22px;color:var(--ts)">/${total}</span></div>
+  <div style="font-size:15px;color:var(--ts);margin:.5rem 0 1.1rem">${pct}% — <span style="font-weight:500;color:${gc}">${grade}</span></div>
+  <div class="result-grid">
+    <div class="rcard"><div class="rnum" style="color:var(--ts2)">${S.score}</div><div class="rlbl">Correct</div></div>
+    <div class="rcard"><div class="rnum" style="color:var(--td)">${total-S.score}</div><div class="rlbl">Wrong</div></div>
+    <div class="rcard"><div class="rnum">${S.bestStreak}</div><div class="rlbl">Best streak</div></div>
+  </div>
+  ${rows?`<div class="sec-rows">${rows}</div>`:""}
+  <div style="display:flex;gap:8px;justify-content:center;margin-top:1.4rem;flex-wrap:wrap">
+    <button onclick="startDeck()" style="background:${col};color:#fff;border-color:${col};padding:9px 18px;border-radius:var(--r);font-size:14px;cursor:pointer;font-family:var(--font);border:none">
+      Retry Set ${S.set} <i class="ti ti-refresh" style="font-size:13px;vertical-align:-1px"></i>
+    </button>
+    <button onclick="S.set='${nextSet}';S.mode='home';render()">
+      Try ${nextLabel} <i class="ti ti-arrow-right" style="font-size:13px;vertical-align:-1px"></i>
+    </button>
+    <button onclick="S.mode='home';render()">Back to sets</button>
+  </div>
+</div>`;
+}
+
+render();
+</script>
+</body>
+</html>
