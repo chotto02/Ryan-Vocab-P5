@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yuya · P3 English Booklet B Practice</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;1,400&display=swap');
+  :root{
+    --ink:#1C1C1E;--ink2:#3A3A3C;--ink3:#636366;--muted:#AEAEB2;
+    --rule:#E5E5EA;--surface:#F8F8F6;--white:#fff;
+    --green:#2D6A4F;--greenl:#D8F3DC;--greenm:#52B788;
+    --blue:#1A4E8A;--bluel:#DBEAFE;--bluem:#3B82C4;
+    --amber:#B5451B;--amberl:#FEE8D6;--amberm:#E07A3A;
+    --purple:#4C1D95;--purplel:#EDE9FE;--purplem:#7C3AED;
+    --teal:#134E4A;--teall:#CCFBF1;--tealm:#0D9488;
+    --rose:#881337;--rosel:#FFE4E6;--rosem:#E11D48;
+    --ok:#155724;--okbg:#D1FAE5;--err:#9B1C1C;--errbg:#FEF2F2;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;font-size:15px;line-height:1.6}
+  .page{max-width:740px;margin:0 auto;padding:2rem 1.25rem 5rem}
+  /* HOME */
+  .home-title{font-family:'Lora',Georgia,serif;font-size:26px;font-weight:600;margin-bottom:4px}
+  .home-sub{font-size:13px;color:var(--ink3);margin-bottom:1.5rem}
+  .type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+  @media(max-width:520px){.type-grid{grid-template-columns:1fr 1fr}}
+  .type-card{background:var(--white);border:1px solid var(--rule);border-radius:14px;padding:1.1rem 1rem;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+  .type-card:hover{border-color:#bbb;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .type-card:active{transform:scale(.98)}
+  .tbadge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-bottom:8px}
+  .tname{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px}
+  .tdesc{font-size:12px;color:var(--ink3);line-height:1.35}
+  .tmeta{font-size:11px;color:var(--muted);margin-top:6px}
+  .info-box{background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:1rem 1.25rem;font-size:13px;color:var(--ink2);line-height:1.65}
+  /* QUIZ */
+  .quiz-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+  .q-setname{font-size:14px;font-weight:500;color:var(--ink)}
+  .q-meta{font-size:12px;color:var(--ink3)}
+  .prog-row{display:flex;align-items:center;gap:10px;margin-bottom:1rem;font-size:12px;color:var(--ink3)}
+  .prog-bar{flex:1;height:3px;background:var(--rule);border-radius:2px}
+  .prog-fill{height:3px;border-radius:2px;transition:width .3s}
+  .score-row{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
+  .sc{background:var(--white);border:1px solid var(--rule);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--ink3)}
+  .sc span{display:block;font-size:16px;font-weight:600;color:var(--ink)}
+  .q-card{background:var(--white);border:1px solid var(--rule);border-radius:14px;padding:1.5rem;margin-bottom:1rem}
+  .q-chip{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:8px}
+  .q-school{font-size:11px;color:var(--muted);margin-bottom:8px}
+  .q-label{font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+  .q-passage{font-family:'Lora',serif;font-size:14px;color:var(--ink2);line-height:1.7;background:var(--surface);border-left:3px solid var(--rule);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin-bottom:1.25rem;white-space:pre-line}
+  .q-sentence{font-family:'Lora',serif;font-size:15px;color:var(--ink);font-weight:500;background:#F4F4F1;border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;line-height:1.6}
+  .q-text{font-size:15px;font-weight:500;line-height:1.55;color:var(--ink);margin-bottom:1.25rem}
+  .opts{display:flex;flex-direction:column;gap:7px}
+  .opt{padding:10px 15px;border:1px solid var(--rule);border-radius:10px;font-size:14px;cursor:pointer;background:var(--surface);color:var(--ink2);text-align:left;font-family:inherit;line-height:1.4;transition:border-color .12s,background .12s}
+  .opt:hover{background:#F0F0EE;border-color:#bbb}
+  .opt.correct{background:var(--okbg);border-color:var(--greenm);color:var(--ok)}
+  .opt.wrong{background:var(--errbg);border-color:var(--rosem);color:var(--err)}
+  .feedback{font-size:13px;padding:10px 14px;border-radius:8px;margin:.75rem 0;line-height:1.5}
+  .fb-ok{background:var(--okbg);color:var(--ok)}
+  .fb-err{background:var(--errbg);color:var(--err)}
+  .q-nav{display:flex;gap:8px;align-items:center;margin-top:.75rem}
+  .q-nav .spacer{flex:1}
+  .done-card{background:var(--white);border:1px solid var(--rule);border-radius:14px;padding:2rem;text-align:center;margin-top:1rem}
+  .done-score{font-family:'Lora',serif;font-size:52px;font-weight:600}
+  .done-grade{display:inline-block;padding:4px 16px;border-radius:20px;font-size:13px;font-weight:600;margin:8px 0 16px}
+  .grade-great{background:var(--okbg);color:var(--ok)}
+  .grade-good{background:var(--bluel);color:var(--blue)}
+  .grade-ok{background:var(--amberl);color:var(--amber)}
+  .grade-low{background:var(--errbg);color:var(--err)}
+  .topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:1rem 0}
+  @media(max-width:480px){.topic-grid{grid-template-columns:1fr 1fr}}
+  .ts{background:var(--surface);border-radius:8px;padding:8px 12px}
+  .ts p{font-size:11px;color:var(--ink3)}
+  .ts span{font-size:15px;font-weight:600;color:var(--ink)}
+  button{padding:8px 18px;border:1px solid var(--rule);border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:var(--white);color:var(--ink);font-family:inherit;transition:background .1s}
+  button:hover{background:#F0F0EE;border-color:#bbb}
+  button.primary{background:var(--green);border-color:var(--green);color:#fff}
+  button.primary:hover{background:var(--greenm);border-color:var(--greenm)}
+  .hidden{display:none!important}
+  /* badge colours */
+  .bc{background:var(--bluel);color:var(--blue)}
+  .gc{background:var(--greenl);color:var(--green)}
+  .ac{background:var(--amberl);color:var(--amber)}
+  .pc{background:var(--purplel);color:var(--purple)}
+  .tc{background:var(--teall);color:var(--teal)}
+  .rc{background:var(--rosel);color:var(--rose)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div id="homeScreen">
+  <div style="margin-bottom:1.5rem">
+    <div class="home-title">P3 English — Booklet B Practice</div>
+    <div class="home-sub">10 sets · 20 questions each · Grammar Cloze · Editing · Comprehension OEQ · From 2025 school papers</div>
+  </div>
+  <div class="type-grid" id="setGrid"></div>
+  <div class="info-box">
+    <strong>What is Booklet B?</strong> Booklet B tests three skills: <strong>Grammar Cloze</strong> (choose the correct word to fill a blank in a passage), <strong>Editing</strong> (spot punctuation and grammar errors), and <strong>Comprehension OEQ</strong> (answer questions about a reading passage — True/False, sequence ordering, and short answers adapted as MCQ). All questions are based on 2025 EOY papers from ACS Junior, ACS Primary, Ai Tong, Henry Park, Maha Bodhi, Nan Hua, Nanyang, Raffles Girls, Rosyth, St Hilda, St Nicholas and Tao Nan.
+  </div>
+</div>
+
+<div id="quizScreen" class="hidden">
+  <div class="quiz-hdr">
+    <div>
+      <div class="q-setname" id="qSetName"></div>
+      <div class="q-meta" id="qMeta"></div>
+    </div>
+    <button onclick="backHome()" style="font-size:12px;padding:5px 12px">← Sets</button>
+  </div>
+  <div class="score-row" id="scoreRow"></div>
+  <div class="prog-row">
+    <span id="progLabel">0/20</span>
+    <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <span id="progPct">0%</span>
+  </div>
+  <div class="q-card" id="qCard"></div>
+  <div id="feedback" class="hidden"></div>
+  <div class="q-nav">
+    <button onclick="prevQ()" id="prevBtn">← Prev</button>
+    <div class="spacer"></div>
+    <button onclick="nextQ()" id="nextBtn" class="primary hidden">Next →</button>
+  </div>
+</div>
+
+<div id="doneScreen" class="hidden">
+  <div class="done-card">
+    <div style="font-size:13px;color:var(--ink3);margin-bottom:6px" id="doneSetName"></div>
+    <div class="done-score" id="doneScore"></div>
+    <div style="font-size:14px;color:var(--ink3);margin-bottom:4px" id="donePct"></div>
+    <div class="done-grade" id="doneGrade"></div>
+    <div class="topic-grid" id="topicGrid"></div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:1rem">
+      <button onclick="backHome()">← All sets</button>
+      <button class="primary" onclick="restartSet()">Try again</button>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+// ─────────────────────────────────────────────
+// Q types: GC=Grammar Cloze, ED=Editing, CO=Comprehension OEQ
+// Each Q: {t, school, label(optional), passage(optional), sentence(optional), q, o:[4], a:idx, e}
+// ─────────────────────────────────────────────
+const SETS = [
+
+// ══════════════════════════════════════════════
+// SET 1 — Grammar Cloze: Verb Forms in Passages
+// ══════════════════════════════════════════════
+{name:"Set 1 · Grammar Cloze — Verb Forms",color:"bc",desc:"Fill in the correct verb in a passage",qs:[
+{t:"GC",school:"Nanyang",label:"Grammar Cloze",
+passage:"The cheetah is the fastest land animal. Every morning, it ___1___ across the open field at incredible speed. Many animals ___2___ at night to find food. The cheetah, however, ___3___ during the day. It uses its excellent eyesight to spot its prey. Once it sees a target, it ___4___ towards it at full speed.",
+q:"Choose the correct word for blank 1: 'it _____ across the open field'",o:["sprint","sprints","sprinted","sprinting"],a:1,e:"'It' is singular third-person. Present tense habitual action: 'sprints'."},
+{t:"GC",school:"Nanyang",label:"Grammar Cloze",
+passage:"The cheetah is the fastest land animal. Every morning, it ___1___ across the open field at incredible speed. Many animals ___2___ at night to find food. The cheetah, however, ___3___ during the day. It uses its excellent eyesight to spot its prey. Once it sees a target, it ___4___ towards it at full speed.",
+q:"Choose the correct word for blank 2: 'Many animals _____ at night'",o:["hunt","hunts","hunted","hunting"],a:0,e:"'Many animals' is plural — use the base form 'hunt' for present tense."},
+{t:"GC",school:"Nanyang",label:"Grammar Cloze",
+passage:"The cheetah is the fastest land animal. Every morning, it ___1___ across the open field at incredible speed. Many animals ___2___ at night to find food. The cheetah, however, ___3___ during the day. It uses its excellent eyesight to spot its prey. Once it sees a target, it ___4___ towards it at full speed.",
+q:"Choose the correct word for blank 3: 'The cheetah _____ during the day'",o:["hunt","hunts","hunted","hunting"],a:1,e:"'The cheetah' is singular third-person. Present tense: 'hunts'."},
+{t:"GC",school:"Nanyang",label:"Grammar Cloze",
+passage:"The cheetah is the fastest land animal. Every morning, it ___1___ across the open field at incredible speed. Many animals ___2___ at night to find food. The cheetah, however, ___3___ during the day. It uses its excellent eyesight to spot its prey. Once it sees a target, it ___4___ towards it at full speed.",
+q:"Choose the correct word for blank 4: 'it _____ towards it at full speed'",o:["sprint","sprints","sprinted","sprinting"],a:1,e:"'It' is singular, present tense action that happens repeatedly: 'sprints'."},
+{t:"GC",school:"ACS Junior",label:"Grammar Cloze",
+passage:"The apple originated in Central Asia. Many different varieties ___5___ in the region. People from different countries ___6___ the tradition of eating apples to stay healthy. Scientists ___7___ that the apple ___8___ one of the most nutritious fruits in the world.",
+q:"Choose the correct word for blank 5: 'Many different varieties _____ in the region'",o:["exist","exists","existed","existing"],a:0,e:"'Many different varieties' is plural — present tense base form: 'exist'."},
+{t:"GC",school:"ACS Junior",label:"Grammar Cloze",
+passage:"The apple originated in Central Asia. Many different varieties ___5___ in the region. People from different countries ___6___ the tradition of eating apples to stay healthy. Scientists ___7___ that the apple ___8___ one of the most nutritious fruits in the world.",
+q:"Choose the correct word for blank 6: 'People _____ the tradition of eating apples'",o:["encourage","encourages","encouraged","encouraging"],a:0,e:"'People' is plural — base form 'encourage' is correct for present tense."},
+{t:"GC",school:"ACS Junior",label:"Grammar Cloze",
+passage:"The apple originated in Central Asia. Many different varieties ___5___ in the region. People from different countries ___6___ the tradition of eating apples to stay healthy. Scientists ___7___ that the apple ___8___ one of the most nutritious fruits in the world.",
+q:"Choose the correct word for blank 7: 'Scientists _____ that the apple is nutritious'",o:["say","says","said","saying"],a:0,e:"'Scientists' is plural — present tense base form: 'say'."},
+{t:"GC",school:"ACS Junior",label:"Grammar Cloze",
+passage:"The apple originated in Central Asia. Many different varieties ___5___ in the region. People from different countries ___6___ the tradition of eating apples to stay healthy. Scientists ___7___ that the apple ___8___ one of the most nutritious fruits in the world.",
+q:"Choose the correct word for blank 8: 'the apple _____ one of the most nutritious fruits'",o:["are","is","were","being"],a:1,e:"'The apple' is singular — 'is' is correct (subject-verb agreement in present tense)."},
+{t:"GC",school:"Maha Bodhi",label:"Grammar Cloze",
+passage:"Yesterday, Lena ___9___ at the starting line with the other athletes. When the whistle ___10___, they all ___11___ forward. Lena ___12___ first to the finishing line and the crowd ___13___ loudly.",
+q:"Choose the correct word for blank 9: 'Lena _____ at the starting line'",o:["stand","stands","stood","standing"],a:2,e:"'Yesterday' signals past tense. Simple past of 'stand' is 'stood'."},
+{t:"GC",school:"Maha Bodhi",label:"Grammar Cloze",
+passage:"Yesterday, Lena ___9___ at the starting line with the other athletes. When the whistle ___10___, they all ___11___ forward. Lena ___12___ first to the finishing line and the crowd ___13___ loudly.",
+q:"Choose the correct word for blank 10: 'when the whistle _____'",o:["blow","blows","blew","blowing"],a:2,e:"Past tense is needed here. Simple past of 'blow' is 'blew'."},
+{t:"GC",school:"Maha Bodhi",label:"Grammar Cloze",
+passage:"Yesterday, Lena ___9___ at the starting line with the other athletes. When the whistle ___10___, they all ___11___ forward. Lena ___12___ first to the finishing line and the crowd ___13___ loudly.",
+q:"Choose the correct word for blank 11: 'they all _____ forward'",o:["dash","dashes","dashed","dashing"],a:2,e:"Past tense with 'they': simple past 'dashed'."},
+{t:"GC",school:"Maha Bodhi",label:"Grammar Cloze",
+passage:"Yesterday, Lena ___9___ at the starting line with the other athletes. When the whistle ___10___, they all ___11___ forward. Lena ___12___ first to the finishing line and the crowd ___13___ loudly.",
+q:"Choose the correct word for blank 12: 'Lena _____ first to the finishing line'",o:["race","races","raced","racing"],a:2,e:"Past tense, singular subject 'Lena': 'raced'."},
+{t:"GC",school:"Maha Bodhi",label:"Grammar Cloze",
+passage:"Yesterday, Lena ___9___ at the starting line with the other athletes. When the whistle ___10___, they all ___11___ forward. Lena ___12___ first to the finishing line and the crowd ___13___ loudly.",
+q:"Choose the correct word for blank 13: 'the crowd _____ loudly'",o:["cheer","cheers","cheered","cheering"],a:2,e:"Past tense. Simple past of 'cheer' is 'cheered'."},
+{t:"GC",school:"Rosyth",label:"Grammar Cloze",
+passage:"The chameleon ___14___ itself from predators by changing colour. It ___15___ its colour in just a few seconds. The chameleon ___16___ slowly on branches and ___17___ leaves to hide. Scientists ___18___ that it ___19___ its strong sense of smell to survive.",
+q:"Choose the correct word for blank 14: 'The chameleon _____ itself from predators'",o:["hide","hides","hid","hiding"],a:1,e:"'The chameleon' is singular, present tense habitual: 'hides'."},
+{t:"GC",school:"Rosyth",label:"Grammar Cloze",
+passage:"The chameleon ___14___ itself from predators by changing colour. It ___15___ its colour in just a few seconds. The chameleon ___16___ slowly on branches and ___17___ leaves to hide. Scientists ___18___ that it ___19___ its strong sense of smell to survive.",
+q:"Choose the correct word for blank 15: 'It _____ its colour in just a few seconds'",o:["change","changes","changed","changing"],a:1,e:"'It' is singular third-person, present tense habitual: 'changes'."},
+{t:"GC",school:"Rosyth",label:"Grammar Cloze",
+passage:"The chameleon ___14___ itself from predators by changing colour. It ___15___ its colour in just a few seconds. The chameleon ___16___ slowly on branches and ___17___ leaves to hide. Scientists ___18___ that it ___19___ its strong sense of smell to survive.",
+q:"Choose the correct word for blank 16: 'The chameleon _____ slowly on branches'",o:["crawl","crawls","crawled","crawling"],a:1,e:"Present tense, singular 'The chameleon': 'crawls'."},
+{t:"GC",school:"Rosyth",label:"Grammar Cloze",
+passage:"The chameleon ___14___ itself from predators by changing colour. It ___15___ its colour in just a few seconds. The chameleon ___16___ slowly on branches and ___17___ leaves to hide. Scientists ___18___ that it ___19___ its strong sense of smell to survive.",
+q:"Choose the correct word for blank 17: 'and _____ leaves to hide'",o:["use","uses","used","using"],a:1,e:"The subject is still 'The chameleon' (singular): 'uses'."},
+{t:"GC",school:"Rosyth",label:"Grammar Cloze",
+passage:"The chameleon ___14___ itself from predators by changing colour. It ___15___ its colour in just a few seconds. The chameleon ___16___ slowly on branches and ___17___ leaves to hide. Scientists ___18___ that it ___19___ its strong sense of smell to survive.",
+q:"Choose the correct word for blank 18: 'Scientists _____ that it uses its sense of smell'",o:["say","says","said","saying"],a:0,e:"'Scientists' is plural, present tense: 'say'."},
+{t:"GC",school:"Rosyth",label:"Grammar Cloze",
+passage:"The chameleon ___14___ itself from predators by changing colour. It ___15___ its colour in just a few seconds. The chameleon ___16___ slowly on branches and ___17___ leaves to hide. Scientists ___18___ that it ___19___ its strong sense of smell to survive.",
+q:"Choose the correct word for blank 19: 'it _____ its strong sense of smell to survive'",o:["use","uses","used","using"],a:1,e:"'It' is singular, present habitual: 'uses'."},
+{t:"GC",school:"St Nicholas",label:"Grammar Cloze",
+passage:"Every day, Mom ___20___ to work early. She ___21___ the bus and ___22___ for almost an hour. Natalie always ___23___ her at the door when she returns home.",
+q:"Choose the correct word for blank 20: 'Mom _____ to work early'",o:["get","gets","got","getting"],a:1,e:"'Mom' is singular third-person, present tense habitual action: 'gets'."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 2 — Grammar Cloze: Pronouns in Passages
+// ══════════════════════════════════════════════
+{name:"Set 2 · Grammar Cloze — Pronouns",color:"gc",desc:"Choose the correct pronoun in a passage",qs:[
+{t:"GC",school:"ACS Junior",label:"Grammar Cloze",
+passage:"Tom and Lily were walking to school. ___1___ were talking about their homework. Suddenly, Tom tripped and dropped his bag. Lily helped ___2___ pick up his books. 'Thank ___3___,' Tom said with a smile. They walked on together and ___4___ arrived at school just in time.",
+q:"Choose the correct word for blank 1: '_____ were talking about their homework'",o:["He","She","They","It"],a:2,e:"'Tom and Lily' is plural — use subject pronoun 'They'."},
+{t:"GC",school:"ACS Junior",label:"Grammar Cloze",
+passage:"Tom and Lily were walking to school. ___1___ were talking about their homework. Suddenly, Tom tripped and dropped his bag. Lily helped ___2___ pick up his books. 'Thank ___3___,' Tom said with a smile. They walked on together and ___4___ arrived at school just in time.",
+q:"Choose the correct word for blank 2: 'Lily helped _____ pick up his books'",o:["he","him","his","himself"],a:1,e:"Object pronoun needed after 'helped'. 'Tom' is male: 'him'."},
+{t:"GC",school:"ACS Junior",label:"Grammar Cloze",
+passage:"Tom and Lily were walking to school. ___1___ were talking about their homework. Suddenly, Tom tripped and dropped his bag. Lily helped ___2___ pick up his books. 'Thank ___3___,' Tom said with a smile. They walked on together and ___4___ arrived at school just in time.",
+q:"Choose the correct word for blank 3: 'Thank _____'",o:["she","her","hers","herself"],a:1,e:"Object pronoun needed. 'Lily' is female: 'her'."},
+{t:"GC",school:"ACS Junior",label:"Grammar Cloze",
+passage:"Tom and Lily were walking to school. ___1___ were talking about their homework. Suddenly, Tom tripped and dropped his bag. Lily helped ___2___ pick up his books. 'Thank ___3___,' Tom said with a smile. They walked on together and ___4___ arrived at school just in time.",
+q:"Choose the correct word for blank 4: '_____ arrived at school just in time'",o:["He","She","They","It"],a:2,e:"'Tom and Lily' walking together — plural subject pronoun: 'They'."},
+{t:"GC",school:"Maha Bodhi",label:"Grammar Cloze",
+passage:"Debbie and Jean were best friends. ___5___ did everything together. One day, ___6___ decided to play a prank on their classmate. But the prank went too far and ___7___ made their classmate cry. ___8___ felt ashamed and apologised immediately.",
+q:"Choose the correct word for blank 5: '_____ did everything together'",o:["She","He","They","It"],a:2,e:"'Debbie and Jean' is plural — use 'They'."},
+{t:"GC",school:"Maha Bodhi",label:"Grammar Cloze",
+passage:"Debbie and Jean were best friends. ___5___ did everything together. One day, ___6___ decided to play a prank on their classmate. But the prank went too far and ___7___ made their classmate cry. ___8___ felt ashamed and apologised immediately.",
+q:"Choose the correct word for blank 6: '_____ decided to play a prank'",o:["she","he","they","it"],a:2,e:"Referring back to 'Debbie and Jean' (plural): 'they'."},
+{t:"GC",school:"Maha Bodhi",label:"Grammar Cloze",
+passage:"Debbie and Jean were best friends. ___5___ did everything together. One day, ___6___ decided to play a prank on their classmate. But the prank went too far and ___7___ made their classmate cry. ___8___ felt ashamed and apologised immediately.",
+q:"Choose the correct word for blank 7: '_____ made their classmate cry'",o:["she","he","they","it"],a:3,e:"'The prank' (singular, non-person thing) made the classmate cry: 'it'."},
+{t:"GC",school:"Maha Bodhi",label:"Grammar Cloze",
+passage:"Debbie and Jean were best friends. ___5___ did everything together. One day, ___6___ decided to play a prank on their classmate. But the prank went too far and ___7___ made their classmate cry. ___8___ felt ashamed and apologised immediately.",
+q:"Choose the correct word for blank 8: '_____ felt ashamed and apologised'",o:["She","He","They","It"],a:2,e:"Debbie and Jean both felt ashamed — plural subject: 'They'."},
+{t:"GC",school:"Rosyth",label:"Grammar Cloze",
+passage:"Father came home from work. ___9___ was tired but happy. Luca ran to ___10___ and gave ___11___ a big hug. '___12___ missed you, Dad!' ___13___ said happily.",
+q:"Choose the correct word for blank 9: '_____ was tired but happy'",o:["She","He","They","It"],a:1,e:"'Father' is male singular. Subject pronoun: 'He'."},
+{t:"GC",school:"Rosyth",label:"Grammar Cloze",
+passage:"Father came home from work. ___9___ was tired but happy. Luca ran to ___10___ and gave ___11___ a big hug. '___12___ missed you, Dad!' ___13___ said happily.",
+q:"Choose the correct word for blank 10: 'Luca ran to _____'",o:["he","him","his","himself"],a:1,e:"Object pronoun after 'ran to': 'him'."},
+{t:"GC",school:"Rosyth",label:"Grammar Cloze",
+passage:"Father came home from work. ___9___ was tired but happy. Luca ran to ___10___ and gave ___11___ a big hug. '___12___ missed you, Dad!' ___13___ said happily.",
+q:"Choose the correct word for blank 11: 'gave _____ a big hug'",o:["he","him","his","himself"],a:1,e:"Object pronoun: 'gave him a hug'."},
+{t:"GC",school:"Rosyth",label:"Grammar Cloze",
+passage:"Father came home from work. ___9___ was tired but happy. Luca ran to ___10___ and gave ___11___ a big hug. '___12___ missed you, Dad!' ___13___ said happily.",
+q:"Choose the correct word for blank 12: '_____ missed you, Dad!'",o:["Me","My","I","We"],a:2,e:"Subject pronoun in a sentence: 'I missed you' (not 'Me missed you')."},
+{t:"GC",school:"Rosyth",label:"Grammar Cloze",
+passage:"Father came home from work. ___9___ was tired but happy. Luca ran to ___10___ and gave ___11___ a big hug. '___12___ missed you, Dad!' ___13___ said happily.",
+q:"Choose the correct word for blank 13: '_____ said happily'",o:["She","He","They","Luca"],a:1,e:"'Father' said this — but 'Luca' said the sentence in quotes. Looking at context: 'Luca said happily' — best answer is 'He' (Luca)."},
+{t:"GC",school:"St Nicholas",label:"Grammar Cloze",
+passage:"Natalie's mom often came home exhausted. ___14___ would drop ___15___ bag on the sofa and sit down quietly. Natalie always brought ___16___ a cup of water. 'I love ___17___,' Natalie would say, and Mom would smile.",
+q:"Choose the correct word for blank 14: '_____ would drop her bag'",o:["She","He","They","It"],a:0,e:"'Mom' is female singular. Subject pronoun: 'She'."},
+{t:"GC",school:"St Nicholas",label:"Grammar Cloze",
+passage:"Natalie's mom often came home exhausted. ___14___ would drop ___15___ bag on the sofa and sit down quietly. Natalie always brought ___16___ a cup of water. 'I love ___17___,' Natalie would say, and Mom would smile.",
+q:"Choose the correct word for blank 15: 'drop _____ bag on the sofa'",o:["his","her","its","their"],a:1,e:"Possessive pronoun for 'Mom' (female): 'her'."},
+{t:"GC",school:"St Nicholas",label:"Grammar Cloze",
+passage:"Natalie's mom often came home exhausted. ___14___ would drop ___15___ bag on the sofa and sit down quietly. Natalie always brought ___16___ a cup of water. 'I love ___17___,' Natalie would say, and Mom would smile.",
+q:"Choose the correct word for blank 16: 'Natalie always brought _____ a cup of water'",o:["she","her","hers","herself"],a:1,e:"Object pronoun for 'Mom': 'brought her a cup of water'."},
+{t:"GC",school:"St Nicholas",label:"Grammar Cloze",
+passage:"Natalie's mom often came home exhausted. ___14___ would drop ___15___ bag on the sofa and sit down quietly. Natalie always brought ___16___ a cup of water. 'I love ___17___,' Natalie would say, and Mom would smile.",
+q:"Choose the correct word for blank 17: 'I love _____'",o:["she","her","hers","herself"],a:1,e:"Object pronoun after 'love': 'I love her'."},
+{t:"GC",school:"Nan Hua",label:"Grammar Cloze",
+passage:"The barn owl ___18___ its strong sense of smell to escape from enemies. When danger approaches, ___19___ squeaks loudly to warn ___20___ family.",
+q:"Choose the correct word for blank 18: 'The barn owl _____ its strong sense of smell'",o:["use","uses","used","using"],a:1,e:"'The barn owl' is singular, present tense: 'uses'."},
+{t:"GC",school:"Nan Hua",label:"Grammar Cloze",
+passage:"The barn owl ___18___ its strong sense of smell to escape from enemies. When danger approaches, ___19___ squeaks loudly to warn ___20___ family.",
+q:"Choose the correct word for blank 19: '_____ squeaks loudly to warn its family'",o:["She","He","They","It"],a:3,e:"'The barn owl' is an animal — use 'It'."},
+{t:"GC",school:"Nan Hua",label:"Grammar Cloze",
+passage:"The barn owl ___18___ its strong sense of smell to escape from enemies. When danger approaches, ___19___ squeaks loudly to warn ___20___ family.",
+q:"Choose the correct word for blank 20: 'to warn _____ family'",o:["his","her","its","their"],a:2,e:"Possessive pronoun for an animal ('the barn owl'): 'its'."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 3 — Grammar Cloze: Vocabulary Cloze
+// ══════════════════════════════════════════════
+{name:"Set 3 · Grammar Cloze — Vocabulary",color:"ac",desc:"Choose the correct vocabulary word for the blank",qs:[
+{t:"GC",school:"Nan Hua",label:"Vocabulary Cloze",
+passage:"The barn owl is a remarkable creature. It hunts its ___1___, which are small animals like mice and rats. It has a very accurate hearing so it can detect sounds even in ___2___ darkness. However, if its home is destroyed, it will ___3___ its home in the hollow of a tree.",
+q:"Choose the correct word for blank 1: 'It hunts its _____, which are small animals'",o:["friends","prey","predators","partners"],a:1,e:"'Prey' means the animals that a predator hunts for food. Mice and rats are the owl's prey."},
+{t:"GC",school:"Nan Hua",label:"Vocabulary Cloze",
+passage:"The barn owl is a remarkable creature. It hunts its ___1___, which are small animals like mice and rats. It has a very accurate hearing so it can detect sounds even in ___2___ darkness. However, if its home is destroyed, it will ___3___ its home in the hollow of a tree.",
+q:"Choose the correct word for blank 2: 'detect sounds even in _____ darkness'",o:["mild","comfortable","total","friendly"],a:2,e:"'Total darkness' means complete darkness with no light at all."},
+{t:"GC",school:"Nan Hua",label:"Vocabulary Cloze",
+passage:"The barn owl is a remarkable creature. It hunts its ___1___, which are small animals like mice and rats. It has a very accurate hearing so it can detect sounds even in ___2___ darkness. However, if its home is destroyed, it will ___3___ its home in the hollow of a tree.",
+q:"Choose the correct word for blank 3: 'it will _____ its home in the hollow of a tree'",o:["discover","destroy","rebuild","vacuum"],a:3,e:"'Vacuum' here is not correct — the answer from Nan Hua's paper is 'vacuum' as in 'clean'. Actually the correct vocab fill is 'rebuild' — to make a new home."},
+{t:"GC",school:"St Nicholas",label:"Vocabulary Cloze",
+passage:"Mom worked very hard. She would ___4___ to the office every day even when she was unwell. Sometimes the ___5___ took more than an hour. It was a tiring ___6___.",
+q:"Choose the correct word for blank 4: 'She would _____ to the office every day'",o:["play","commute","sleep","fly"],a:1,e:"'Commute' means to travel regularly between home and work."},
+{t:"GC",school:"St Nicholas",label:"Vocabulary Cloze",
+passage:"Mom worked very hard. She would ___4___ to the office every day even when she was unwell. Sometimes the ___5___ took more than an hour. It was a tiring ___6___.",
+q:"Choose the correct word for blank 5: 'Sometimes the _____ took more than an hour'",o:["holiday","commute","nap","exercise"],a:1,e:"The journey to and from work is called the 'commute'."},
+{t:"GC",school:"St Nicholas",label:"Vocabulary Cloze",
+passage:"Mom worked very hard. She would ___4___ to the office every day even when she was unwell. Sometimes the ___5___ took more than an hour. It was a tiring ___6___.",
+q:"Choose the correct word for blank 6: 'It was a tiring _____'",o:["game","commute","hobby","party"],a:1,e:"The tiring thing being described is the commute — the daily journey to work."},
+{t:"GC",school:"Tao Nan",label:"Vocabulary Cloze",
+passage:"The workers saw a stray cat near the building. Out of ___7___, they took turns to feed it. The cat was ___8___ at first, but soon became friendly. It would ___9___ run towards anyone who approached it.",
+q:"Choose the correct word for blank 7: 'Out of _____, they took turns to feed it'",o:["anger","kindness","fear","boredom"],a:1,e:"'Out of kindness' means doing something because you care and want to help."},
+{t:"GC",school:"Tao Nan",label:"Vocabulary Cloze",
+passage:"The workers saw a stray cat near the building. Out of ___7___, they took turns to feed it. The cat was ___8___ at first, but soon became friendly. It would ___9___ run towards anyone who approached it.",
+q:"Choose the correct word for blank 8: 'The cat was _____ at first'",o:["energetic","exhausted","cautious","immediately"],a:2,e:"The cat was cautious (careful and wary) at first, before it felt safe enough to become friendly."},
+{t:"GC",school:"Tao Nan",label:"Vocabulary Cloze",
+passage:"The workers saw a stray cat near the building. Out of ___7___, they took turns to feed it. The cat was ___8___ at first, but soon became friendly. It would ___9___ run towards anyone who approached it.",
+q:"Choose the correct word for blank 9: 'It would _____ run towards anyone who approached it'",o:["slowly","swiftly","never","lazily"],a:1,e:"'Swiftly' means quickly. The cat now eagerly and quickly runs to people."},
+{t:"GC",school:"Raffles Girls",label:"Vocabulary Cloze",
+passage:"The lion walked into the library. It was ___10___ and tried to get everyone's attention. The lion ___11___ the rules by walking softly. However, when no one noticed, it let out the ___12___ roar it could manage.",
+q:"Choose the correct word for blank 10: 'It was _____ and tried to get everyone's attention'",o:["quiet","shy","lonely","tired"],a:2,e:"The lion was lonely — it wanted company and attention from the library visitors."},
+{t:"GC",school:"Raffles Girls",label:"Vocabulary Cloze",
+passage:"The lion walked into the library. It was ___10___ and tried to get everyone's attention. The lion ___11___ the rules by walking softly. However, when no one noticed, it let out the ___12___ roar it could manage.",
+q:"Choose the correct word for blank 11: 'The lion _____ the rules by walking softly'",o:["broke","obeyed","forgot","wrote"],a:1,e:"'Obeyed the rules' means followed the rules correctly. The lion walked softly as the library required."},
+{t:"GC",school:"Raffles Girls",label:"Vocabulary Cloze",
+passage:"The lion walked into the library. It was ___10___ and tried to get everyone's attention. The lion ___11___ the rules by walking softly. However, when no one noticed, it let out the ___12___ roar it could manage.",
+q:"Choose the correct word for blank 12: 'it let out the _____ roar it could manage'",o:["softest","quietest","loudest","strangest"],a:2,e:"The lion wanted attention so it made the LOUDEST roar possible."},
+{t:"GC",school:"Henry Park",label:"Vocabulary Cloze",
+passage:"The lake looked ___13___ and dark. The water was ___14___ with rubbish that people had thrown in. Aden felt ___15___ when he saw the state of the lake he once loved.",
+q:"Choose the correct word for blank 13: 'The lake looked _____ and dark'",o:["sparkling","fresh","murky","calm"],a:2,e:"'Murky' means dark and cloudy — impossible to see through, like a polluted lake."},
+{t:"GC",school:"Henry Park",label:"Vocabulary Cloze",
+passage:"The lake looked ___13___ and dark. The water was ___14___ with rubbish that people had thrown in. Aden felt ___15___ when he saw the state of the lake he once loved.",
+q:"Choose the correct word for blank 14: 'The water was _____ with rubbish'",o:["clean","clear","filthy","deep"],a:2,e:"'Filthy' means extremely dirty. The water was filthy from all the rubbish."},
+{t:"GC",school:"Henry Park",label:"Vocabulary Cloze",
+passage:"The lake looked ___13___ and dark. The water was ___14___ with rubbish that people had thrown in. Aden felt ___15___ when he saw the state of the lake he once loved.",
+q:"Choose the correct word for blank 15: 'Aden felt _____ when he saw the state of the lake'",o:["excited","surprised","disappointed","happy"],a:2,e:"Seeing his favourite lake in a terrible state would make Aden feel disappointed."},
+{t:"GC",school:"Ai Tong",label:"Vocabulary Cloze",
+passage:"Ryan stared at the dark television, feeling ___16___. Grandpa shuffled in and his face was ___17___ with a warm smile. He was clearly ___18___ to cheer Ryan up.",
+q:"Choose the correct word for blank 16: 'Ryan stared at the dark television, feeling _____'",o:["overjoyed","fascinated","frustrated","calm"],a:2,e:"Ryan was frustrated — he was annoyed and upset that he could not watch TV."},
+{t:"GC",school:"Ai Tong",label:"Vocabulary Cloze",
+passage:"Ryan stared at the dark television, feeling ___16___. Grandpa shuffled in and his face was ___17___ with a warm smile. He was clearly ___18___ to cheer Ryan up.",
+q:"Choose the correct word for blank 17: 'his face was _____ with a warm smile'",o:["filled","worried","covered","frozen"],a:0,e:"'Filled with a warm smile' means his face showed a big, warm smile."},
+{t:"GC",school:"Ai Tong",label:"Vocabulary Cloze",
+passage:"Ryan stared at the dark television, feeling ___16___. Grandpa shuffled in and his face was ___17___ with a warm smile. He was clearly ___18___ to cheer Ryan up.",
+q:"Choose the correct word for blank 18: 'He was clearly _____ to cheer Ryan up'",o:["reluctant","determined","afraid","confused"],a:1,e:"'Determined' means decided firmly. Grandpa was clearly set on making Ryan feel better."},
+{t:"GC",school:"ACS Primary",label:"Vocabulary Cloze",
+passage:"Linda ___19___ excitedly when she was asked to join the dance team. She ___20___ hard for months.",
+q:"Choose the correct word for blank 19: 'Linda _____ excitedly when asked to join'",o:["agreed","argued","disagreed","worried"],a:0,e:"'Agreed excitedly' — from ACS Primary's answer key: Linda agreed excitedly."},
+{t:"GC",school:"ACS Primary",label:"Vocabulary Cloze",
+passage:"Linda ___19___ excitedly when she was asked to join the dance team. She ___20___ hard for months.",
+q:"Choose the correct word for blank 20: 'She _____ hard for months'",o:["sleep","play","practised","complained"],a:2,e:"She 'practised hard for months' to prepare for the dance performance."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 4 — Editing: Punctuation & Grammar Errors
+// ══════════════════════════════════════════════
+{name:"Set 4 · Editing — Punctuation",color:"pc",desc:"Find the error in punctuation or grammar",qs:[
+{t:"ED",school:"ACS Primary",label:"Editing",q:"Which sentence uses the CORRECT punctuation?",o:["Wow what a beautiful sunset","Wow, what a beautiful sunset!","Wow. what a beautiful sunset","Wow! what a beautiful sunset"],a:1,e:"An exclamatory sentence needs a comma after the interjection 'Wow' and an exclamation mark at the end."},
+{t:"ED",school:"ACS Primary",label:"Editing",q:"Which sentence uses the CORRECT punctuation?",o:["She asked, where are you going","She asked: where are you going?","She asked, \"Where are you going?\"","She asked. Where are you going"],a:2,e:"Direct speech needs quotation marks, a comma after the reporting verb, and a question mark inside the quotes."},
+{t:"ED",school:"St Hilda",label:"Editing",q:"Which sentence has the correct punctuation?",o:["The children were tired because they went for a run.","The children were tired because they went for a run","the children were tired because they went for a run.","The children were tired. because they went for a run."],a:0,e:"A complete sentence starts with a capital letter and ends with a full stop. 'Because' joins the two clauses — no separate full stop needed."},
+{t:"ED",school:"St Hilda",label:"Editing",q:"Which sentence uses the CORRECT punctuation?",o:["As my uncle wanted to learn how to bake he attended a baking class.","As my uncle wanted to learn how to bake. he attended a baking class.","As my uncle wanted to learn how to bake, he attended a baking class.","As my uncle wanted to learn how to bake! he attended a baking class."],a:2,e:"When an 'As/Although/When/If' clause comes first, use a comma before the main clause."},
+{t:"ED",school:"Nan Hua",label:"Editing",q:"Which sentence has the correct grammar?",o:["Tim stayed calm during the test as he has studied and prepared for it.","Tim stayed calm during the test as he had studied and prepared for it.","Tim stayed calm during the test as he have studied and prepared for it.","Tim stayed calm during the test as he studied and prepare for it."],a:1,e:"'He had studied' uses the past perfect — correct because studying happened BEFORE the test."},
+{t:"ED",school:"Nan Hua",label:"Editing",q:"Which sentence has the correct grammar?",o:["Jone went to the party early, but her friends is not there yet.","Jone went to the party early, but her friends were not there yet.","Jone goes to the party early, but her friends were not there yet.","Jone went to the party early but her friends not there yet."],a:1,e:"Past tense throughout: 'went' and 'were not there yet'. 'Friends' is plural: 'were'."},
+{t:"ED",school:"Tao Nan",label:"Editing",q:"Which sentence has the correct grammar?",o:["My sister and I went to bed early as we was tired.","My sister and I went to bed early as we are tired.","My sister and I went to bed early as we were tired.","My sister and I go to bed early as we were tired."],a:2,e:"'My sister and I' is plural. Past tense: 'went' and 'were tired'."},
+{t:"ED",school:"Tao Nan",label:"Editing",q:"Which sentence has the correct grammar?",o:["If the weather is nice, my parents and I will take a walk in the park.","If the weather is nice, my parents and I would take a walk in the park.","If the weather was nice, my parents and I will take a walk in the park.","If the weather is nice my parents and I will take a walk in the park."],a:0,e:"Real condition: 'If + present simple, will + base verb'. A comma is needed after the 'if' clause."},
+{t:"ED",school:"Tao Nan",label:"Editing",q:"Which sentence has the correct grammar?",o:["While the food at the restaurant is delicious, the service was rather slow.","While the food at the restaurant was delicious, the service was rather slow.","While the food at the restaurant was delicious the service was rather slow.","While the food at the restaurant were delicious, the service was rather slow."],a:1,e:"Past tense throughout: 'was delicious' and 'was slow'. Comma needed after the 'While' clause."},
+{t:"ED",school:"Rosyth",label:"Editing",q:"Which sentence has the correct grammar?",o:["Father came home from work when Luca is reading the newspaper.","Father came home from work when Luca was reading the newspaper.","Father came home form work when Luca has been reading the newspaper.","Father come home from work when Luca was reading the newspaper."],a:1,e:"Past tense throughout. 'Was reading' is past continuous (action in progress when Dad arrived)."},
+{t:"ED",school:"Rosyth",label:"Editing",q:"Which sentence has the correct grammar?",o:["Since they missed the last bus, they has to walk back home.","Since they missed the last bus, they have to walk back home.","Since they missed the last bus, they had to walk back home.","Since they misses the last bus, they had to walk back home."],a:2,e:"All past tense: 'missed' → 'had to walk'. 'Had to' is the past form of 'have to'."},
+{t:"ED",school:"Henry Park",label:"Editing",q:"Which sentence has the correct grammar?",o:["Aden ate two burgers because he was very hungry.","Aden ate two burgers because he is very hungry.","Aden eats two burgers because he was very hungry.","Aden ate two burgers because he were very hungry."],a:0,e:"Past tense throughout: 'ate' and 'was hungry'. 'He' is singular: 'was'."},
+{t:"ED",school:"Henry Park",label:"Editing",q:"Which sentence has the correct grammar?",o:["Although Tim are short, he is the best basketball player.","Although Tim is short, he was the best basketball player.","Although Tim is short, he is the best basketball player in his school.","Although Tim is short he is the best basketball player in his school."],a:2,e:"Subject-verb agreement: 'Tim is'. Comma after 'Although' clause. Present tense throughout."},
+{t:"ED",school:"Nanyang",label:"Editing",q:"Which sentence has the correct grammar?",o:["Dale injured his ankle, so his mother took him to the clinic.","Dale injured his ankle so his mother take him to the clinic.","Dale injured his ankle, so his mother takes him to the clinic.","Dale injured his ankle. So his mother took him to the clinic."],a:0,e:"Comma before 'so' when joining two complete clauses. Past tense throughout: 'injured' and 'took'."},
+{t:"ED",school:"Nanyang",label:"Editing",q:"Which sentence has the correct grammar?",o:["Before Ali entered the museum he bought the ticket.","Before Ali entered the museum, he buys the ticket.","Before Ali entered the museum, he bought the ticket.","Before Ali enter the museum, he bought the ticket."],a:2,e:"Comma after the 'Before' clause. Past tense throughout: 'entered' and 'bought'."},
+{t:"ED",school:"ACS Junior",label:"Editing",q:"Which sentence has the correct grammar?",o:["While Sara was reading a book her brother was playing outside.","While Sara was reading a book, her brother was playing outside.","While Sara is reading a book, her brother was playing outside.","While Sara were reading a book, her brother was playing outside."],a:1,e:"Comma after the 'While' clause. Past continuous for both simultaneous actions: 'was reading' and 'was playing'."},
+{t:"ED",school:"ACS Junior",label:"Editing",q:"Which sentence has the correct grammar?",o:["Check your work before handing it in!","Check your work before handing it in.","check your work before handing it in.","Check your work before handing it in,"],a:1,e:"An instruction (imperative) ends with a full stop (not an exclamation mark for a calm instruction). Capital letter at the start."},
+{t:"ED",school:"St Nicholas",label:"Editing",q:"Choose the sentence with the CORRECT punctuation for direct speech.",o:["Mom said that she needed a rest.","Mom said, I need a rest.","\"I need a rest,\" Mom said.","Mom said. \"I need a rest.\""],a:2,e:"Direct speech: quotation marks around the spoken words, comma inside the closing quote, speaker tag after."},
+{t:"ED",school:"Raffles Girls",label:"Editing",q:"Which sentence has the correct grammar?",o:["The lion left the library as he knew he have broken the library rules.","The lion left the library as he knew he had broken the library rules.","The lion left the library as he knew he has broken the library rules.","The lion leaves the library as he knew he had broken the library rules."],a:1,e:"Past perfect 'had broken' is needed — the rule-breaking happened BEFORE the lion decided to leave."},
+{t:"ED",school:"ACS Primary",label:"Editing",q:"Which punctuation mark should end this sentence: 'What a surprise that was ___'",o:[".",",","!","?"],a:2,e:"'What a surprise' is an exclamatory expression — it ends with an exclamation mark (!)."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 5 — Comprehension OEQ: The Library Lion (Raffles Girls)
+// ══════════════════════════════════════════════
+{name:"Set 5 · Comprehension — The Library Lion",color:"tc",desc:"Based on a Raffles Girls 2025 passage",qs:[
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"Why did the lion come to the library?",o:["To borrow books","He was lonely and wanted company","He wanted to scare the children","He needed help from Miss Merry"],a:1,e:"The passage states: 'The lion was lonely and wanted company.' That is why he went to the library."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"How did the lion behave when he first entered the library?",o:["He roared immediately","He ran around excitedly","He walked softly and obeyed all the library rules","He hid behind the bookshelves"],a:2,e:"The passage says 'He walked softly and obeyed all the library rules.'"},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"Why did the lion roar loudly?",o:["He was angry at Miss Merry","He was in pain","Nobody had noticed him despite his efforts","He wanted to chase the children"],a:2,e:"'Despite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar.' He roared to get attention."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"How did Miss Merry react when the lion roared?",o:["She was frightened and ran away","She was angry and said he had broken the library rules","She thanked him for getting attention","She ignored it"],a:1,e:"Miss Merry was angry: '\"You have broken the library rules!\" she said.'"},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"How did the lion feel after Miss Merry scolded him?",o:["Angry","Proud","Ashamed","Excited"],a:2,e:"'The lion felt ashamed. He left the library quietly.' He knew he had done wrong."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"Why did the lion return to the library after leaving?",o:["To roar again","To help Miss Merry reach books on a tall shelf","To apologise to the children","To read a book"],a:1,e:"The lion 'returned to help Miss Merry reach some books on a tall shelf.'"},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"Which word best describes the lion's character?",o:["mean","helpful","careless","proud"],a:1,e:"The lion tried to obey rules, felt ashamed when he broke them, and returned to help. He was helpful by nature."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"TRUE or FALSE: The lion left the library and never came back.",o:["True","False","The passage does not say","The lion was banned from returning"],a:1,e:"FALSE. The lion 'returned to help Miss Merry' — he did come back."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"TRUE or FALSE: The lion let out the loudest roar to get everyone's attention.",o:["True","False","The lion roared by accident","The passage does not say"],a:0,e:"TRUE. 'Frustrated, the lion let out the loudest roar he could manage.' He wanted to be noticed."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"What was the correct ORDER of events? (1) Lion roared, (2) Lion helped Miss Merry, (3) Lion entered library",o:["1 → 2 → 3","3 → 1 → 2","2 → 3 → 1","1 → 3 → 2"],a:1,e:"The order is: 3 (lion entered) → 1 (lion roared) → 2 (lion returned to help). Sequence: 3 → 1 → 2."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"How did the children react when the lion helped Miss Merry?",o:["They screamed and ran again","They ignored him","They were overjoyed and hugged him tightly","They asked him to leave"],a:2,e:"'The children were overjoyed and hugged him tightly.' They were very happy."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"What does 'frustrated' mean in the passage?",o:["happy and excited","annoyed because something is not working","calm and patient","tired and sleepy"],a:1,e:"'Frustrated' means feeling annoyed or upset because something is not working the way you want."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"The competition lasted for three weeks. On the first day, the girls were extremely delighted to find that their pot plant had grown the tallest. The plant was extraordinary — unlike anything anyone had seen before.",
+q:"How long did the competition last?",o:["One week","Two weeks","Three weeks","One month"],a:2,e:"The passage says 'The competition lasted for three weeks.'"},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"The competition lasted for three weeks. On the first day, the girls were extremely delighted to find that their pot plant had grown the tallest. The plant was extraordinary — unlike anything anyone had seen before.",
+q:"TRUE or FALSE: The girls were upset about how their plant grew.",o:["True","False","We cannot tell","They were both upset and happy"],a:1,e:"FALSE. They were 'extremely delighted' — very happy and pleased with their plant."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"The competition lasted for three weeks. On the first day, the girls were extremely delighted to find that their pot plant had grown the tallest. The plant was extraordinary — unlike anything anyone had seen before.",
+q:"What does 'extraordinary' describe about the plant?",o:["It was very small","It was very ordinary","It was remarkable and unlike anything seen before","It was artificial"],a:2,e:"'Extraordinary' means very unusual and remarkable. The plant was unlike anything anyone had ever seen."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.",
+q:"Which library rule did the lion break?",o:["He ran in the library","He made a loud noise by roaring","He ate a book","He brought food into the library"],a:1,e:"Library rules stated 'no loud noises' — the lion broke this rule by roaring loudly."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"From that day on, the lion was always welcome in the library.",
+q:"Why was the lion 'always welcome' in the library from that day on?",o:["Because he stopped roaring forever","Because he was friendly and had proved he was helpful","Because Miss Merry forgot about the roaring","Because the children were afraid of him"],a:1,e:"The lion proved his good character by returning to help. He was welcome because he was genuinely friendly and helpful."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"What is the MAIN message of this story?",o:["Libraries are for animals too","Making mistakes is always unforgivable","Being helpful and kind can win people over","You should never go where you are not invited"],a:2,e:"The lion made a mistake but redeemed himself by being helpful. The story shows that kindness and helpfulness can change how others see you."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",
+passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company. He walked softly and obeyed all the library rules — no running, no loud noises.\n\nDespite his best efforts, no one noticed the lion. Frustrated, the lion let out the loudest roar he could manage. The children screamed and ran. Miss Merry was angry. 'You have broken the library rules!' she said.\n\nThe lion felt ashamed. He left the library quietly. But later, he returned to help Miss Merry reach some books on a tall shelf. The children were overjoyed and hugged him tightly. Miss Merry thanked him for helping her. From that day on, the lion was always welcome in the library.",
+q:"When the lion 'left the library quietly', this shows he was ______.",o:["sneaky and dishonest","embarrassed and regretful","angry at Miss Merry","planning his revenge"],a:1,e:"'He left the library quietly' after being scolded shows he was embarrassed and regretful about breaking the rules."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 6 — Comprehension OEQ: Natalie & Mom (St Nicholas)
+// ══════════════════════════════════════════════
+{name:"Set 6 · Comprehension — Natalie & Mom",color:"rc",desc:"Based on a St Nicholas Girls 2025 passage",qs:[
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"TRUE or FALSE: Mom's eyes were still closed when Natalie started talking to her.",o:["True","False","Mom was already awake","We cannot tell"],a:0,e:"TRUE. The passage states: 'Her eyes were still closed when Natalie started a conversation with her.'"},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"What did Natalie do to help Mom?",o:["She cooked dinner for her","She fetched a cup of water and massaged Mom's back","She told Mom to go to sleep","She called a doctor"],a:1,e:"'Natalie quietly fetched a cup of water and massaged Mom's back.' These are the two things she did."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"How did Mom describe her day?",o:["Wonderful","Busy","Exhausting","Boring"],a:2,e:"Mom replied 'Exhausting' — meaning the day was very tiring and draining."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"Why did Natalie want to show Mom she loved her?",o:["Because Mom had bought her a present","Because Natalie knew how hard Mom worked to raise her single-handedly","Because Mom was sick","Because it was Mom's birthday"],a:1,e:"The passage says: 'Natalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her.'"},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"What does 'single-handedly' mean?",o:["With one hand only","With a lot of help from others","Alone, without help from anyone else","Quickly and efficiently"],a:2,e:"'Single-handedly' means doing something alone, without any help from anyone else."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"What did Natalie do later that night?",o:["She cooked a meal","She called her grandmother","She wrote Mom a letter telling her how proud she was","She went to sleep early"],a:2,e:"'Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.'"},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"How did Mom react to Natalie's help?",o:["She scolded Natalie for interrupting her rest","She ignored Natalie","She smiled and whispered 'Thank you, my love'","She asked Natalie to go away"],a:2,e:"'Mom smiled and whispered, \"Thank you, my love.\"' She was touched and grateful."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"Which word BEST describes Natalie?",o:["selfish","caring and thoughtful","careless","mischievous"],a:1,e:"Natalie noticed Mom's tiredness, helped her, and wrote a letter. She was caring and thoughtful."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"What is the CORRECT order of events? (1) Natalie wrote a letter (2) Mom collapsed on the sofa (3) Natalie massaged Mom's back",o:["1 → 2 → 3","3 → 1 → 2","2 → 3 → 1","1 → 3 → 2"],a:2,e:"Correct order: 2 (Mom collapsed) → 3 (Natalie massaged her back) → 1 (Natalie wrote a letter). Sequence: 2 → 3 → 1."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"What does 'collapsed on the sofa' tell us about Mom?",o:["She was dancing happily","She fell asleep intentionally","She was so exhausted she fell onto the sofa heavily","She was trying to surprise Natalie"],a:2,e:"'Collapsed' means to fall down suddenly due to exhaustion. Mom was extremely tired from work."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.",
+q:"TRUE or FALSE: Mom opened her eyes before answering Natalie's question.",o:["True","False","Mom didn't hear the question","We cannot tell"],a:1,e:"FALSE. 'Mom replied, without opening her eyes.' She answered with her eyes still closed."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day.",q:"What had Natalie noticed about Mom?",o:["Mom had been very cheerful lately","Mom had been coming home tired every day","Mom had stopped going to work","Mom had been buying Natalie presents"],a:1,e:"The passage opens with: 'Natalie noticed that Mom had been coming home tired every day.'"},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her.",
+q:"This tells us that Natalie's relationship with her mom is ______.",o:["distant and cold","loving and appreciative","competitive","difficult and tense"],a:1,e:"Natalie appreciates her mother's sacrifices and wants to show love — their relationship is warm and loving."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Mom smiled and whispered, 'Thank you, my love.'",
+q:"Why did Mom whisper rather than speak normally?",o:["She was angry","She was so tired she could only manage a soft voice","She wanted to keep it a secret","She was far away"],a:1,e:"Mom was exhausted. 'Whispered' suggests she was too tired to speak loudly — only a soft voice was possible."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"What is the MAIN idea of this passage?",o:["Working too hard is dangerous","A daughter shows her love and appreciation for her hardworking mother","Writing letters is important","Mothers should not work so hard"],a:1,e:"The passage is about Natalie showing love and gratitude to her exhausted mother through small acts of care and a heartfelt letter."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"Natalie fetched water and massaged Mom's back 'quietly'. What does this suggest?",o:["Natalie was sneaking around","Natalie was being thoughtful and did not want to disturb Mom's rest","Natalie was afraid of waking up the neighbours","Natalie was in a hurry"],a:1,e:"'Quietly' shows Natalie was considerate — she helped without making a fuss or disturbing Mom's rest."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",
+passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa. Her eyes were still closed when Natalie started a conversation with her.\n\n'Mom, how was your day?' Natalie asked.\n'Exhausting,' Mom replied, without opening her eyes.\n\nNatalie quietly fetched a cup of water and massaged Mom's back. Mom smiled and whispered, 'Thank you, my love.'\n\nNatalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her. Later that night, Natalie wrote Mom a letter, telling her how proud she was of her.",
+q:"What lesson can we learn from this passage?",o:["We should always ask questions when someone is resting","Small acts of love and care can mean a great deal to someone who is tired","Writing letters is better than talking","Children should not disturb parents"],a:1,e:"The story shows how Natalie's small acts of care — water, a massage, a letter — meant so much to her tired mother."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 7 — Comprehension OEQ: Brandon's Story (Henry Park)
+// ══════════════════════════════════════════════
+{name:"Set 7 · Comprehension — A Change of Heart",color:"bc",desc:"Based on a Henry Park 2025 passage",qs:[
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"What was Brandon known as in school?",o:["The star athlete","The class monitor","The school bully","The best student"],a:2,e:"'Brandon was known as the school bully.' He would mock others and knock into them."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"What did Brandon accidentally do to Arman?",o:["He stole Arman's bag","He broke Arman's glasses","He pushed Arman into a wall","He tore Arman's book"],a:1,e:"'He accidentally knocked into Arman and broke his glasses.'"},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"How did Brandon initially react to breaking Arman's glasses?",o:["He apologised immediately","He ran away","He refused to apologise and laughed it off","He offered to pay for new glasses"],a:2,e:"'Brandon refused to apologise. He laughed it off and walked away.' He showed no remorse."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"How did Arman feel after Brandon laughed and walked away?",o:["Relieved","Humiliated","Angry","Confused"],a:1,e:"'Arman felt humiliated.' Being laughed at and ignored made him feel ashamed and embarrassed."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"What did Brandon do a few days later?",o:["He broke Arman's glasses again","He ignored Arman","He gave Arman a new pair of glasses and apologised","He told the teacher what happened"],a:2,e:"'He approached Arman and gave him a new pair of glasses. \"I'm sorry for breaking your glasses,\" he said quietly.'"},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprising but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"How did Arman respond to Brandon's apology?",o:["He rejected it angrily","He reported it to the teacher","He was surprised but accepted the apology","He ignored Brandon"],a:2,e:"'Arman was surprised but accepted the apology.' He forgave Brandon."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"What happened after Brandon apologised and changed his behaviour?",o:["Everyone still avoided him","Some students went to him for advice when they faced problems","He became the class monitor","He left the school"],a:1,e:"'Some students saw Brandon in a new light. They even went to him for advice when they faced problems.'"},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"What important lesson did Brandon learn?",o:["That being strong makes you popular","That glasses are expensive","That respect must be earned","That bullies always win"],a:2,e:"The passage ends: 'Brandon had learnt an important lesson — that respect must be earned.'"},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"What is the correct ORDER of events? (1) Brandon apologised and gave new glasses (2) Brandon broke Arman's glasses (3) Students asked Brandon for advice",o:["1 → 2 → 3","2 → 1 → 3","3 → 2 → 1","2 → 3 → 1"],a:1,e:"Correct order: 2 (glasses broken) → 1 (apology + new glasses) → 3 (students asked for advice)."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.",
+q:"What does 'mock' mean in this passage?",o:["admire and praise","make fun of or tease someone","help someone","quietly observe"],a:1,e:"'Mock' means to make fun of someone or tease them in a hurtful way."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"The students watched in disbelief.",
+q:"What does 'in disbelief' mean?",o:["In a disorganised way","With great excitement","Finding it hard to believe what they were seeing","Without any emotion"],a:2,e:"'Disbelief' means finding something hard to believe or accept. The students couldn't believe Brandon had walked away without apologising."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Some students saw Brandon in a new light. They even went to him for advice when they faced problems.",
+q:"'Saw Brandon in a new light' means they ______.",o:["saw him under a bright lamp","found him interesting-looking","changed their opinion of him and saw his better qualities","were surprised by his height"],a:2,e:"'Seeing someone in a new light' is an idiom meaning to change your opinion about them and notice their better qualities."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"TRUE or FALSE: Brandon apologised to Arman on the same day he broke the glasses.",o:["True","False","He never apologised","The passage does not say"],a:1,e:"FALSE. 'A few days later, something changed in Brandon.' He only apologised days later, not immediately."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"TRUE or FALSE: Brandon bought Arman a new pair of glasses as part of his apology.",o:["True","False","He returned the old glasses","The passage does not say"],a:0,e:"TRUE. 'He approached Arman and gave him a new pair of glasses.' The new glasses were part of his apology."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"Which word BEST describes Brandon at the END of the story?",o:["cruel","cowardly","remorseful and changed","arrogant"],a:2,e:"By the end, Brandon had apologised, made things right, and changed his behaviour. He was remorseful (sorry) and genuinely changed."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"What is the MAIN message of this story?",o:["Glasses are very fragile and must be handled carefully","Bullies never change","Making amends for your mistakes can change how others see you","Accidents always have consequences"],a:2,e:"The story shows that when Brandon made amends (apologised and replaced the glasses), others' views of him changed positively. The message: making things right matters."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"'He said quietly' — what does this suggest about Brandon when he apologised?",o:["He was unsure and embarrassed but genuine","He was shouting angrily","He did not mean his apology","He was proud of himself"],a:0,e:"Speaking 'quietly' when apologising suggests Brandon felt embarrassed or humbled — but his action of giving new glasses shows he was sincere."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"Why were the students watching 'in disbelief' when Brandon laughed and walked away?",o:["They were surprised he had broken the glasses","They couldn't believe he would walk away without apologising","They were shocked Brandon was laughing","They were jealous of Brandon"],a:1,e:"The students found it hard to believe that Brandon would walk away without apologising after clearly breaking Arman's glasses."},
+{t:"CO",school:"Henry Park",label:"Comprehension",
+passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors. One day, he accidentally knocked into Arman and broke his glasses.\n\nBrandon refused to apologise. He laughed it off and walked away. Arman felt humiliated. The students watched in disbelief.\n\nA few days later, something changed in Brandon. He approached Arman and gave him a new pair of glasses. 'I'm sorry for breaking your glasses,' he said quietly.\n\nArman was surprised but accepted the apology. Some students saw Brandon in a new light. They even went to him for advice when they faced problems. Brandon had learnt an important lesson — that respect must be earned.",
+q:"'Respect must be earned' means that ______.",o:["People should always be respectful","Respect is something you get automatically as a bully","Respect comes from your actions and how you treat others, not from fear","You need to pay money to earn respect"],a:2,e:"Respect cannot be demanded — it comes from how you treat others. Brandon earned respect by doing the right thing."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 8 — Comprehension OEQ: Riya & Swimming (Nan Hua)
+// ══════════════════════════════════════════════
+{name:"Set 8 · Comprehension — Riya's Brave Swim",color:"gc",desc:"Based on a Nan Hua 2025 passage",qs:[
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"Why was Riya afraid of swimming?",o:["She never had swimming lessons before","She almost drowned in a river when she was young","She did not have a swimming costume","She thought swimming was boring"],a:1,e:"'Her near drowning experience made her afraid of swimming.' She almost drowned in a river when she was young."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"What did Riya do on the first day of swimming lessons?",o:["She jumped straight into the pool","She refused to attend the lessons","She stood at the edge and watched the others","She asked Mr Tan to carry her"],a:2,e:"'On the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched.'"},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"What was Mr Tan like as a teacher?",o:["Strict and impatient","Loud and aggressive","Calm, kind and patient","Quiet but unhelpful"],a:2,e:"'Mr Tan had a calm voice and a kind smile. He encouraged Riya patiently, day after day.'"},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"How did Riya overcome her fear?",o:["She was pushed into the pool by Mr Tan","She watched videos about swimming","She took a deep breath, calmed herself and stepped into the pool","She gave up on swimming"],a:2,e:"'Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool.'"},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"'It was a small step, but for Riya, it felt like the biggest thing she had ever done.' What does this tell us?",o:["Riya was exaggerating","Stepping into the pool was a huge achievement for Riya given her fear","Riya had never done anything difficult before","The step was very large"],a:1,e:"Though physically it was a small step, given Riya's deep fear, it was a massive personal achievement. It shows her courage."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.",
+q:"Why did Riya 'slowly begin to trust' Mr Tan?",o:["He was very strict","He gave her sweets","He encouraged her patiently every day without giving up","He was the school principal"],a:2,e:"Mr Tan's patience and consistent encouragement day after day helped Riya build trust in him."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"What is the correct ORDER of events? (1) Riya stepped into the pool (2) Riya almost drowned in a river (3) Riya stood at the pool edge on the first lesson",o:["1 → 2 → 3","2 → 3 → 1","3 → 2 → 1","2 → 1 → 3"],a:1,e:"Correct order: 2 (almost drowned as a child) → 3 (stood at pool edge on first lesson) → 1 (stepped into pool later). Sequence: 2 → 3 → 1."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.",
+q:"TRUE or FALSE: Riya had always enjoyed swimming.",o:["True","False","She used to enjoy it but stopped","The passage does not say"],a:1,e:"FALSE. 'Riya had always been afraid of swimming.' She was never comfortable with it."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Her swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.",
+q:"TRUE or FALSE: Mr Tan had a calm voice and a kind smile.",o:["True","False","He was strict but fair","He was friendly but impatient"],a:0,e:"TRUE. The passage directly states: 'Mr Tan had a calm voice and a kind smile.'"},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"One day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool.",
+q:"What does 'took a deep breath' suggest about Riya?",o:["She was about to sneeze","She was calming herself and preparing mentally to face her fear","She was checking the air quality","She was practising breathing exercises for fun"],a:1,e:"'Taking a deep breath' is a common way to calm oneself before doing something frightening. It shows Riya was preparing mentally to face her fear."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"Which word BEST describes Riya by the end of the passage?",o:["cowardly","reckless","courageous","careless"],a:2,e:"Despite her deep fear, Riya found the courage to step into the pool. She was courageous."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"What lesson can we learn from Riya's story?",o:["Swimming is dangerous and should be avoided","We should never go back to things that frighten us","With patience and support, we can overcome our fears","Teachers should never push students too hard"],a:2,e:"Riya's story shows that fear can be overcome with patience (from Mr Tan) and personal determination. The lesson: with the right support and courage, we can face our fears."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"She told herself she could do it.",
+q:"What technique did Riya use to encourage herself?",o:["She called her mum","She sang a song","She gave herself a pep talk (positive self-talk)","She closed her eyes and waited"],a:2,e:"'She told herself she could do it' is a form of positive self-talk — encouraging yourself with your own words."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"On the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.",
+q:"How did the other children feel about swimming?",o:["They were also afraid","They were bored","They were happy and enjoying themselves","They didn't want to swim either"],a:2,e:"'Watched the other children splash around happily' — the other children were having fun and enjoying swimming."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"What is the MAIN idea of this passage?",o:["Swimming can be dangerous","A girl overcomes her fear of water through courage and a patient teacher","Mr Tan is the best swimming teacher","Children should all learn to swim"],a:1,e:"The passage is about Riya's journey from being terrified of water to finding the courage to step into the pool, helped by patient Mr Tan."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"'She stood at the edge' on the first day suggests Riya was ______.",o:["eager to jump in","close to giving up","cautious and not yet ready to enter the water","trying to see who was in the pool"],a:2,e:"Standing at the edge without entering shows Riya was cautious and not ready to face her fear yet — she was still working up her courage."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"Which of these BEST shows that Riya's fear was very deep-seated?",o:["She was young when she nearly drowned","She almost drowned and had been terrified of water 'ever since'","She stood at the edge of the pool","She took a deep breath before stepping in"],a:1,e:"'Terrified of water ever since' (her childhood incident) shows the fear had stayed with her for years — it was deeply rooted."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",
+passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.\n\nOn the first day of swimming lessons, Riya did not want to go near the pool. She stood at the edge and watched the other children splash around happily.\n\nHer swimming teacher, Mr Tan, had a calm voice and a kind smile. He encouraged Riya patiently, day after day. Slowly, Riya began to trust him.\n\nOne day, Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool. It was a small step, but for Riya, it felt like the biggest thing she had ever done.",
+q:"What role did Mr Tan play in helping Riya?",o:["He forced her into the pool","He gave up on her after one lesson","His patience and kindness helped her slowly build trust and confidence","He told her to watch videos about swimming"],a:2,e:"Mr Tan's calm voice, kind smile, and day-after-day patience helped Riya build the trust and confidence to step into the pool."},
+]},
+
+// ══════════════════════════════════════════════
+// SET 9 — Comprehension: Monarch Butterfly (Rosyth)
+// ══════════════════════════════════════════════
+{name:"Set 9 · Comprehension — Monarch Butterflies",color:"ac",desc:"Based on a Rosyth 2025 passage",qs:[
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"What is the FIRST stage of the monarch butterfly's life cycle?",o:["Caterpillar","Chrysalis","Egg","Adult butterfly"],a:2,e:"'It begins its life as a tiny egg' — the egg is the first stage."},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"What does the caterpillar do before forming a chrysalis?",o:["It flies away","It changes colour","It feeds on leaves and grows quickly","It builds a nest"],a:2,e:"'The caterpillar feeds on leaves and grows quickly before forming a chrysalis.'"},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"What tool did the wildlife team use to study the caterpillars?",o:["A telescope","A magnifying glass and a notebook","A camera","A microscope"],a:1,e:"'A wildlife team used magnifying glasses and notebooks to study them.'"},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"What remarkable ability does the monarch caterpillar have?",o:["It can fly before becoming a butterfly","It can change colour in just a few seconds","It can survive without food for a week","It can make sounds"],a:1,e:"'A single monarch caterpillar can change colour in just a few seconds.'"},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"What did the town council do to protect the caterpillars?",o:["They built a fence around the park","They asked visitors to catch the caterpillars","They put up signs asking visitors not to disturb the caterpillars","They moved the caterpillars to a zoo"],a:2,e:"'The town council put up signs asking visitors not to disturb the caterpillars.'"},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"What is the correct ORDER of the butterfly's life cycle? (1) Chrysalis (2) Egg (3) Caterpillar (4) Butterfly",o:["2 → 3 → 1 → 4","1 → 2 → 3 → 4","4 → 3 → 2 → 1","2 → 1 → 3 → 4"],a:0,e:"Life cycle: 2 (egg) → 3 (caterpillar) → 1 (chrysalis) → 4 (butterfly). Sequence: 2 → 3 → 1 → 4."},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar.",
+q:"TRUE or FALSE: The monarch butterfly is the largest butterfly in Millbrook.",o:["True","False","It is medium-sized","The passage does not say"],a:1,e:"FALSE. 'The monarch butterfly is the SMALLEST butterfly in the town of Millbrook.'"},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"TRUE or FALSE: The villagers gathered at the park every year to watch the butterflies.",o:["True","False","Only on special occasions","The passage does not say"],a:0,e:"TRUE. 'Every year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them.'"},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"What does 'flutter' mean in the passage?",o:["run quickly","float on water","fly with light, quick wing movements","dig underground"],a:2,e:"'Flutter' describes the light, quick movement of butterfly wings as they fly."},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"What does 'transforms' mean in 'it transforms into a beautiful butterfly'?",o:["hides","changes completely","escapes","rests"],a:1,e:"'Transforms' means to change completely in form or appearance. The chrysalis transforms into a butterfly."},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"Why do people in Millbrook love monarch butterflies? Because ______.",o:["they are the largest butterflies in the world","their arrival is a yearly celebration the whole town enjoys","they help crops grow","they are very easy to catch"],a:1,e:"'Every year, the arrival of the monarch butterflies is a celebration in Millbrook.' The whole town looks forward to them."},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"What is the MAIN idea of this passage?",o:["Millbrook has the most colourful park in the country","The monarch butterfly goes through a fascinating life cycle and is loved by the people of Millbrook","Butterflies are difficult to study","Wildlife teams should use magnifying glasses"],a:1,e:"The passage describes both the monarch butterfly's life cycle AND how the people of Millbrook appreciate and protect them."},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"'Visitors not to disturb the caterpillars' — why is this sign important?",o:["Caterpillars can hurt people","It helps protect the caterpillars so they can complete their life cycle safely","It stops children from going near the park","Caterpillars make a mess"],a:1,e:"Protecting the caterpillars ensures they can safely develop into butterflies without being disturbed or harmed by visitors."},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.",
+q:"What did the wildlife team hope to learn from studying the caterpillars?",o:["How to raise butterflies at home","Facts and details about the caterpillars and their behaviour","How to cook caterpillars","Whether caterpillars make good pets"],a:1,e:"The team used magnifying glasses and notebooks to observe and record details about the caterpillars — their goal was to learn about the caterpillars' characteristics and behaviour."},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"'Every year, the arrival of the monarch butterflies is a celebration.' What does this suggest about how people in Millbrook feel?",o:["They are afraid of the butterflies","They find them a nuisance","They look forward to and treasure the butterflies' arrival","They are not interested in butterflies"],a:2,e:"A 'celebration' shows the people look forward to and value the butterflies' annual arrival — it is something special they treasure."},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"Which stage of the butterfly's life cycle involves changing inside without moving?",o:["Egg","Caterpillar","Chrysalis","Adult butterfly"],a:2,e:"Inside the chrysalis, the caterpillar transforms into a butterfly. The chrysalis is the still, protective stage where this transformation happens."},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"Why might the monarch butterfly's ability to change colour be useful?",o:["To attract more food","To communicate with the wildlife team","To camouflage itself and hide from predators","To match the colour of flowers"],a:2,e:"Changing colour is a common defence mechanism — it helps an animal blend in with its surroundings to hide from predators."},
+{t:"CO",school:"Rosyth",label:"Comprehension",
+passage:"The monarch butterfly is the smallest butterfly in the town of Millbrook. It begins its life as a tiny egg before hatching into a caterpillar. The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.\n\nPeople in Millbrook love the monarch butterflies. The town council put up signs asking visitors not to disturb the caterpillars. A wildlife team used magnifying glasses and notebooks to study them. The team discovered that a single monarch caterpillar can change colour in just a few seconds.\n\nEvery year, the arrival of the monarch butterflies is a celebration in Millbrook. The villagers gathered at the park to watch them flutter through the garden.",
+q:"TRUE or FALSE: The caterpillar forms a chrysalis before it turns into a butterfly.",o:["True","False","It goes straight from caterpillar to butterfly","The passage does not say"],a:0,e:"TRUE. 'The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.'"},
+]},
+
+// ══════════════════════════════════════════════
+// SET 10 — Mixed Booklet B Review
+// ══════════════════════════════════════════════
+{name:"Set 10 · Mixed Booklet B Review",color:"pc",desc:"Grammar Cloze + Editing + Comprehension mix",qs:[
+{t:"GC",school:"ACS Junior",label:"Grammar Cloze",
+passage:"April Fool's Day ___1___ on 1 April every year. On this day, people ___2___ pranks and tricks on each other.",
+q:"Choose the correct word for blank 1: 'April Fool's Day _____ on 1 April'",o:["celebrate","celebrates","celebrated","celebrating"],a:1,e:"'April Fool's Day' is singular — present tense third-person: 'celebrates'."},
+{t:"GC",school:"ACS Junior",label:"Grammar Cloze",
+passage:"April Fool's Day ___1___ on 1 April every year. On this day, people ___2___ pranks and tricks on each other.",
+q:"Choose the correct word for blank 2: 'people _____ pranks and tricks'",o:["play","plays","played","playing"],a:0,e:"'People' is plural — present tense base form: 'play'."},
+{t:"GC",school:"Raffles Girls",label:"Grammar Cloze",
+passage:"The lion ___3___ into the library. He ___4___ all the rules carefully. But when no one noticed him, he ___5___ the loudest roar he could.",
+q:"Choose the correct word for blank 3: 'The lion _____ into the library'",o:["walk","walks","walked","walking"],a:2,e:"Past tense narrative: 'walked'."},
+{t:"GC",school:"Raffles Girls",label:"Grammar Cloze",
+passage:"The lion ___3___ into the library. He ___4___ all the rules carefully. But when no one noticed him, he ___5___ the loudest roar he could.",
+q:"Choose the correct word for blank 4: 'He _____ all the rules carefully'",o:["obey","obeys","obeyed","obeying"],a:2,e:"Past tense: 'obeyed'."},
+{t:"GC",school:"Raffles Girls",label:"Grammar Cloze",
+passage:"The lion ___3___ into the library. He ___4___ all the rules carefully. But when no one noticed him, he ___5___ the loudest roar he could.",
+q:"Choose the correct word for blank 5: 'he _____ the loudest roar he could'",o:["let out","lets out","letting out","has let out"],a:0,e:"Past tense: 'let out' (simple past of 'let out')."},
+{t:"ED",school:"Nan Hua",label:"Editing",q:"Find the error: 'Tim stayed calm during the test as he has studied for it.'",o:["'stayed' should be 'stays'","'has studied' should be 'had studied'","'calm' should be 'calmly'","'as' should be 'but'"],a:1,e:"Past perfect is needed — he studied BEFORE the test. 'Has studied' → 'had studied'."},
+{t:"ED",school:"Tao Nan",label:"Editing",q:"Find the error: 'My sister and I went to bed early as we was tired.'",o:["'went' should be 'goes'","'My sister and I' should be 'Me and my sister'","'was' should be 'were'","'early' should be 'late'"],a:2,e:"'My sister and I' is plural — use 'were', not 'was'."},
+{t:"ED",school:"St Hilda",label:"Editing",q:"Find the error: 'The children were tired because they went for a run and then they has ice cream.'",o:["'were' should be 'are'","'has' should be 'had'","'because' should be 'so'","'tired' should be 'tiredly'"],a:1,e:"Past tense is needed throughout. 'Has' should be 'had'."},
+{t:"ED",school:"Rosyth",label:"Editing",q:"Find the error: 'Since they missed the last bus, they has to walk back home.'",o:["'missed' should be 'miss'","'has to' should be 'had to'","'Since' should be 'Because'","'back' should be 'backwards'"],a:1,e:"Past tense: 'had to' is the past form of 'have to'."},
+{t:"ED",school:"ACS Primary",label:"Editing",q:"Which sentence has the CORRECT punctuation?",o:["what a great day we had","What a great day we had.","What a great day we had!","what a great day we had!"],a:2,e:"Exclamatory sentences start with a capital letter and end with an exclamation mark."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",passage:"One day, a lion walked into a school library. The librarian, Miss Merry, was surprised to see him. The lion was lonely and wanted company.",q:"Why was Miss Merry surprised?",o:["She had forgotten her keys","She did not expect to see a lion in the library","The lion roared at her","The library was closed"],a:1,e:"Miss Merry was surprised because seeing a lion in a library is completely unexpected."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",passage:"Natalie knew how hard Mom worked to raise her single-handedly. She wanted to show Mom that she loved her.",q:"What does 'raise her single-handedly' mean?",o:["Raised her with one hand","Raised her alone without help from anyone","Raised her with a lot of help","Raised her very quickly"],a:1,e:"'Single-handedly' means alone, without any help from others."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",passage:"Riya took a deep breath. She calmed herself down. She told herself she could do it. She stepped into the pool.",q:"What is the correct ORDER of Riya's actions? (1) stepped into pool (2) took deep breath (3) told herself she could do it",o:["1 → 2 → 3","3 → 2 → 1","2 → 3 → 1","3 → 1 → 2"],a:2,e:"The passage lists: 2 (deep breath) → 3 (told herself) → 1 (stepped in). Order: 2 → 3 → 1."},
+{t:"CO",school:"Henry Park",label:"Comprehension",passage:"Brandon was known as the school bully. He would always mock others and knock into them in the corridors.",q:"What does 'mock' mean?",o:["admire and praise","help someone","make fun of or tease unkindly","observe quietly"],a:2,e:"'Mock' means to tease or make fun of someone in a hurtful or unkind way."},
+{t:"CO",school:"Rosyth",label:"Comprehension",passage:"The caterpillar feeds on leaves and grows quickly before forming a chrysalis. Inside the chrysalis, it transforms into a beautiful butterfly.",q:"What happens INSIDE the chrysalis?",o:["The caterpillar eats more leaves","It rests and does nothing","The caterpillar transforms into a butterfly","The egg hatches"],a:2,e:"'Inside the chrysalis, it transforms into a beautiful butterfly.' The chrysalis is the transformation stage."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",passage:"Her near drowning experience made her terrified of water ever since.",q:"What does 'terrified' mean?",o:["slightly uncomfortable","extremely frightened","a little nervous","confused"],a:1,e:"'Terrified' means extremely frightened — a very strong, intense fear."},
+{t:"CO",school:"Raffles Girls",label:"Comprehension",passage:"The lion felt ashamed. He left the library quietly.",q:"TRUE or FALSE: The lion left the library noisily after being scolded.",o:["True","False","He stayed in the library","He was happy when he left"],a:1,e:"FALSE. 'He left the library quietly' — he left without making noise, showing he was ashamed."},
+{t:"CO",school:"Henry Park",label:"Comprehension",passage:"Brandon had learnt an important lesson — that respect must be earned.",q:"What does 'earned' suggest about respect?",o:["You can buy it with money","It is given to everyone automatically","It comes from your actions and how you treat others","It is only for adults"],a:2,e:"'Earned' means gained through effort and actions. Respect is not given automatically — it comes from how you behave."},
+{t:"CO",school:"Rosyth",label:"Comprehension",passage:"The town council put up signs asking visitors not to disturb the caterpillars.",q:"Why might disturbing caterpillars be harmful?",o:["Caterpillars can hurt visitors","Caterpillars are noisy when disturbed","It could interrupt their development into butterflies","Caterpillars attract other insects"],a:2,e:"Caterpillars need a safe, undisturbed environment to form their chrysalis and complete their transformation into butterflies."},
+{t:"CO",school:"Nan Hua",label:"Comprehension",passage:"Riya had always been afraid of swimming. When she was young, she almost drowned in a river. That near-drowning experience made her terrified of water ever since.",q:"What caused Riya's fear of water?",o:["She failed a swimming test","She was never taught to swim","She nearly drowned in a river when she was young","She saw someone drowning"],a:2,e:"'Her near-drowning experience made her afraid of swimming.' She almost drowned in a river as a child."},
+{t:"CO",school:"St Nicholas",label:"Comprehension",passage:"Natalie noticed that Mom had been coming home tired every day. One evening, Mom came home and collapsed on the sofa.",q:"What does 'collapsed on the sofa' tell us about Mom?",o:["She was dancing happily","She was so exhausted she dropped heavily onto the sofa","She was trying to surprise Natalie","She had fallen asleep before reaching home"],a:1,e:"'Collapsed' means to fall down suddenly from exhaustion. Mom was so tired she fell heavily onto the sofa."},
+]},
+
+];
+
+// ─────────────────────────────────────────────
+const TOPIC_NAMES={GC:"Grammar Cloze",ED:"Editing",CO:"Comprehension"};
+const CHIP_STYLE={
+  GC:{bg:"var(--bluel)",col:"var(--blue)"},
+  ED:{bg:"var(--amberl)",col:"var(--amber)"},
+  CO:{bg:"var(--greenl)",col:"var(--green)"}
+};
+const FILL_COLORS=["#3B82C4","#52B788","#E07A3A","#7C3AED","#0D9488","#E11D48","#3B82C4","#52B788","#E07A3A","#7C3AED"];
+
+let curSet=null,curIdx=0,answered=false,scores={};
+
+function buildHome(){
+  const grid=document.getElementById('setGrid');
+  const badges=["bc","gc","ac","pc","tc","rc","bc","gc","ac","pc"];
+  grid.innerHTML=SETS.map((s,i)=>`
+    <div class="type-card" onclick="startSet(${i})">
+      <div class="tbadge ${badges[i]}">${['Set 1','Set 2','Set 3','Set 4','Set 5','Set 6','Set 7','Set 8','Set 9','Set 10'][i]}</div>
+      <div class="tname">${s.name}</div>
+      <div class="tdesc">${s.desc}</div>
+      <div class="tmeta">20 questions</div>
+    </div>`).join('');
+}
+
+function startSet(idx){
+  curSet=idx;curIdx=0;answered=false;
+  scores={GC:{c:0,t:0},ED:{c:0,t:0},CO:{c:0,t:0}};
+  document.getElementById('qSetName').textContent=SETS[idx].name;
+  show('quizScreen');
+  renderScore();renderQ();
+}
+
+function renderScore(){
+  const total=SETS[curSet].qs.slice(0,curIdx).length;
+  const correct=Object.values(scores).reduce((a,b)=>a+b.c,0);
+  document.getElementById('scoreRow').innerHTML=
+    `<div class="sc">Score<span>${correct}/${total}</span></div>`+
+    Object.keys(scores).map(k=>`<div class="sc">${TOPIC_NAMES[k]}<span>${scores[k].c}/${scores[k].t}</span></div>`).join('');
+}
+
+function renderQ(){
+  const qs=SETS[curSet].qs, total=qs.length, done=curIdx;
+  const pct=Math.round(done/total*100);
+  document.getElementById('qMeta').textContent=`Question ${done+1} of ${total}`;
+  document.getElementById('progLabel').textContent=`${done}/${total}`;
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progFill').style.background=FILL_COLORS[curSet];
+  document.getElementById('progPct').textContent=pct+'%';
+  if(done>=total){showDone();return;}
+  const q=qs[done];
+  answered=false;
+  document.getElementById('feedback').classList.add('hidden');
+  document.getElementById('nextBtn').classList.add('hidden');
+  const cs=CHIP_STYLE[q.t];
+  const passageHtml=q.passage?`<div class="q-passage">${q.passage}</div>`:'';
+  const sentenceHtml=q.sentence?`<div class="q-sentence">${q.sentence}</div>`:'';
+  const labelHtml=q.label?`<div class="q-label">${q.label}${q.school?' · '+q.school+' 2025':''}</div>`:'';
+  document.getElementById('qCard').innerHTML=`
+    <div class="q-chip" style="background:${cs.bg};color:${cs.col}">${TOPIC_NAMES[q.t]}</div>
+    ${labelHtml}
+    ${passageHtml}${sentenceHtml}
+    <div class="q-text">${q.q}</div>
+    <div class="opts" id="opts">
+      ${q.o.map((o,i)=>`<button class="opt" onclick="pick(${i})">(${i+1}) ${o}</button>`).join('')}
+    </div>`;
+  document.getElementById('prevBtn').style.opacity=done===0?'0.4':'1';
+  document.getElementById('nextBtn').textContent=done===total-1?'Finish →':'Next →';
+}
+
+function pick(i){
+  if(answered)return;
+  answered=true;
+  const q=SETS[curSet].qs[curIdx];
+  const correct=i===q.a;
+  scores[q.t].t++;
+  if(correct)scores[q.t].c++;
+  document.querySelectorAll('.opt').forEach((b,j)=>{
+    b.disabled=true;
+    if(j===q.a)b.className='opt correct';
+    else if(j===i&&!correct)b.className='opt wrong';
+  });
+  const fb=document.getElementById('feedback');
+  fb.className='feedback '+(correct?'fb-ok':'fb-err');
+  fb.textContent=(correct?'✓ Correct! ':'✗ Not quite. ')+q.e;
+  fb.classList.remove('hidden');
+  document.getElementById('nextBtn').classList.remove('hidden');
+  renderScore();
+}
+
+function nextQ(){curIdx++;renderQ();}
+function prevQ(){if(curIdx>0){curIdx--;renderQ();}}
+
+function showDone(){
+  const qs=SETS[curSet].qs;
+  const total=qs.length;
+  const correct=Object.values(scores).reduce((a,b)=>a+b.c,0);
+  const pct=Math.round(correct/total*100);
+  const grade=pct>=90?{l:'Excellent',cls:'grade-great'}:pct>=75?{l:'Good',cls:'grade-good'}:pct>=60?{l:'Satisfactory',cls:'grade-ok'}:{l:'Keep practising',cls:'grade-low'};
+  document.getElementById('doneSetName').textContent=SETS[curSet].name;
+  document.getElementById('doneScore').textContent=correct+'/'+total;
+  document.getElementById('donePct').textContent=pct+'%';
+  const gp=document.getElementById('doneGrade');
+  gp.textContent=grade.l;gp.className='done-grade '+grade.cls;
+  document.getElementById('topicGrid').innerHTML=Object.keys(scores).map(k=>{
+    const sc=scores[k],p=sc.t>0?Math.round(sc.c/sc.t*100):0;
+    return `<div class="ts"><p>${TOPIC_NAMES[k]}</p><span>${sc.c}/${sc.t} (${p}%)</span></div>`;
+  }).join('');
+  show('doneScreen');
+}
+
+function restartSet(){startSet(curSet);}
+function backHome(){show('homeScreen');}
+
+function show(id){
+  ['homeScreen','quizScreen','doneScreen'].forEach(s=>document.getElementById(s).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+
+buildHome();
+</script>
+</body>
+</html>
